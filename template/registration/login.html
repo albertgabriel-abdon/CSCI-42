@@ -1,0 +1,18 @@
+{% extends "registration/second_base.html" %}
+{% block content %}
+
+    <div class="centered">
+
+        <div>
+        <h1>Login</h1>
+        <a href = "{% url 'password_reset' %}">Forgot your password?</a>
+        
+        <form method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit"> Login </button>
+        </form>
+        </div>
+
+    </div>
+{% endblock %}

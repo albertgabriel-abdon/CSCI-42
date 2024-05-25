@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="article_form_segment">  
+    <div class="inner_article_form_segment">
+        <div class="article_content"><h2>Create a new article? </h2>
+            <p>Start sharing your ideas and stories. 
+                Write your article here.
+            </p>
+        </div>
+        <div class="article_content">
+            <form method="POST">
+
+                {% csrf_token %}
+                <label for="article_title">
+                    <span>Article Name: </span><br><br>
+                    <input type="text" id="article_title" name="article_title" placeholder="Write title of your entry...">
+                </label>
+        
+                <br><br>
+                <textarea id="article_entry" name="article_entry" placeholder="Enter your entry here..."></textarea>
+                
+                <select id="category" name="category">
+                    {% for group in category %}
+                    <option value="{{ group.pk }}">{{ group }}</option>
+                    {% endfor %}
+                </select>
+                
+                <button>Submit</button>
+            </form>
+
+        </div>
+        <div class="article_content">
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% load static %}
+<div class="main_cont">
+        {% for images in articles %}
+            {% if images.header_image %}
+                    <img src="/media/{{images.header_image}}" alt="Header Image" class="article_img" style="width:100px;height:100px;overflow-x:hidden;display:flex;">
+            {% endif %}
+        {% endfor %}
+    
+</div>
+    
+{% endblock %}
+
+
+
+
+
