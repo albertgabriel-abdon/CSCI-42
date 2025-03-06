@@ -4,8 +4,16 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.urls import reverse_lazy
 
-from .models import Article, ArticleCategory, Comment
+from .models import Article, ArticleCategory, Comment, Recipe
 from .forms import ArticleForm, CommentForm
+
+class RecipeDetailView(ListView):
+    model = Recipe
+    template_name = "recipe_detail.html"  
+    context_object_name = 'recipes'
+    #context_obj_name is relevant
+    #context['recipes'] = Recipe.objects.all()
+    # #context['recipes'] = Recipe.objects.filter(is_published=True) for site itself
     
 class ArticleListView(ListView):
     model = Article
