@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prep & Plate - Home</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            background-color: #f6f2e7;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            color: #064c2d;
+        }
+        .navbar {
+            background-color: #064c2d;
+            padding: 10px;
+        }
+        .navbar a {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+        .navbar a:hover {
+            color: #f8c30c;
+        }
+        .logo {
+            font-family: Georgia, serif;
+            font-weight: bold;
+            text-transform: lowercase;
+            font-size: 48px;
+            color: #064c2d;
+            margin-bottom: 5px;
+        }
+        .tagline {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 24px;
+            color: #064c2d;
+            margin-bottom: 20px;
+        }
+        .menu-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .menu-btn {
+            width: 180px;
+            height: 180px;
+            background: #fdf6e3;
+            border-radius: 20px;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-weight: bold;
+            color: #064c2d;
+            transition: transform 0.2s ease-in-out;
+        }
+        .menu-btn:hover {
+            transform: scale(1.05);
+        }
+        .menu-btn img {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 10px;
+        }
+        .footer {
+            background-color: #064c2d;
+            color: white;
+            padding: 15px;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #f8c30c;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container">
+        <a href="#">My Kitchen</a>
+        <a href="#">Shopping List</a>
+        <a href="#">My Recipes</a>
+        <a href="#">Community</a>
+        <a href="#">Browse Recipes</a>
+        <a href="#">Meal Plan</a>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container mt-5">
+    <h1 class="logo">prep & plate</h1>
+    <p class="tagline">The sous chef in your pocket</p>
+
+    <div class="menu-buttons">
+        <a href="#" class="menu-btn">
+            <img src="{% static 'images/kitchen.png' %}" alt="My Kitchen">
+            My Kitchen
+        </a>
+        <a href="#" class="menu-btn">
+            <img src="{% static 'images/recipes.png' %}" alt="My Recipes">
+            My Recipes
+        </a>
+        <a href="#" class="menu-btn">
+            <img src="{% static 'images/browse.png' %}" alt="Browse Recipes">
+            Browse Recipes
+        </a>
+        <a href="#" class="menu-btn">
+            <img src="{% static 'images/shopping.png' %}" alt="Shopping List">
+            Shopping List
+        </a>
+        <a href="#" class="menu-btn">
+            <img src="{% static 'images/community.png' %}" alt="Community Pantry">
+            Community Pantry
+        </a>
+        <a href="#" class="menu-btn">
+            <img src="{% static 'images/mealplan.png' %}" alt="Meal Plan">
+            Meal Plan
+        </a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>Prep Smart. Plate Perfect. <a href="#">Savor More.</a></p>
+    <p>123 Anywhere St., Any City, ST 12345 | 123-456-7890</p>
+    <p>
+        <a href="#">User Agreement</a> | 
+        <a href="#">Privacy Policy</a> | 
+        <a href="#">Community Guidelines</a> | 
+        <a href="#">Copyright Policy</a> | 
+        <a href="#">Help</a>
+    </p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
