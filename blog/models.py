@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
 from django.apps import apps
+from django.utils.timezone import now
   
 class ArticleCategory(models.Model):
    name = models.CharField(max_length=255, null=True)
@@ -95,7 +96,7 @@ class MealPlan(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
     )
-    start_date = models.DateField()
+    start_date = models.DateField(default=now)
     status = models.CharField(
         max_length=10,
         choices=STATUS_CHOICES,
@@ -118,14 +119,33 @@ class MealPlan(models.Model):
         return f"{self.name} - {self.get_status_display()}"
 
     def get_absolute_url(self):
-        return reverse('mealplans:detail', args=[str(self.pk)])
+        return reverse('blog:mealplan_detail', args=[str(self.pk)])
 
     def get_update_url(self):
-        return reverse('mealplans:update', args=[str(self.pk)])
+        return reverse('blog:mealplan_update', args=[str(self.pk)])
 
     def get_delete_url(self):
-        return reverse('mealplans:delete', args=[str(self.pk)])
+        return reverse('blog:mealplan_delete', args=[str(self.pk)])
 
+class MealPlanRecipe(models.Model):
+    meal_plan = models.ForeignKey(
+        'MealPlan', 
+        on_delete=models.CASCADE, 
+        related_name='meal_recipes'
+    )
+    recipe = models.ForeignKey(
+        'Recipe', 
+        on_delete=models.CASCADE, 
+        related_name='meal_plans'
+    )
+    scheduled_date = models.DateField()
+
+    class Meta:
+        ordering = ['scheduled_date']
+        unique_together = ('meal_plan', 'recipe', 'scheduled_date')  
+
+    def __str__(self):
+        return f"{self.recipe.name} in {self.meal_plan.name} on {self.scheduled_date}"
 
 
 class Recipe(models.Model):
@@ -178,13 +198,13 @@ class Recipe(models.Model):
         return f"{self.name} - {self.get_category_display()}"
 
     def get_absolute_url(self):
-        return reverse('recipes:detail', args=[str(self.pk)])
+        return reverse('blog:recipe_detail', args=[str(self.pk)])
 
     def get_update_url(self):
-        return reverse('recipes:update', args=[str(self.pk)])
+        return reverse('blog:recipe_update', args=[str(self.pk)])
 
     def get_delete_url(self):
-        return reverse('recipes:delete', args=[str(self.pk)])
+        return reverse('blog:recipe_delete', args=[str(self.pk)])
 
     def set_rating(self, new_rating):
         """Set the rating for the recipe."""
@@ -211,8 +231,41 @@ class MealPlanRecipe(models.Model):
     def __str__(self):
         return f"{self.recipe.name} in {self.meal_plan.name} on {self.scheduled_date}"
 
+class NutritionalInformation(models.Model):
+    ingredient = models.OneToOneField(
+        'Ingredient', 
+        on_delete=models.CASCADE, 
+        related_name='nutrition'
+    )
+    calories = models.FloatField()
+    proteins = models.FloatField()
+    fat = models.FloatField()
+    carbs = models.FloatField()
+    fiber = models.FloatField()
 
+    def __str__(self):
+        return f"Nutrition for {self.ingredient.name}"  
 
-   
-   
-# Create your models here.
+class Ingredient(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    estimated_expiration_date = models.DateField()
+    unit = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+class RecipeIngredient(models.Model):
+    recipe = models.ForeignKey(
+        'Recipe', 
+        on_delete=models.CASCADE, 
+        related_name='recipe_ingredients'
+    )
+    ingredient = models.ForeignKey(
+        'Ingredient', 
+        on_delete=models.CASCADE, 
+        related_name='recipe_ingredients'
+    )
+    quantity = models.FloatField()
+
+    def __str__(self):
+        return f"{self.quantity} {self.ingredient.unit} of {self.ingredient.name} in {self.recipe.name}"
