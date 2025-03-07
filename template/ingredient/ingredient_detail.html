@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  {{ ingredient.name }}
+{% endblock title %}
+
+{% block content %}
+  <div class="ingredient-detail">
+    <div class="ingredient-image">
+      <img src="{{ ingredient.image.url }}" alt="{{ ingredient.name }}">
+    </div>
+    <div class="ingredient-info">
+      <h2>{{ ingredient.name }}</h2>
+      <p>Expiration Date:{{ ingredient.expiration_date }}</p>
+      <p>Current Quantity:{{ ingredient.quantity }}</p>
+      <p>Unit of Measurement: {{ ingredient.unit }}</p>
+    </div>
+    
+    <div class="nutrition-facts">
+      <h3>Nutrition Facts</h3>
+      <p>Calories per 100g: {{ ingredient.calories }}</p>
+      <p>Protein per 100g:{{ ingredient.protein }}</p>
+      <p>Fat per 100g:{{ ingredient.fat }}</p>
+      <p>Carbs per 100g: {{ ingredient.carbs }}</p>
+      <p>Fiber per 100g:{{ ingredient.fiber }}</p>
+      <p>Sugar per 100g:{{ ingredient.sugar }}</p>
+    </div>
+    
+    <div class="buttons">
+      <button class="save-btn">Save</button>
+      <button class="cancel-btn">Cancel</button>
+    </div>
+  </div>
+{% endblock content %}
