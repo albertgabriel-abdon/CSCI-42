@@ -9,7 +9,7 @@
     <style>
         /* Custom Styles */
         body {
-            font-family: 'Georgia', serif;
+            font-family: 'Poppins', sans-serif;
         }
         .header {
             background-color: #004ead;
@@ -31,6 +31,7 @@
         }
         .recipe-day h1 {
             font-weight: bold;
+            font-family: Georgia, serif;
         }
         .btn-recipe {
             background-color: #f1ead1;
@@ -51,7 +52,7 @@
             padding: 50px 20px;
         }
         .recipe-card {
-            background-color: white;
+            background-color: #097d4c;
             padding: 15px;
             border-radius: 10px;
             text-align: center;
@@ -68,8 +69,8 @@
             cursor: pointer;
         }
         .btn-add {
-            background-color: #097d4c;
-            color: white;
+            background-color: #f1ead1;
+            color: #097d4c;
             border: none;
             font-size: 40px;
             font-weight: bold;
@@ -93,6 +94,7 @@
             width: 200px;
             transition: background-color 0.3s;
             border-radius: 20px;
+            margin-top: 150px;
         }
         .btn-discover:hover {
             background-color: #004ead;
@@ -121,7 +123,7 @@
             width: 100px;
         }
         .footer-right {
-            flex: 2;
+            flex: 4;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -148,6 +150,7 @@
             color: #f1ead1;
             text-decoration: none;
             font-size: 0.9rem;
+            flex: 2;
         }
         .footer-bottom a:hover {
             text-decoration: underline;
@@ -182,9 +185,9 @@
         <h2>{{ recipe_of_the_day.title }}</h2>
         <p>{{ recipe_of_the_day.description }}</p>
         <button class="btn-recipe">View Full Recipe</button><br><br>
-        <button class="btn-recipe">Browse Other Recipes</button><br><br>
-    {% else %}
-        <p>No recipes available.</p>
+        <button class="btn-recipe">Browse Other Recipes</button><br>
+    {% else %}   
+    <p>No recipes available.</p>
     {% endif %}
 </section>
 
@@ -211,12 +214,10 @@
                 <div class="recipe-card">
                     <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
                     <h4>{{ recipe.title }}</h4>
-                    <p>{{ recipe.category }} | {{ recipe.difficulty }}</p>
+                    <p>{{ recipe.category }}<br>{{ recipe.difficulty }}</p>
                     <a href="{% url 'edit_recipe' recipe.id %}" class="edit-icon"><i class="bi bi-pencil"></i></a>
                 </div>
             </div>
-            {% empty %}
-            <p class="text-center text-white">No recipes found.</p>
             {% endfor %}
         </div>
     </div>
