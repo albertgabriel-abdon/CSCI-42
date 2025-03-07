@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Add Recipe to Meal Plan: {{ meal_plan.name }}</h1>
+
+<form method="POST" action="{% url 'blog:recipe_add' meal_plan.pk %}">
+    {% csrf_token %}
+    <label for="recipe_id">Select Recipe:</label>
+    <select id="recipe_id" name="recipe_id" required>
+        {% for recipe in recipes %}
+            <option value="{{ recipe.id }}">{{ recipe.name }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="scheduled_date">Scheduled Date:</label>
+    <input type="date" id="scheduled_date" name="scheduled_date" required>
+
+    <button type="submit">Add Recipe</button>
+</form>
+
+<a href="{% url 'blog:mealplan_detail' meal_plan.pk %}">Back to Meal Plan</a>
+
+{% endblock %}

@@ -1,44 +1,41 @@
-{% extends "base.html" %}
-{% block content %}
+<h1>{{ recipe.name }}</h1>
+<p><strong>Category:</strong> {{ recipe.get_category_display }}</p>
+<p><strong>Difficulty:</strong> {{ recipe.get_difficulty_display }}</p>
+<p><strong>Preparation Time:</strong> {{ recipe.preparation_time }} mins</p>
+<p><strong>Cook Time:</strong> {{ recipe.cook_time }} mins</p>
+<p><strong>Servings:</strong> {{ recipe.servings }}</p>
 
-<div>
-    <h1>Recipes</h1>
+<hr>
 
-    {% for recipe in recipes %}
-    <div class="recipe-summary">
-        <h2><a href="{% url 'blog:recipe_detail' recipe.pk %}">{{ recipe.name }}</a></h2>
-        <p><strong>Category:</strong> {{ recipe.get_category_display }}</p>
-        <p><strong>Difficulty:</strong> {{ recipe.get_difficulty_display }}</p>
-        <p><strong>Servings:</strong> {{ recipe.servings }}</p>
-    </div>
+{% if meal_plan_recipes %}
+    <h2>Currently Saved in Meal Plan(s):</h2>
+    <ul>
+        {% for meal_plan_recipe in meal_plan_recipes %}
+            <li>
+                {{ meal_plan_recipe.meal_plan.name }} - Scheduled for {{ meal_plan_recipe.scheduled_date }}
+            </li>
+        {% endfor %}
+    </ul>
 
-    <div class="test">
-        <h1>{{ recipe.name }}</h1>
-        <p><strong>Category:</strong> {{ recipe.get_category_display }}</p>
-        <p><strong>Difficulty:</strong> {{ recipe.get_difficulty_display }}</p>
-        <p><strong>Preparation Time:</strong> {{ recipe.preparation_time }} mins</p>
-        <p><strong>Cook Time:</strong> {{ recipe.cook_time }} mins</p>
-        <p><strong>Servings:</strong> {{ recipe.servings }}</p>
-        <p><strong>Created by:</strong> {{ recipe.created_by.username }}</p>
-        <p><strong>Created on:</strong> {{ recipe.created_on|date:"F d, Y" }}</p>
-        <p><strong>Last Updated:</strong> {{ recipe.updated_on|date:"F d, Y" }}</p>
-        <p><strong>Rating:</strong> ⭐ {{ recipe.rating }}/5</p>
-        
-        <h2>Description</h2>
-        <p>{{ recipe.description }}</p>
+    <h2>Add to Another Meal Plan:</h2>
+{% else %}
+    <h2>Not in any Meal Plan yet!</h2>
+    <p>Would you like to add it to a meal plan?</p>
+{% endif %}
 
-        <h2>Instructions</h2>
-        <p>{{ recipe.instructions|linebreaks }}</p>
+<form method="POST" action="{% url 'blog:recipe_add' recipe.pk %}">
+    {% csrf_token %}
+    <input type="hidden" name="recipe_id" value="{{ recipe.pk }}">
+    
+    <label for="meal_plan">Select Meal Plan:</label>
+    <select id="meal_plan" name="meal_plan" required>
+        {% for meal_plan in meal_plans %}
+            <option value="{{ meal_plan.id }}">{{ meal_plan.name }}</option>
+        {% endfor %}
+    </select>
 
-        {% if recipe.is_published %}
-            <p style="color: green;"><strong>Status:</strong> Published</p>
-        {% else %}
-            <p style="color: red;"><strong>Status:</strong> Not Published</p>
-        {% endif %}
-    </div>
-    {% empty %}
-        <p>No recipes found.</p>
-    {% endfor %}
-</div>
+    <label for="scheduled_date">Scheduled Date:</label>
+    <input type="date" id="scheduled_date" name="scheduled_date" value="{{ default_scheduled_date|date:'Y-m-d' }}" required>
 
-{% endblock %}
+    <button type="submit">Add</button>
+</form> 

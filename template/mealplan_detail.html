@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>{{ mealplan.name }}</h1>
+<p><strong>Status:</strong> {{ mealplan.get_status_display }}</p>
+<p><strong>Visibility:</strong> {{ mealplan.get_visibility_display }}</p>
+<p><strong>Start Date:</strong> {{ mealplan.start_date }}</p>
+<p><strong>Created By:</strong> {{ mealplan.user.username }}</p>
+
+<a href="{% url 'blog:mealplan_update' mealplan.pk %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'blog:mealplan_delete' mealplan.pk %}" class="btn btn-danger">Delete</a>
+
+<h2>Recipes in this Meal Plan</h2>
+
+{% if mealplan.meal_recipes.all %}
+    <ul>
+        {% for meal_recipe in mealplan.meal_recipes.all %}
+            <li>
+                <a href="{{ meal_recipe.recipe.get_absolute_url }}">{{ meal_recipe.recipe.name }}</a> 
+                - Scheduled for {{ meal_recipe.scheduled_date }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Meal Plan ID: {{ mealplan.pk }}</p> 
+
+    {% if mealplan and mealplan.pk %}
+        <p>No recipes added yet. <a href="{% url 'blog:recipe_add_form' mealplan.pk %}">Add recipes?</a></p>
+    {% else %}
+        <p>No recipes added yet. <span style="color: red;">(Meal plan ID missing)</span></p>
+    {% endif %}
+{% endif %}
+
+<h3>Add a Recipe to This Meal Plan</h3>
+<form method="POST" action="{% url 'blog:recipe_add' mealplan.pk %}">
+    {% csrf_token %}
+    <label for="recipe_id">Add to Meal Plan:</label>
+    <select id="recipe_id" name="recipe_id">
+        {% for recipe in recipes %}
+            <option value="{{ recipe.id }}">{{ recipe.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Add</button>
+</form>
+
+
+{% endblock %}
