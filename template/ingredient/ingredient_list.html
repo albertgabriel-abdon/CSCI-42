@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  My Kitchen
+{% endblock title %}
+
+{% block content %}
+  <div class="kitchen-container">
+    <header class="kitchen-header">
+      <h1>My Kitchen</h1>
+      <div class="search-bar">
+        <input type="text" placeholder="Search ingredients..." />
+        <button type="submit">🔍</button>
+      </div>
+    </header>
+
+    <div class="add-ingredient">
+      <button class="add-button">+</button>
+    </div>
+
+    <div class="ingredient-list">
+      {% for ingredient in ingredients %}
+        <div class="ingredient-card">
+          <img src="{{ ingredient.image.url }}" alt="{{ ingredient.name }}">
+          <h3>{{ ingredient.name }}</h3>
+          <p class="category">{{ ingredient.category }}</p>
+          <p class="estimated_expiration_date">{{ ingredient.estimated_expiration_date }}</p>
+          <p class="quantity">{{ ingredient.quantity }} {{ ingredient.unit }}</p>
+          <a href="{% url 'ingredient_edit' ingredient.id %}" class="edit-icon">✏️</a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock content %}
