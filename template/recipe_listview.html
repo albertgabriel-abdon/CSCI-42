@@ -11,6 +11,20 @@
         body {
             font-family: 'Poppins', sans-serif;
         }
+        .navbar {
+            background-color: #097d4c;
+            padding: 20px;
+        }
+        .navbar a {
+            color: #f1ead1;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+        .navbar a:hover {
+            color: #efbd40;
+        }
         .header {
             background-color: #004ead;
             padding: 15px 0;
@@ -160,23 +174,17 @@
 </head>
 <body>
 
-<!-- Navigation Header -->
-<header class="header d-flex justify-content-between align-items-center px-5">
-    <div>
-        <a href="#"><img src="{% static 'logo.png' %}" alt="Prep & Plate" height="40"></a>
-    </div>
-    <nav>
-        <a href="#">My Kitchen</a> | 
-        <a href="#">My Recipes</a> | 
-        <a href="#">Browse Recipes</a> | 
-        <a href="#">Community</a> | 
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container">
+        <a href="#">My Kitchen</a>
+        <a href="#">Shopping List</a>
+        <a href="#">My Recipes</a>
+        <a href="#">Community</a>
+        <a href="#">Browse Recipes</a>
         <a href="#">Meal Plan</a>
-    </nav>
-    <div>
-        <a href="#"><i class="bi bi-bell"></i></a>
-        <a href="#"><i class="bi bi-person-circle"></i></a>
     </div>
-</header>
+</nav>
 
 <!-- Recipe of the Day -->
 <section class="recipe-day">
