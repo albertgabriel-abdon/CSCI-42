@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+    <h1>Recipes</h1>
+
+    {% for recipe in recipes %}
+    <div class="recipe-summary">
+        <h2><a href="{% url 'blog:recipe_detail' recipe.pk %}">{{ recipe.name }}</a></h2>
+        <p><strong>Category:</strong> {{ recipe.get_category_display }}</p>
+        <p><strong>Difficulty:</strong> {{ recipe.get_difficulty_display }}</p>
+        <p><strong>Servings:</strong> {{ recipe.servings }}</p>
+    </div>
+
+    <div class="test">
+        <h1>{{ recipe.name }}</h1>
+        <p><strong>Category:</strong> {{ recipe.get_category_display }}</p>
+        <p><strong>Difficulty:</strong> {{ recipe.get_difficulty_display }}</p>
+        <p><strong>Preparation Time:</strong> {{ recipe.preparation_time }} mins</p>
+        <p><strong>Cook Time:</strong> {{ recipe.cook_time }} mins</p>
+        <p><strong>Servings:</strong> {{ recipe.servings }}</p>
+        <p><strong>Created by:</strong> {{ recipe.created_by.username }}</p>
+        <p><strong>Created on:</strong> {{ recipe.created_on|date:"F d, Y" }}</p>
+        <p><strong>Last Updated:</strong> {{ recipe.updated_on|date:"F d, Y" }}</p>
+        <p><strong>Rating:</strong> ⭐ {{ recipe.rating }}/5</p>
+        
+        <h2>Description</h2>
+        <p>{{ recipe.description }}</p>
+
+        <h2>Instructions</h2>
+        <p>{{ recipe.instructions|linebreaks }}</p>
+
+        {% if recipe.is_published %}
+            <p style="color: green;"><strong>Status:</strong> Published</p>
+        {% else %}
+            <p style="color: red;"><strong>Status:</strong> Not Published</p>
+        {% endif %}
+    </div>
+    {% empty %}
+        <p>No recipes found.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
