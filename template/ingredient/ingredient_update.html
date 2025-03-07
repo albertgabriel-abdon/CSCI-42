@@ -2,15 +2,15 @@
 {% load static %}
 
 {% block title %}
-  Add Ingredient
+  Edit Ingredient
 {% endblock title %}
 
 {% block content %}
-  <h3>Create Ingredient</h3>
-  
+  <h2>Edit Ingredient</h2>
+
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    
+
     <!-- Image Upload -->
     <label for="image">Ingredient Image:</label>
     <input type="file" name="image" id="image">
@@ -61,8 +61,14 @@
     <br><br>
 
     <!-- Submission Buttons -->
-    <button type="submit">Save</button>
-    <a href="{% url 'ingredients_list' %}">Cancel</a>
+    <button type="submit">Save Changes</button>
+    <a href="{% url 'ingredients_list' %}">Discard Changes</a>
+    <br><br>
+
+    <!-- Delete Ingredient -->
+    <a href="{% url 'ingredient_delete' pk=ingredient.pk %}">
+      <button type="button">Delete</button>
+    </a>
   </form>
 
 {% endblock content %}

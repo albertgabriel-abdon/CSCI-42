@@ -11,12 +11,12 @@
       <h1>My Kitchen</h1>
       <div class="search-bar">
         <input type="text" placeholder="Search ingredients..." />
-        <button type="submit">🔍</button>
+        <button type="submit">Submit</button>
       </div>
     </header>
 
     <div class="add-ingredient">
-      <button class="add-button">+</button>
+      <button class="add-button">Add Ingredient</button>
     </div>
 
     <div class="ingredient-list">
@@ -27,7 +27,7 @@
           <p class="category">{{ ingredient.category }}</p>
           <p class="estimated_expiration_date">{{ ingredient.estimated_expiration_date }}</p>
           <p class="quantity">{{ ingredient.quantity }} {{ ingredient.unit }}</p>
-          <a href="{% url 'ingredient_edit' ingredient.id %}" class="edit-icon">✏️</a>
+          <a href="{% url 'ingredient_update' ingredient.id %}" class="edit-icon">✏️</a>
         </div>
       {% endfor %}
     </div>
