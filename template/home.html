@@ -34,7 +34,6 @@
         .logo {
             font-family: Georgia, serif;
             font-weight: bold;
-            text-transform: lowercase;
             font-size: 48px;
             color: #064c2d;
             margin-bottom: 5px;
@@ -86,7 +85,7 @@
             padding: 30px;
             color: #097d4c;
             text-align: center;
-            
+            font-family: 'Poppins', sans-serif;
         }
         .footer-content {
             display: flex;
@@ -138,6 +137,16 @@
             text-decoration: underline;
             color: #eb8917;
         }
+        .checkered-divider {
+        height: 20px;
+        background: repeating-linear-gradient(
+            45deg,
+            #097d4c 0,
+            #097d4c 10px,
+            #f1ead1 10px,
+            #f1ead1 20px
+            );
+        }
     </style>
 </head>
 <body>
@@ -157,7 +166,7 @@
 <!-- Title and Graphics Section -->
 <section class="title-section">
     <div class="container">
-        <h1 class="logo">prep & plate</h1>
+        <h1 class="logo">PREP & PLATE</h1>
         <p class="tagline">The sous chef in your pocket</p>
         <img src="{% static 'images/graphics.png' %}" alt="Graphics" class="img-fluid">
     </div>
@@ -195,6 +204,9 @@
     </div>
 </section>
 
+<!-- Checkered Divider -->
+<div class="checkered-divider"></div>
+
 <!-- Footer -->
 <div class="footer">
     <div class="footer-content">
@@ -210,7 +222,7 @@
                     <p>123 Anywhere St., Any City, ST 12345</p>
                 </div>
                 <div>
-                    <p>123-456-7890</p>
+                    <p>Contact Us at 123-456-7890</p>
                 </div>
             </div>
             <div class="footer-bottom">

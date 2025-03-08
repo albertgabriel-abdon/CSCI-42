@@ -131,6 +131,7 @@
             padding: 30px;
             color: #097d4c;
             text-align: center;
+            font-family: 'Poppins', sans-serif;
         }
         .footer-content {
             display: flex;
@@ -181,6 +182,16 @@
         .footer-bottom a:hover {
             text-decoration: underline;
             color: #eb8917;
+        }
+        .checkered-divider {
+        height: 20px;
+        background: repeating-linear-gradient(
+            45deg,
+            #097d4c 0,
+            #097d4c 10px,
+            #f1ead1 10px,
+            #f1ead1 20px
+            );
         }
     </style>
 </head>
@@ -239,6 +250,9 @@
     <button class="btn btn-see-more mt-3">See More</button>
 </div>
 
+<!-- Checkered Divider -->
+<div class="checkered-divider"></div>
+
 <!-- Footer -->
 <div class="footer">
     <div class="footer-content">
@@ -254,7 +268,7 @@
                     <p>123 Anywhere St., Any City, ST 12345</p>
                 </div>
                 <div>
-                    <p>123-456-7890</p>
+                    <p>Contact Us at 123-456-7890</p>
                 </div>
             </div>
             <div class="footer-bottom">

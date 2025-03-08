@@ -69,18 +69,32 @@
             background-color: #097d4c;
             padding: 15px;
             border-radius: 10px;
-            text-align: center;
+            text-align: left; /* Change text alignment to left */
             position: relative;
         }
         .recipe-card img {
             width: 100%;
             border-radius: 10px;
         }
+        .recipe-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            color: #f1ead0;
+            font-size: 1.5rem; /* Adjust the size as needed */
+        }
+        .recipe-details {
+            font-family: 'Poppins', sans-serif;
+            color: #efbd40;
+            font-size: 1rem; /* Adjust the size as needed */
+        }
         .edit-icon {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
+            font-size: 1.5rem; /* Adjust the size as needed */
+            color: #f1ead0;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+        .edit-icon:hover {
+            color: #efbd40;
         }
         .btn-add {
             background-color: #f1ead1;
@@ -119,6 +133,7 @@
             padding: 30px;
             color: #f1ead1;
             text-align: center;
+            font-family: 'Poppins', sans-serif;
         }
         .footer-content {
             display: flex;
@@ -170,6 +185,16 @@
             text-decoration: underline;
             color: #efbd40;
         }
+        .checkered-divider {
+        height: 20px;
+        background: repeating-linear-gradient(
+            45deg,
+            #004ead 0,
+            #004ead 10px,
+            #efbd40 10px,
+            #efbd40 20px
+            );
+        }
     </style>
 </head>
 <body>
@@ -189,14 +214,27 @@
 <!-- Recipe of the Day -->
 <section class="recipe-day">
     <h1>Recipe of the Day</h1>
-    {% if recipe_of_the_day %}
-        <h2>{{ recipe_of_the_day.title }}</h2>
-        <p>{{ recipe_of_the_day.description }}</p>
-        <button class="btn-recipe">View Full Recipe</button><br><br>
-        <button class="btn-recipe">Browse Other Recipes</button><br>
-    {% else %}   
-    <p>No recipes available.</p>
-    {% endif %}
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="{{ recipe_of_the_day.image.url }}" alt="{{ recipe_of_the_day.title }}" class="img-fluid rounded" style="border-radius: 200px;">
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="brush text-left" style="color: #f1ead1;">{{ recipe_of_the_day.title }}</h2>
+                    </div>
+                    <div class="col-12">
+                        <p class="text-left" style="color: #f1ead1; font-family: 'Poppins', sans-serif;">{{ recipe_of_the_day.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <button class="btn-recipe">View Full Recipe</button><br><br>
+            <button class="btn-recipe">Browse Other Recipes</button><br>
+        </div>
+    </div>
 </section>
 
 <!-- My Recipes -->
@@ -221,9 +259,11 @@
             <div class="col-md-4 mb-4">
                 <div class="recipe-card">
                     <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
-                    <h4>{{ recipe.title }}</h4>
-                    <p>{{ recipe.category }}<br>{{ recipe.difficulty }}</p>
-                    <a href="{% url 'edit_recipe' recipe.id %}" class="edit-icon"><i class="bi bi-pencil"></i></a>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="recipe-title text-left">{{ recipe.title }}</h4>
+                        <a href="{% url 'edit_recipe' recipe.id %}" class="edit-icon">✏️</a>
+                    </div>
+                    <p class="recipe-details text-left">{{ recipe.category }}<br>{{ recipe.difficulty }}</p>
                 </div>
             </div>
             {% endfor %}
@@ -235,6 +275,9 @@
         <button class="btn-discover">Discover</button>
     </div>
 </section>
+
+<!-- Checkered Divider -->
+<div class="checkered-divider"></div>
 
 <!-- Footer -->
 <div class="footer">
@@ -251,7 +294,7 @@
                     <p>123 Anywhere St., Any City, ST 12345</p>
                 </div>
                 <div>
-                    <p>123-456-7890</p>
+                    <p>Contact Us at 123-456-7890</p>
                 </div>
             </div>
             <div class="footer-bottom">
