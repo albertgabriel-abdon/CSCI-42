@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit Recipe - Prep & Plate</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f1ead1;
+        }
+        .navbar {
+            background-color: #004ead;
+            padding: 20px;
+        }
+        .navbar a {
+            color: #f1ead1;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+        .navbar a:hover {
+            color: #efbd40;
+        }
+        h1 {
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            text-align: center;
+            color: #004ead;
+            margin-bottom: 30px;
+        }
+        .form-label {
+            font-weight: bold;
+            color: #004ead;
+        }
+        .form-control, .form-select {
+            font-family: 'Poppins', sans-serif;
+            border-radius: 50px;
+            padding: 12px;
+            background-color: #004ead;
+            color: #f1ead1;
+        }
+        .form-control::placeholder, .form-select::placeholder {
+            font-family: 'Poppins', sans-serif;
+            color: #f1ead1;
+        }
+        .btn-custom {
+            width: 300px;
+            border-radius: 100px;
+            background-color: #efbd40;
+            color: #004ead;
+            font-weight: bold;
+            padding: 10px 20px;
+            transition: background-color 0.3s, color 0.3s;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: #097d4c;
+            color: #efbd40;
+        }
+        .btn-delete {
+            width: 60px;
+            height: 60px;
+            background-color: #004ead;
+            color: white;
+            font-size: 28px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+        .btn-delete:hover {
+            background-color: #097d4c;
+        }
+        .footer {
+            background-color: #004ead;
+            padding: 30px;
+            color: #f1ead1;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+        .checkered-divider {
+            height: 20px;
+            background: repeating-linear-gradient(
+                45deg,
+                #efbd40 0,
+                #efbd40 10px,
+                #f1ead0 10px,
+                #f1ead0 20px
+            );
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container">
+        <a href="#">My Kitchen</a>
+        <a href="#">Shopping List</a>
+        <a href="#">My Recipes</a>
+        <a href="#">Community</a>
+        <a href="#">Browse Recipes</a>
+        <a href="#">Meal Plan</a>
+    </div>
+</nav>
+
+<!-- Edit Recipe Form -->
+<div class="container mt-5">
+    <h1>Edit Recipe</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Recipe Name -->
+        <div class="mb-3">
+            <label for="recipe_name" class="form-label">Recipe Name</label>
+            <input type="text" class="form-control" id="recipe_name" name="recipe_name" value="{{ recipe.recipe_name }}" required>
+        </div>
+
+        <!-- Category Dropdown -->
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-select" id="category" name="category">
+                <option value="appetizer" {% if recipe.category == "appetizer" %}selected{% endif %}>Appetizer</option>
+                <option value="main" {% if recipe.category == "main" %}selected{% endif %}>Main Course</option>
+                <option value="dessert" {% if recipe.category == "dessert" %}selected{% endif %}>Dessert</option>
+                <option value="drink" {% if recipe.category == "drink" %}selected{% endif %}>Drink</option>
+            </select>
+        </div>
+
+        <!-- Special Tags Dropdown -->
+        <div class="mb-3">
+            <label for="special_tags" class="form-label">Special Tags</label>
+            <select class="form-select" id="special_tags" name="special_tags">
+                <option value="vegetarian" {% if recipe.special_tags == "vegetarian" %}selected{% endif %}>Vegetarian</option>
+                <option value="vegan" {% if recipe.special_tags == "vegan" %}selected{% endif %}>Vegan</option>
+                <option value="gluten_free" {% if recipe.special_tags == "gluten_free" %}selected{% endif %}>Gluten-Free</option>
+                <option value="keto" {% if recipe.special_tags == "keto" %}selected{% endif %}>Keto</option>
+                <option value="none" {% if recipe.special_tags == "none" %}selected{% endif %}>None</option>
+            </select>
+        </div>
+
+        <!-- Difficulty Dropdown -->
+        <div class="mb-3">
+            <label for="difficulty" class="form-label">Difficulty</label>
+            <select class="form-select" id="difficulty" name="difficulty">
+                <option value="easy" {% if recipe.difficulty == "easy" %}selected{% endif %}>Easy</option>
+                <option value="medium" {% if recipe.difficulty == "medium" %}selected{% endif %}>Medium</option>
+                <option value="hard" {% if recipe.difficulty == "hard" %}selected{% endif %}>Hard</option>
+            </select>
+        </div>
+
+        <!-- Other Fields (Same as Create Page) -->
+        <div class="mb-3">
+            <label for="prep_time" class="form-label">Preparation Time</label>
+            <input type="time" class="form-control" id="prep_time" name="prep_time" value="{{ recipe.prep_time }}">
+        </div>
+        <div class="mb-3">
+            <label for="calories" class="form-label">Calories</label>
+            <input type="number" class="form-control" id="calories" name="calories" value="{{ recipe.calories }}">
+        </div>
+        <div class="mb-3">
+            <label for="yield" class="form-label">Yield (Servings)</label>
+            <input type="number" class="form-control" id="yield" name="yield" value="{{ recipe.yield }}">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3">{{ recipe.description }}</textarea>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between align-items-center mt-4">
+            <div>
+                <button type="submit" class="btn btn-custom">Save</button>
+                <a href="{% url 'recipe_list' %}" class="btn btn-custom ms-2">Discard</a>
+            </div>
+            <a href="{% url 'delete_recipe' recipe.id %}" class="btn-delete">🗑️</a>
+        </div>
+    </form>
+</div>
+
+
+<!-- Footer -->
+<div class="checkered-divider"></div>
+<div class="footer">
+    <p>&copy; 2025 Prep & Plate. All rights reserved.</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
