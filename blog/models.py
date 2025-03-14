@@ -253,6 +253,18 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('blog:ingredient_detail', args=[str(self.pk)]) 
+
+    def get_update_url(self):
+        return reverse('blog:ingredient_update', args=[str(self.pk)]) 
+
+    def get_delete_url(self):
+        return reverse('blog:ingredient_delete', args=[str(self.pk)])  
+    
+    def nutrition(self):
+        return getattr(self, 'nutrition', None)
 
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(
@@ -269,3 +281,64 @@ class RecipeIngredient(models.Model):
 
     def __str__(self):
         return f"{self.quantity} {self.ingredient.unit} of {self.ingredient.name} in {self.recipe.name}"
+
+class InventoryManager(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)  
+    is_buyer = models.BooleanField(default=False)  
+
+    class Meta:
+        unique_together = ('user', 'ingredient') 
+
+    def __str__(self):
+        return f"{self.user.username}'s {self.ingredient.name} ({self.quantity})"
+
+    def get_absolute_url(self):
+        return reverse('blog:inventory_detail', args=[str(self.pk)]) 
+
+    def get_update_url(self):
+        return reverse('blog:inventory_edit', args=[str(self.pk)]) 
+
+    def get_delete_url(self):
+        return reverse('blog:inventory_delete', args=[str(self.pk)]) 
+    
+class GroceryList(models.Model):
+    STATUS_CHOICES = [
+        ('available', 'Available'),
+        ('sold_out', 'Sold Out'),
+    ]
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE, 
+        related_name="grocery_lists"
+    )
+    ingredient = models.ForeignKey(
+        'Ingredient', 
+        on_delete=models.CASCADE, 
+        related_name="grocery_items"
+    )
+    quantity = models.PositiveIntegerField(default=1)  
+    updated_on = models.DateTimeField(auto_now=True)
+    status = models.CharField(
+        max_length=10, 
+        choices=STATUS_CHOICES, 
+        default='available'
+    )
+
+    class Meta:
+        ordering = ['-updated_on']
+        unique_together = ('user', 'ingredient')  
+
+    def __str__(self):
+        return f"{self.ingredient.name} ({self.get_status_display()}) - {self.user.username}"
+
+    def get_absolute_url(self):
+        return reverse('blog:grocery_list_detail', args=[str(self.pk)])  
+
+    def get_update_url(self):
+        return reverse('blog:grocery_list_update', args=[str(self.pk)])  
+
+    def get_delete_url(self):
+        return reverse('blog:grocery_list_delete', args=[str(self.pk)]) 
