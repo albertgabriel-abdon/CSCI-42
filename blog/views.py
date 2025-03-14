@@ -67,20 +67,6 @@ class InventoryDetailView(View):
         messages.success(request, "Inventory updated successfully!")
         return redirect("blog:inventory_detail", pk=pk)
 
-class InventoryEditView(LoginRequiredMixin, View):
-    def get(self, request, pk):
-        inventory_item = get_object_or_404(InventoryManager, pk=pk, user=request.user)
-        form = InventoryEditForm(instance=inventory_item)
-        return render(request, "inventory_edit.html", {"form": form, "inventory_item": inventory_item})
-
-    def post(self, request, pk):
-        inventory_item = get_object_or_404(InventoryManager, pk=pk, user=request.user)
-        form = InventoryEditForm(request.POST, instance=inventory_item)
-        if form.is_valid():
-            form.save()
-            return redirect(inventory_item.get_absolute_url())  # ✅ Redirect to the detail view
-        return render(request, "inventory_edit.html", {"form": form, "inventory_item": inventory_item})
-
 class InventoryDeleteView(LoginRequiredMixin, DeleteView):
     model = InventoryManager
     success_url = reverse_lazy("blog:inventory_list")  # ✅ Redirect after deletion
