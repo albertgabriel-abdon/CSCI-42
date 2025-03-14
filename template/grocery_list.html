@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>All Ingredients in Inventory</h2>
+
+    <ul>
+        {% for ingredient in ingredients %}
+            <li>
+                <strong>{{ ingredient.name }}</strong> - 
+                Expiry Date: {{ ingredient.estimated_expiration_date }} 
+                (Unit: {{ ingredient.unit }})<br>
+
+                <ul>
+                    {% for inventory_item in inventory_data %}
+                        {% if inventory_item.ingredient == ingredient %}
+                            <li>
+                                User: {{ inventory_item.user.username }} | 
+                                Quantity: {{ inventory_item.quantity }}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if ingredients.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ ingredients.previous_page_number }}">previous</a>
+            {% endif %}
+        </span>
+    </div>
+
+{% endblock %}
