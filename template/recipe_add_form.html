@@ -3,7 +3,8 @@
 
 <h1>Add Recipe to Meal Plan: {{ meal_plan.name }}</h1>
 
-<form method="POST" action="{% url 'blog:recipe_add' meal_plan.pk %}">
+<form method="POST" action="{% url 'blog:recipe_add' mealplan_pk=meal_plan.pk %}">
+
     {% csrf_token %}
     <label for="recipe_id">Select Recipe:</label>
     <select id="recipe_id" name="recipe_id" required>
@@ -18,6 +19,7 @@
     <button type="submit">Add Recipe</button>
 </form>
 
-<a href="{% url 'blog:mealplan_detail' meal_plan.pk %}">Back to Meal Plan</a>
+<a href="{% url 'blog:mealplan_detail' mealplan_pk=meal_plan.pk %}">Back to Meal Plan</a>
+
 
 {% endblock %}
