@@ -15,4 +15,13 @@ class Command(BaseCommand):
         else:
             self.stdout.write(self.style.SUCCESS('Superuser already exists'))
 
+        if not User.objects.filter(username='dummyuser').exists():
+
+            username = 'dummyuser'
+            email = 'dummyuser@example.com'
+            password = 'dummyuser'
+            User.objects.create_user(username=username, email=email, password=password)
+            self.stdout.write(self.style.SUCCESS('Dummy user created with username: dummyuser and password: dummyuser'))
+        else:
+            self.stdout.write(self.style.SUCCESS('Dummy user already exists'))
 
