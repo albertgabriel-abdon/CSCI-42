@@ -16,32 +16,115 @@
     <ul>
         {% for meal_recipe in mealplan.meal_recipes.all %}
             <li>
-                <a href="{{ meal_recipe.recipe.get_absolute_url }}">{{ meal_recipe.recipe.name }}</a> 
-                - Scheduled for {{ meal_recipe.scheduled_date }}
+                {{ meal_recipe.recipe.name }} - Scheduled for {{ meal_recipe.scheduled_date }}
+                
+                <button type="button" onclick="toggleEditForm({{ meal_recipe.pk }})">
+                    Edit Date
+                </button>
+
+
+                <form method="POST" action="{% url 'blog:mealplan_detail' mealplan.pk %}" 
+                      id="edit-form-{{ meal_recipe.pk }}" 
+                      style="display: none;">
+                    {% csrf_token %}
+                    <input type="hidden" name="meal_plan_recipe_id" value="{{ meal_recipe.pk }}">
+
+                    <label for="scheduled_date_{{ meal_recipe.pk }}">Select Date:</label>
+                    <input type="date" id="scheduled_date_{{ meal_recipe.pk }}" 
+                           name="scheduled_date" value="{{ meal_recipe.scheduled_date }}" required>
+
+                    <button type="submit">Update Date</button>
+                </form>
             </li>
         {% endfor %}
     </ul>
 {% else %}
-    <p>Meal Plan ID: {{ mealplan.pk }}</p> 
-
-    {% if mealplan and mealplan.pk %}
-        <p>No recipes added yet. <a href="{% url 'blog:recipe_add_form' mealplan.pk %}">Add recipes?</a></p>
-    {% else %}
-        <p>No recipes added yet. <span style="color: red;">(Meal plan ID missing)</span></p>
-    {% endif %}
+    <p>No recipes added yet.</p>
 {% endif %}
 
 <h3>Add a Recipe to This Meal Plan</h3>
 <form method="POST" action="{% url 'blog:recipe_add' mealplan.pk %}">
     {% csrf_token %}
-    <label for="recipe_id">Add to Meal Plan:</label>
-    <select id="recipe_id" name="recipe_id">
+    
+    <label for="recipe_id">Select Recipe:</label>
+    <select id="recipe_id" name="recipe_id" required>
         {% for recipe in recipes %}
             <option value="{{ recipe.id }}">{{ recipe.name }}</option>
         {% endfor %}
     </select>
+
+    <label for="scheduled_dates">Select Date(s):</label>
+    <input type="date" id="scheduled_dates">
+    <button type="button" id="add_date">Add Date</button>
+
+    <ul id="date_list"></ul>
+
+    <input type="hidden" name="scheduled_dates" id="hidden_dates">
+
     <button type="submit">Add</button>
 </form>
+
+<h3>Or Create a New Recipe</h3>
+<a href="{% url 'blog:recipe_create' mealplan.pk %}" class="btn btn-primary">Create New Recipe</a>
+
+
+<script>
+    function toggleEditForm(mealRecipeId) {
+        let form = document.getElementById(`edit-form-${mealRecipeId}`);
+        
+        if (form.style.display === "none") {
+            form.style.display = "block"; 
+        } else {
+            form.style.display = "none";  
+        }
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let selectedDates = []; 
+        const dateInput = document.getElementById("scheduled_dates");
+        const addDateButton = document.getElementById("add_date");
+        const dateList = document.getElementById("date_list");
+        const hiddenDatesInput = document.getElementById("hidden_dates");
+
+        addDateButton.addEventListener("click", function () {
+            let selectedDate = dateInput.value;
+
+           
+            if (!selectedDate) {
+                const today = new Date();
+                selectedDate = today.toISOString().split("T")[0]; 
+                dateInput.value = selectedDate;
+            }
+
+            if (!selectedDates.includes(selectedDate)) {
+                selectedDates.push(selectedDate);
+
+                hiddenDatesInput.value = selectedDates.join(",");
+
+                const listItem = document.createElement("li");
+                listItem.textContent = selectedDate;
+
+                const removeButton = document.createElement("button");
+                removeButton.textContent = "❌";
+                removeButton.style.marginLeft = "10px";
+                removeButton.onclick = function () {
+                    selectedDates = selectedDates.filter(date => date !== selectedDate);
+                    hiddenDatesInput.value = selectedDates.join(",");
+                    dateList.removeChild(listItem);
+                };
+
+                listItem.appendChild(removeButton);
+                dateList.appendChild(listItem);
+            }
+
+            dateInput.value = "";
+        });
+    });
+</script>
+
+
 
 
 {% endblock %}
