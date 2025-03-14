@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from django.apps import apps
 from django.conf import settings
 from datetime import datetime
-from .models import Recipe  
+from .models import Recipe, Ingredient, NutritionalInformation
 
 @receiver(post_migrate)
 def create_default_recipes(sender, **kwargs):
@@ -59,3 +59,28 @@ def create_default_recipes(sender, **kwargs):
                 is_published=True,
                 rating=4.7,
             )
+
+                
+            ingredients_data = [
+                {"name": "Flour", "unit": "g", "estimated_expiration_date": "2025-12-31", "calories": 364, "proteins": 10, "fat": 1, "carbs": 76, "fiber": 2},
+                {"name": "Tomato Sauce", "unit": "ml", "estimated_expiration_date": "2025-10-15", "calories": 40, "proteins": 1.5, "fat": 0.2, "carbs": 9, "fiber": 1},
+                {"name": "Mango", "unit": "pcs", "estimated_expiration_date": "2025-07-20", "calories": 60, "proteins": 0.8, "fat": 0.4, "carbs": 15, "fiber": 1.6},
+            ]
+
+            for data in ingredients_data:
+                ingredient, _ = Ingredient.objects.get_or_create(
+                    name=data["name"],
+                    defaults={"unit": data["unit"], "estimated_expiration_date": data["estimated_expiration_date"]}
+                )
+
+                NutritionalInformation.objects.update_or_create(
+                    ingredient=ingredient,
+                    defaults={
+                        "calories": data["calories"],
+                        "proteins": data["proteins"],
+                        "fat": data["fat"],
+                        "carbs": data["carbs"],
+                        "fiber": data["fiber"],
+                    }
+                )
+
