@@ -1,0 +1,287 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Plans | Prep & Plate</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Brush+Script+MT&family=Georgia:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Font Styles */
+        body { 
+            font-family: 'Poppins', sans-serif; 
+        }
+        h1, h2, h3 { 
+            font-family: 'Georgia', serif; 
+            font-weight: bold; 
+        }
+        .brush { 
+            font-family: 'Brush Script MT', cursive; 
+            font-size: 1.5rem; 
+        }
+        
+        /* Navbar */
+        .navbar {
+            background-color: #097d4c;
+            padding: 20px;
+        }
+        .navbar a {
+            color: #f1ead1;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+        .navbar a:hover {
+            color: #efbd40;
+        }
+
+        /* Header */
+        .header { 
+            background-color: #097d4c; 
+            padding: 15px 0; 
+        }
+        .header a { 
+            color: white; 
+            text-decoration: none; 
+            transition: color 0.3s; 
+        }
+        .header a:hover { 
+            color: #efbd40; 
+        }
+
+        /* Top Section */
+        .meal-intro {
+            background-color: #f1ead1;
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .meal-intro h1 { 
+            color: #097d4c; 
+            font-size: 3.5rem; 
+        }
+        .meal-intro .brush { 
+            color: #eb8917; 
+            font-size: 50px;
+        }
+        .btn-create {
+            background-color: #097d4c;
+            color: white;
+            padding: 10px 20px;
+            width: 300px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            border-radius: 100px;
+        }
+        .btn-create:hover {
+            background-color: #efbd40;
+            color: #097d4c;
+        }
+
+        /* Meal Plan Section */
+        .meal-section {
+            background-color: #097d4c;
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+        .meal-card {
+            background-color: #d14938;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .meal-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        .meal-card h3 { 
+            font-family: 'Brush Script MT', cursive; 
+            font-size: 1.8rem; 
+        }
+        .edit-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+        .btn-see-more {
+            background-color: #d14938;
+            color:#efbd40;
+            width: 200px;
+            border: none;
+            padding: 10px 20px;
+            transition: background-color 0.3s;
+            border-radius: 200px;
+            font-weight: bold;
+        }
+        .btn-see-more:hover {
+            background-color: #efbd40;
+            color: #d14938;
+        }
+
+        .footer {
+            background-color: #f1ead1;
+            padding: 30px;
+            color: #097d4c;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1900px;
+            margin-left: 40px;
+            margin-right: 40px;
+            flex-wrap: wrap;
+        }
+        .footer-left {
+            flex: 1;
+            text-align: left;
+        }
+        .footer-left img {
+            width: 100px;
+        }
+        .footer-right {
+            flex: 4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .footer-top div {
+            flex: 1;
+            text-align: center;
+        }
+        .footer-bottom {
+            margin-top: 10px;
+            border-top: 2px solid #eb8917;
+            padding-top: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .footer-bottom a {
+            color: #097d4c;
+            text-decoration: none;
+            font-size: 0.9rem;
+            flex: 2;
+        }
+        .footer-bottom a:hover {
+            text-decoration: underline;
+            color: #eb8917;
+        }
+        .checkered-divider {
+        height: 20px;
+        background: repeating-linear-gradient(
+            45deg,
+            #097d4c 0,
+            #097d4c 10px,
+            #f1ead1 10px,
+            #f1ead1 20px
+            );
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container">
+        <a href="#">My Kitchen</a>
+        <a href="#">Shopping List</a>
+        <a href="#">My Recipes</a>
+        <a href="#">Community</a>
+        <a href="#">Browse Recipes</a>
+        <a href="#">Meal Plan</a>
+    </div>
+</nav>
+
+<!-- Meal Plan Intro Section -->
+<div class="meal-intro">
+    <h1>Whacha eatin’?</h1>
+    <p class="brush">Share your meal plan and recipes!</p>
+    <p style="margin-left: 10%; margin-right: 10%;">Why keep your delicious plans to yourself? With Prep & Plate’s Meal Plan Sharing, you can share your weekly menus and favorite recipes with family, friends, or fellow foodies. Swap ideas, discover new dishes, and stay inspired together. Meal prep just got a whole lot more fun—because good food is even better when shared!</p>
+    <br><button class="btn btn-create">CREATE MEAL PLAN</button>
+</div>
+
+<!-- Meal Plans Section -->
+<div class="meal-section">
+    <h2>Meal Plans</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="meal-card p-3 d-flex">
+                    <img src="{% static 'meal1.jpg' %}" alt="Meal Image">
+                    <div>
+                        <h3>Demeter’s Garden</h3>
+                        <p><strong>My Recipe</strong></p>
+                        <p>A week of Greek vegetarian cuisine, featuring dishes like spanakopita, lentil soup, and stuffed peppers.</p>
+                    </div>
+                    <span class="edit-icon">✏️</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="meal-card p-3 d-flex">
+                    <img src="{% static 'meal2.jpg' %}" alt="Meal Image">
+                    <div>
+                        <h3>Iron Wok</h3>
+                        <p><strong>By ChefUser84</strong></p>
+                        <p>A high-protein meal plan packed with bold flavors, tofu, and nutrient-dense ingredients.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-see-more mt-3">See More</button>
+</div>
+
+<!-- Checkered Divider -->
+<div class="checkered-divider"></div>
+
+<!-- Footer -->
+<div class="footer">
+    <div class="footer-content">
+        <div class="footer-left">
+            <img src="{% static 'img/logo.png' %}" alt="Prep & Plate Logo">
+        </div>
+        <div class="footer-right">
+            <div class="footer-top">
+                <div>
+                    <p>Prep Smart. Plate Perfect.<span style="color:#eb8917; font-weight:bold;"> Savor More.</span></p>
+                </div>
+                <div>
+                    <p>123 Anywhere St., Any City, ST 12345</p>
+                </div>
+                <div>
+                    <p>Contact Us at 123-456-7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <a href="#">Help</a>
+                <a href="#">Community Guidelines</a>
+                <a href="#">Copyright Policy</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">User Agreement</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
