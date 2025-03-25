@@ -1,17 +1,15 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Shopping List - Prep & Plate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Pantry - Prep & Plate</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        /* Custom Styles */
         body {
+            background-color: #eb8917;
             font-family: 'Poppins', sans-serif;
-            background-color: #097d4c;
             color: #f1ead1;
             text-align: center;
         }
@@ -21,7 +19,6 @@
         }
         .navbar a {
             color: #f1ead1;
-            font-family: 'Poppins', sans-serif;
             font-weight: bold;
             text-decoration: none;
             padding: 0 15px;
@@ -30,64 +27,88 @@
             color: #efbd40;
         }
         .header {
-            padding: 15px 0;
             font-family: Georgia, serif;
             font-weight: bold;
             font-size: 2.5rem;
-            color: #f1ead1;
+            margin-top: 20px;
         }
-        .shopping-list-container {
-            background-color: #f1ead1;
+        .card-container {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background-color: #0346a0;
+            color: #efbd40;
             border-radius: 20px;
             padding: 20px;
             width: 90%;
-            max-width: 400px;
+            max-width: 900px;
             margin: 20px auto;
-            text-align: left;
-            position: relative;
+            transition: 0.3s;
         }
-        .shopping-list-container ul {
-            list-style: none;
-            padding: 0;
-        }
-        .shopping-list-container li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            color: #097d4c;
-        }
-        .shopping-list-container li input[type="checkbox"] {
+        .profile-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50px;
+            object-fit: cover;
             margin-right: 10px;
         }
-        .shopping-list-container li.checked label {
-            text-decoration: line-through;
-        }
-        .shopping-list-container .edit-btn {
-            background: none;
-            border: none;
-            color: #097d4c;
-            font-size: 1.2rem;
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-        .shopping-list-container .add-btn {
-            background-color: #097d4c;
+        .card h5 {
+            font-family: Georgia, serif;
+            font-weight: bold;
             color: #f1ead1;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+        }
+        .card p {
+            color: #efbd40;
+        }
+        .quantity-selector {
             display: flex;
-            align-items: center;
             justify-content: center;
-            cursor: pointer;
-            margin: 20px auto 0;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .quantity-selector .btn {
+            background-color: #efbd40;
+            color: #004ead;
+            font-weight: bold;
+            border: none;
+            padding: 5px 20px;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+        .quantity-selector .btn:hover, .quantity-selector .btn:focus {
+            background-color: #f1ead1;
+            color: #004ead;
+        }
+        .quantity-selector .quantity {
+            margin: 0 10px;
+            border-color: #efbd40;
+            color: #f1ead0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            width: 70px;
+            text-align: center;
+            border-radius: 50px;
+            background-color: #004ead;
+        }
+        .coordinate-btn {
+            font-family: 'Poppins', sans-serif;
+            background-color: #eb8917;
+            color: #004ead;
+            font-weight: bold;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: 0.3s;
+            margin-bottom: 10px;
+        }
+        .coordinate-btn:hover, .coordinate-btn:focus {
+            background-color: #f1ead1;
+            color: #004ead;
         }
         .footer {
-            background-color: #0346a0;
+            background-color: #004ead;
             padding: 30px;
             color: #f1ead1;
             text-align: center;
@@ -137,20 +158,19 @@
             color: #f1ead1;
             text-decoration: none;
             font-size: 0.9rem;
-            flex: 2;
         }
         .footer-bottom a:hover {
             text-decoration: underline;
-            color: #efbd40;
+            color: #eb8917;
         }
         .checkered-divider {
             height: 20px;
             background: repeating-linear-gradient(
                 45deg,
-                #004ead 0,
-                #004ead 10px,
+                #efbd40 0,
                 #efbd40 10px,
-                #efbd40 20px
+                #004ead 10px,
+                #004ead 20px
             );
         }
     </style>
@@ -170,36 +190,28 @@
 </nav>
 
 <!-- Page Header -->
-<div class="header">
-    Shopping List
+<div class="container">
+    <h1 class="header">Community Pantry</h1>
 </div>
 
-<!-- Shopping List Container -->
-<div class="shopping-list-container">
-    <button class="edit-btn" onclick="editList()">✏️</button>
-    <ul id="shopping-list">
-        <li>
-            <input type="checkbox" id="item1" onclick="toggleCheck(this)">
-            <label for="item1">300g flour</label>
-        </li>
-        <li>
-            <input type="checkbox" id="item2" onclick="toggleCheck(this)">
-            <label for="item2">5 eggs</label>
-        </li>
-        <li>
-            <input type="checkbox" id="item3" onclick="toggleCheck(this)">
-            <label for="item3">200g brown sugar</label>
-        </li>
-        <li>
-            <input type="checkbox" id="item4" onclick="toggleCheck(this)">
-            <label for="item4">1L soy milk</label>
-        </li>
-        <li>
-            <input type="checkbox" id="item5" onclick="toggleCheck(this)">
-            <label for="item5">500mL olive oil</label>
-        </li>
-    </ul>
-    <button class="add-btn" onclick="addItem()">+</button>
+<!-- Ingredient Requests -->
+<div class="card-container">
+    <div class="card">
+        <div class="d-flex align-items-center">
+            <img src="{% static 'img/user1.jpg' %}" class="profile-img" alt="Jacob">
+            <div>
+                <h5>Jacob needs 5 tomatoes</h5>
+                <p>10 minutes away from you<br>Request made 7 minutes ago</p>
+            </div>
+        </div>
+        <div class="quantity-selector">
+            <button class="btn btn-secondary" onclick="decreaseQuantity()">-</button>
+            <input type="number" class="quantity" id="quantity" value="5" min="1">
+            <button class="btn btn-secondary" onclick="increaseQuantity()">+</button>
+        </div>
+        <p id="inventory-info">You have 10 tomatoes in your kitchen</p>
+        <button class="coordinate-btn">Coordinate Meet Up</button>
+    </div>
 </div>
 
 <!-- Checkered Divider -->
@@ -236,24 +248,35 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    function toggleCheck(checkbox) {
-        const listItem = checkbox.parentElement;
-        if (checkbox.checked) {
-            listItem.classList.add('checked');
-        } else {
-            listItem.classList.remove('checked');
+    var inventoryQuantity = 10; // Example inventory quantity
+    var ingredient = "tomatoes"; // Example ingredient
+
+    function updateInventoryInfo() {
+        var quantityElement = document.getElementById('quantity');
+        var quantity = parseInt(quantityElement.value);
+        var inventoryInfoElement = document.getElementById('inventory-info');
+        inventoryInfoElement.textContent = `You have ${inventoryQuantity} ${ingredient} in your kitchen`;
+    }
+
+    function increaseQuantity() {
+        var quantityElement = document.getElementById('quantity');
+        var quantity = parseInt(quantityElement.value);
+        quantityElement.value = quantity + 1;
+        updateInventoryInfo();
+    }
+
+    function decreaseQuantity() {
+        var quantityElement = document.getElementById('quantity');
+        var quantity = parseInt(quantityElement.value);
+        if (quantity > 1) {
+            quantityElement.value = quantity - 1;
+            updateInventoryInfo();
         }
     }
 
-    function editList() {
-        // Implement edit functionality here
-        alert('Edit functionality not implemented yet.');
-    }
-
-    function addItem() {
-        // Implement add item functionality here
-        alert('Add item functionality not implemented yet.');
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+        updateInventoryInfo();
+    });
 </script>
 </body>
 </html>

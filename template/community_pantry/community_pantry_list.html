@@ -1,17 +1,15 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Shopping List - Prep & Plate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Pantry - Prep & Plate</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        /* Custom Styles */
         body {
+            background-color: #eb8917;
             font-family: 'Poppins', sans-serif;
-            background-color: #097d4c;
             color: #f1ead1;
             text-align: center;
         }
@@ -21,7 +19,6 @@
         }
         .navbar a {
             color: #f1ead1;
-            font-family: 'Poppins', sans-serif;
             font-weight: bold;
             text-decoration: none;
             padding: 0 15px;
@@ -30,64 +27,68 @@
             color: #efbd40;
         }
         .header {
-            padding: 15px 0;
             font-family: Georgia, serif;
             font-weight: bold;
             font-size: 2.5rem;
-            color: #f1ead1;
+            margin-top: 20px;
         }
-        .shopping-list-container {
+        .request-btn {
+            background-color: #efbd40;
+            color: #004ead;
+            font-weight: bold;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+        .request-btn:hover {
             background-color: #f1ead1;
+            color: #004ead;
+        }
+        .card-container {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background-color: #0346a0;
+            color: #f1ead1;
             border-radius: 20px;
             padding: 20px;
             width: 90%;
-            max-width: 400px;
+            max-width: 900px;
             margin: 20px auto;
-            text-align: left;
-            position: relative;
+            transition: 0.3s;
         }
-        .shopping-list-container ul {
-            list-style: none;
-            padding: 0;
+        .card:hover {
+            background-color: #097d4c;
         }
-        .shopping-list-container li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            color: #097d4c;
-        }
-        .shopping-list-container li input[type="checkbox"] {
+        .profile-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
             margin-right: 10px;
         }
-        .shopping-list-container li.checked label {
-            text-decoration: line-through;
+        .card h5 {
+            font-family: Georgia, serif;
+            font-weight: bold;
         }
-        .shopping-list-container .edit-btn {
-            background: none;
+        .send-btn {
+            font-family: 'Poppins', sans-serif;
+            background-color: #efbd40;
+            color: #004ead;
+            font-weight: bold;
             border: none;
-            color: #097d4c;
-            font-size: 1.2rem;
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 10px;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: 0.3s;
         }
-        .shopping-list-container .add-btn {
-            background-color: #097d4c;
-            color: #f1ead1;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin: 20px auto 0;
+        .send-btn:hover, .send-btn:focus {
+            background-color: #f1ead1;
+            color: #004ead;
         }
         .footer {
-            background-color: #0346a0;
+            background-color: #004ead;
             padding: 30px;
             color: #f1ead1;
             text-align: center;
@@ -141,16 +142,16 @@
         }
         .footer-bottom a:hover {
             text-decoration: underline;
-            color: #efbd40;
+            color: #eb8917;
         }
         .checkered-divider {
             height: 20px;
             background: repeating-linear-gradient(
                 45deg,
-                #004ead 0,
-                #004ead 10px,
+                #efbd40 0,
                 #efbd40 10px,
-                #efbd40 20px
+                #004ead 10px,
+                #004ead 20px
             );
         }
     </style>
@@ -170,36 +171,45 @@
 </nav>
 
 <!-- Page Header -->
-<div class="header">
-    Shopping List
+<div class="container">
+    <h1 class="header">Community Pantry</h1>
+    <button class="request-btn">Request Ingredients</button>
 </div>
 
-<!-- Shopping List Container -->
-<div class="shopping-list-container">
-    <button class="edit-btn" onclick="editList()">✏️</button>
-    <ul id="shopping-list">
-        <li>
-            <input type="checkbox" id="item1" onclick="toggleCheck(this)">
-            <label for="item1">300g flour</label>
-        </li>
-        <li>
-            <input type="checkbox" id="item2" onclick="toggleCheck(this)">
-            <label for="item2">5 eggs</label>
-        </li>
-        <li>
-            <input type="checkbox" id="item3" onclick="toggleCheck(this)">
-            <label for="item3">200g brown sugar</label>
-        </li>
-        <li>
-            <input type="checkbox" id="item4" onclick="toggleCheck(this)">
-            <label for="item4">1L soy milk</label>
-        </li>
-        <li>
-            <input type="checkbox" id="item5" onclick="toggleCheck(this)">
-            <label for="item5">500mL olive oil</label>
-        </li>
-    </ul>
-    <button class="add-btn" onclick="addItem()">+</button>
+<!-- Ingredient Requests -->
+<div class="card-container">
+    <div class="card">
+        <div class="d-flex align-items-center">
+            <img src="{% static 'img/user1.jpg' %}" class="profile-img" alt="Jacob">
+            <div>
+                <h5>Jacob needs 5 tomatoes</h5>
+                <p>10 minutes away from you<br>Request made 7 minutes ago</p>
+            </div>
+        </div>
+        <button class="send-btn">Send Ingredients</button>
+    </div>
+
+    <div class="card">
+        <div class="d-flex align-items-center">
+            <img src="{% static 'img/user2.jpg' %}" class="profile-img" alt="Albert">
+            <div>
+                <h5>Albert needs 2 apples</h5>
+                <p>20 minutes away from you<br>Request made 42 minutes ago</p>
+            </div>
+        </div>
+        <button class="send-btn">Send Ingredients</button>
+    </div>
+
+    <div class="card">
+        <div class="d-flex align-items-center">
+            <img src="{% static 'img/user3.jpg' %}" class="profile-img" alt="Michelle">
+            <div>
+                <h5>Michelle needs 1 carton of milk</h5>
+                <p>25 minutes away from you<br>Request made 2 days ago</p>
+            </div>
+        </div>
+        <button class="send-btn">Send Ingredients</button>
+    </div>
 </div>
 
 <!-- Checkered Divider -->
@@ -233,27 +243,8 @@
         </div>
     </div>
 </div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    function toggleCheck(checkbox) {
-        const listItem = checkbox.parentElement;
-        if (checkbox.checked) {
-            listItem.classList.add('checked');
-        } else {
-            listItem.classList.remove('checked');
-        }
-    }
-
-    function editList() {
-        // Implement edit functionality here
-        alert('Edit functionality not implemented yet.');
-    }
-
-    function addItem() {
-        // Implement add item functionality here
-        alert('Add item functionality not implemented yet.');
-    }
-</script>
 </body>
 </html>

@@ -1,17 +1,15 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Shopping List - Prep & Plate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Pantry - Prep & Plate</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        /* Custom Styles */
         body {
+            background-color: #eb8917;
             font-family: 'Poppins', sans-serif;
-            background-color: #097d4c;
             color: #f1ead1;
             text-align: center;
         }
@@ -21,7 +19,6 @@
         }
         .navbar a {
             color: #f1ead1;
-            font-family: 'Poppins', sans-serif;
             font-weight: bold;
             text-decoration: none;
             padding: 0 15px;
@@ -30,64 +27,82 @@
             color: #efbd40;
         }
         .header {
-            padding: 15px 0;
             font-family: Georgia, serif;
             font-weight: bold;
             font-size: 2.5rem;
-            color: #f1ead1;
+            margin-top: 20px;
         }
-        .shopping-list-container {
-            background-color: #f1ead1;
+        .form-container {
+            background-color: #0346a0;
+            color: #efbd40;
             border-radius: 20px;
             padding: 20px;
             width: 90%;
-            max-width: 400px;
+            max-width: 600px;
             margin: 20px auto;
+            transition: 0.3s;
             text-align: left;
-            position: relative;
         }
-        .shopping-list-container ul {
-            list-style: none;
-            padding: 0;
-        }
-        .shopping-list-container li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            color: #097d4c;
-        }
-        .shopping-list-container li input[type="checkbox"] {
-            margin-right: 10px;
-        }
-        .shopping-list-container li.checked label {
-            text-decoration: line-through;
-        }
-        .shopping-list-container .edit-btn {
-            background: none;
-            border: none;
-            color: #097d4c;
-            font-size: 1.2rem;
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-        .shopping-list-container .add-btn {
-            background-color: #097d4c;
+        .form-label {
+            font-family: Georgia, serif;
+            font-weight: bold;
             color: #f1ead1;
+            font-size: 1.2rem;
+        }
+        .form-control {
+            background-color: #efbd40;
+            color: #004ead;
             border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 1.5rem;
+            border-radius: 20px;
+            padding: 10px;
+            font-size: 1rem;
+        }
+        .quantity-selector {
             display: flex;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin: 20px auto 0;
+            margin: 10px 0;
+        }
+        .quantity-selector .btn {
+            background-color: #efbd40;
+            color: #004ead;
+            font-weight: bold;
+            border: none;
+            padding: 5px 20px;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+        .quantity-selector .btn:hover, .quantity-selector .btn:focus {
+            background-color: #f1ead1;
+            color: #004ead;
+        }
+        .quantity-selector .quantity {
+            margin: 0 10px;
+            border-color: #efbd40;
+            color: #f1ead0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            width: 70px;
+            text-align: center;
+            border-radius: 50px;
+            background-color: #004ead;
+        }
+        .submit-btn {
+            background-color: #eb8917;
+            color: #004ead;
+            font-weight: bold;
+            border: none;
+            padding: 10px 20px;
+            width: 100%;
+            border-radius: 50px;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+        .submit-btn:hover, .submit-btn:focus {
+            background-color: #f1ead1;
+            color: #004ead;
         }
         .footer {
-            background-color: #0346a0;
+            background-color: #004ead;
             padding: 30px;
             color: #f1ead1;
             text-align: center;
@@ -141,16 +156,16 @@
         }
         .footer-bottom a:hover {
             text-decoration: underline;
-            color: #efbd40;
+            color: #eb8917;
         }
         .checkered-divider {
             height: 20px;
             background: repeating-linear-gradient(
                 45deg,
-                #004ead 0,
-                #004ead 10px,
+                #efbd40 0,
                 #efbd40 10px,
-                #efbd40 20px
+                #004ead 10px,
+                #004ead 20px
             );
         }
     </style>
@@ -170,36 +185,35 @@
 </nav>
 
 <!-- Page Header -->
-<div class="header">
-    Shopping List
+<div class="container">
+    <h1 class="header">Community Pantry</h1>
 </div>
 
-<!-- Shopping List Container -->
-<div class="shopping-list-container">
-    <button class="edit-btn" onclick="editList()">✏️</button>
-    <ul id="shopping-list">
-        <li>
-            <input type="checkbox" id="item1" onclick="toggleCheck(this)">
-            <label for="item1">300g flour</label>
-        </li>
-        <li>
-            <input type="checkbox" id="item2" onclick="toggleCheck(this)">
-            <label for="item2">5 eggs</label>
-        </li>
-        <li>
-            <input type="checkbox" id="item3" onclick="toggleCheck(this)">
-            <label for="item3">200g brown sugar</label>
-        </li>
-        <li>
-            <input type="checkbox" id="item4" onclick="toggleCheck(this)">
-            <label for="item4">1L soy milk</label>
-        </li>
-        <li>
-            <input type="checkbox" id="item5" onclick="toggleCheck(this)">
-            <label for="item5">500mL olive oil</label>
-        </li>
-    </ul>
-    <button class="add-btn" onclick="addItem()">+</button>
+<!-- Request Ingredient Form -->
+<div class="form-container">
+    <h1 class="header">Request Ingredient</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Ingredient Name -->
+        <div class="mb-3">
+            <label for="ingredient_name" class="form-label">Ingredient Name</label>
+            <input type="text" class="form-control" id="ingredient_name" name="ingredient_name" required>
+        </div>
+
+        <!-- Quantity Selector -->
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity</label>
+            <div class="quantity-selector">
+                <button type="button" class="btn btn-secondary" onclick="decreaseQuantity()">-</button>
+                <input type="number" class="quantity" id="quantity" name="quantity" value="1" min="1">
+                <button type="button" class="btn btn-secondary" onclick="increaseQuantity()">+</button>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn">Request Ingredients</button>
+    </form>
 </div>
 
 <!-- Checkered Divider -->
@@ -236,23 +250,18 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    function toggleCheck(checkbox) {
-        const listItem = checkbox.parentElement;
-        if (checkbox.checked) {
-            listItem.classList.add('checked');
-        } else {
-            listItem.classList.remove('checked');
+    function increaseQuantity() {
+        var quantityElement = document.getElementById('quantity');
+        var quantity = parseInt(quantityElement.value);
+        quantityElement.value = quantity + 1;
+    }
+
+    function decreaseQuantity() {
+        var quantityElement = document.getElementById('quantity');
+        var quantity = parseInt(quantityElement.value);
+        if (quantity > 1) {
+            quantityElement.value = quantity - 1;
         }
-    }
-
-    function editList() {
-        // Implement edit functionality here
-        alert('Edit functionality not implemented yet.');
-    }
-
-    function addItem() {
-        // Implement add item functionality here
-        alert('Add item functionality not implemented yet.');
     }
 </script>
 </body>
