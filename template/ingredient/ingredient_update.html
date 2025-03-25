@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  Edit Ingredient
+{% endblock title %}
+
+{% block content %}
+  <h2>Edit Ingredient</h2>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- Image Upload -->
+    <label for="image">Ingredient Image:</label>
+    <input type="file" name="image" id="image">
+    <br><br>
+
+    <!-- Ingredient Details -->
+    <label for="name">Ingredient Name:</label>
+    {{ form.name }}
+    <br>
+
+    <label for="expiration_date">Expiration Date:</label>
+    {{ form.expiration_date }}
+    <br>
+
+    <label for="quantity">Current Quantity:</label>
+    {{ form.quantity }}
+    <br>
+
+    <label for="unit">Unit of Measurement:</label>
+    {{ form.unit }}
+    <br><br>
+
+    <!-- Nutrition Facts -->
+    <h4>Nutrition Facts</h4>
+
+    <label for="calories">Calories per 100g:</label>
+    {{ form.calories }}
+    <br>
+
+    <label for="protein">Protein per 100g:</label>
+    {{ form.protein }}
+    <br>
+
+    <label for="fat">Fat per 100g:</label>
+    {{ form.fat }}
+    <br>
+
+    <label for="carbs">Carbs per 100g:</label>
+    {{ form.carbs }}
+    <br>
+
+    <label for="fiber">Fiber per 100g:</label>
+    {{ form.fiber }}
+    <br>
+
+    <label for="sugar">Sugar per 100g:</label>
+    {{ form.sugar }}
+    <br><br>
+
+    <!-- Submission Buttons -->
+    <button type="submit">Save Changes</button>
+    <a href="{% url 'ingredients_list' %}">Discard Changes</a>
+    <br><br>
+
+    <!-- Delete Ingredient -->
+    <a href="{% url 'ingredient_delete' pk=ingredient.pk %}">
+      <button type="button">Delete</button>
+    </a>
+  </form>
+
+{% endblock content %}
