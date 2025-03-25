@@ -1,5 +1,5 @@
 from django import forms  
-from .models import Article, Comment
+from .models import Article, Comment, Recipe, MealPlan
     
 class ArticleForm(forms.ModelForm):
     class Meta:
@@ -35,3 +35,24 @@ class CommentForm(forms.ModelForm):
                 'placeholder': 'Write your entry here...',
                 }),
          }
+        
+class RecipeForm(forms.ModelForm):
+    class Meta:
+        model = Recipe
+        fields = ['name', 'description', 'preparation_time', 'cook_time', 'category', 'difficulty', 'servings', 'instructions', 'is_published']
+
+class RecipeAddForm(forms.Form):
+    recipe = forms.ModelChoiceField(
+        queryset=Recipe.objects.all(),
+        empty_label="Select a Recipe",
+        required=True
+    )
+    scheduled_date = forms.DateField(
+        widget=forms.DateInput(attrs={"type": "date"}),
+        required=True
+    )
+
+class MealPlanForm(forms.ModelForm):
+    class Meta:
+        model = MealPlan
+        fields = ['name', 'start_date', 'status', 'visibility']

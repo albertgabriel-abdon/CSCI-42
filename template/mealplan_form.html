@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Create a Meal Plan</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save Meal Plan</button>
+</form>
+
+<a href="{% url 'blog:mealplan_list' %}">Back to Meal Plans</a>
+
+{% endblock %}
