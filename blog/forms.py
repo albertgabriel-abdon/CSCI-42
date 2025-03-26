@@ -55,7 +55,11 @@ class RecipeAddForm(forms.Form):
 class MealPlanForm(forms.ModelForm):
     class Meta:
         model = MealPlan
-        fields = ['name', 'start_date', 'status', 'visibility']
+        fields = ['name', 'description', 'special_tags', 'start_date', 'status', 'visibility']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['start_date'].required = False
 
 class IngredientForm(forms.ModelForm):
     class Meta:
