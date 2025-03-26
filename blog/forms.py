@@ -1,5 +1,5 @@
 from django import forms  
-from .models import Article, Comment, Recipe, MealPlan
+from .models import Article, Comment, Recipe, MealPlan, Ingredient, InventoryManager
     
 class ArticleForm(forms.ModelForm):
     class Meta:
@@ -56,3 +56,13 @@ class MealPlanForm(forms.ModelForm):
     class Meta:
         model = MealPlan
         fields = ['name', 'start_date', 'status', 'visibility']
+
+class IngredientForm(forms.ModelForm):
+    class Meta:
+        model = Ingredient
+        fields = ["name", "estimated_expiration_date", "unit"]
+
+class InventoryEditForm(forms.ModelForm):
+    class Meta:
+        model = InventoryManager
+        fields = ["quantity", "is_buyer"]
