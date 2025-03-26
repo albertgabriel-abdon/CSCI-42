@@ -7,10 +7,22 @@ from .views import (RecipeDetailView, ArticleListView,
                     RecipeAddView, RecipeAddFormView,
                     RecipeCreateView, InventoryCreateView,InventoryDeleteView, 
                     InventoryListView, IngredientCreateView,
-                    InventoryDetailView, GroceryListView
-
+                    InventoryDetailView, GroceryListView, HomeView,
+                    CommunityPantryListView, CommunityPantryDetailView,
+                    CommunityPantryRequestView, UserRecipeListView,
+                    UserMealPlanListView, UserMealPlanCreateView
                     )
 urlpatterns = [
+
+    path('recipes/', UserRecipeListView.as_view(), name='recipe_list'),
+    path('mealplans/', UserMealPlanListView.as_view(), name='mealplans_list'),
+    path('mealplans/create', UserMealPlanCreateView.as_view(), name='mealplans_create'),
+
+    path('community-pantry/', CommunityPantryListView.as_view(), name='community_pantry_list'),
+    path('community_pantry/<int:cp_pk>/', CommunityPantryDetailView.as_view(), name='community_pantry_detail'),
+    path('community-pantry/request/', CommunityPantryRequestView.as_view(), name='community_pantry_request'),
+    path('home', HomeView.as_view(), name='home'),
+
     path('blog/articles',ArticleListView.as_view(), name='article_site'),
     path('blog/recipe/<int:pk>/', RecipeDetailView.as_view(), name='recipe_detail'),
 
@@ -34,8 +46,6 @@ urlpatterns = [
 
     path('ingredient/new/', IngredientCreateView.as_view(), name='ingredient_create'),
     path("grocerylist/", GroceryListView.as_view(), name="grocery_list"),
-
-
 ]
 
 
