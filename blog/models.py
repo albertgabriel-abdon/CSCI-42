@@ -5,6 +5,7 @@ from django.db.models.signals import post_migrate
 from django.dispatch import receiver
 from django.apps import apps
 from django.utils.timezone import now
+from django.utils.timesince import timesince
   
 class ArticleCategory(models.Model):
    name = models.CharField(max_length=255, null=True)
@@ -91,7 +92,20 @@ class MealPlan(models.Model):
         ('public', 'Public'),
     ]
 
+    special_tags = models.CharField(
+        max_length=100,
+        choices=[
+            ('vegetarian', 'Vegetarian'),
+            ('vegan', 'Vegan'),
+            ('gluten_free', 'Gluten-Free'),
+            ('keto', 'Keto'),
+            ('none', 'None'),
+        ],
+        default='none' 
+    )
+
     name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
@@ -107,6 +121,11 @@ class MealPlan(models.Model):
         choices=VISIBILITY_CHOICES,
         default='private'
     )
+
+    breakfast = models.CharField(max_length=255, blank=True, null=True)
+    lunch = models.CharField(max_length=255, blank=True, null=True)
+    dinner = models.CharField(max_length=255, blank=True, null=True)
+
     class Meta:
         ordering = ['-start_date']
 
@@ -265,6 +284,23 @@ class Ingredient(models.Model):
     
     def nutrition(self):
         return getattr(self, 'nutrition', None)
+    
+class UserRequest(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True,
+    )
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    distance = models.IntegerField() 
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.user.username} requests {self.quantity} {self.ingredient.name}"
+    
+    def time_ago(self):
+        return timesince(self.updated_on, now()) + " ago"
 
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(
