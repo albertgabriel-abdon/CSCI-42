@@ -77,7 +77,7 @@ class UserMealPlanListView(LoginRequiredMixin, ListView):
     
 class UserRecipeListView(LoginRequiredMixin, ListView):
     model = Recipe
-    template_name = 'recipe_list_view.html'
+    template_name = 'recipe_listview..html'
     context_object_name = 'user_recipes' 
     
     def get_queryset(self):
