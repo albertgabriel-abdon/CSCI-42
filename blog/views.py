@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.db import IntegrityError
 from django.views.generic import TemplateView
 from datetime import datetime
+from django.utils import timezone
 from django.contrib.auth.models import User
 
 from django.views.generic.edit import FormView
@@ -19,16 +20,133 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import (Article, ArticleCategory, 
                      Comment, Recipe, MealPlan,
                      InventoryManager, Ingredient, 
-                     NutritionalInformation, GroceryList
+                     NutritionalInformation, GroceryList,
+                     UserRequest
                      )
 from .forms import (ArticleForm, CommentForm, 
                     RecipeForm, RecipeAddForm, 
-                    IngredientForm, InventoryEditForm)
+                    IngredientForm, InventoryEditForm,
+                    MealPlanForm)
 
 from django.shortcuts import get_object_or_404, redirect
 from django.views import View
 
 from .models import MealPlan, Recipe, MealPlanRecipe
+
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.views.generic import TemplateView
+from .models import Ingredient, UserRequest
+
+from django.views.generic import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+from .models import Recipe
+
+class UserMealPlanCreateView(CreateView):
+    model = MealPlan
+    form_class = MealPlanForm
+    template_name = 'meal_plan/create_mealplan.html'
+    success_url = reverse_lazy('blog:mealplans_list') 
+
+    def form_valid(self, form):
+        if not form.cleaned_data.get('start_date'):
+            form.instance.start_date = datetime.today().date()
+        
+        form.instance.user = self.request.user
+        response = super().form_valid(form)
+        return response
+
+class UserMealPlanListView(LoginRequiredMixin, ListView):
+    model = MealPlan
+    template_name = 'meal_plan/meal_plan_list_view.html'
+    context_object_name = 'mealplans'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        user = self.request.user
+
+        queryset = MealPlan.objects.filter(
+            Q(visibility='public') | Q(user=user)
+        )
+        
+        if query:
+            queryset = queryset.filter(name__icontains=query)
+        
+        return queryset.order_by('-start_date')
+    
+class UserRecipeListView(LoginRequiredMixin, ListView):
+    model = Recipe
+    template_name = 'recipe_list_view.html'
+    context_object_name = 'user_recipes' 
+    
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        queryset = Recipe.objects.filter(created_by=self.request.user)
+        if query:
+            queryset = queryset.filter(name__icontains=query)
+        return queryset
+    
+class CommunityPantryRequestView(TemplateView):
+    template_name = "community_pantry/community_pantry_request.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ingredients'] = Ingredient.objects.all() 
+        return context
+
+    def post(self, request, *args, **kwargs):
+        ingredient_id = request.POST.get('ingredient')
+        quantity = request.POST.get('quantity')
+
+        try:
+            ingredient = Ingredient.objects.get(id=ingredient_id)
+        except Ingredient.DoesNotExist:
+            return render(request, self.template_name, {
+                'error': 'Invalid ingredient selection',
+                'ingredients': Ingredient.objects.all(),  
+            })
+
+        UserRequest.objects.create(
+            user=request.user,
+            ingredient=ingredient,
+            quantity=int(quantity),
+            distance=10,  
+        )
+
+        return redirect(reverse('blog:community_pantry_list'))
+
+class CommunityPantryDetailView(DetailView):
+    model = UserRequest
+    template_name = "community_pantry/community_pantry_detail.html"
+    context_object_name = "user_request"
+
+    def get_object(self):
+        cp_pk = self.kwargs.get("cp_pk")
+        return UserRequest.objects.get(pk=cp_pk)
+
+    def post(self, request, *args, **kwargs):
+        user_request = self.get_object()
+
+        # add logic here for transaction stuff
+        user_request.delete() 
+        return redirect(reverse('community_pantry_list'))
+
+class CommunityPantryListView(TemplateView):
+    template_name = "community_pantry/community_pantry_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_requests'] = UserRequest.objects.all()
+        return context
+
+class HomeView(TemplateView):
+    template_name = "home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Community Pantry - Prep & Plate"
+        return context
 
 class GroceryListView(ListView):
     model = Ingredient
@@ -69,7 +187,7 @@ class InventoryDetailView(View):
 
 class InventoryDeleteView(LoginRequiredMixin, DeleteView):
     model = InventoryManager
-    success_url = reverse_lazy("blog:inventory_list")  # ✅ Redirect after deletion
+    success_url = reverse_lazy("blog:inventory_list")  
     template_name = "inventory_confirm_delete.html"
 
 class IngredientCreateView(CreateView):
@@ -350,6 +468,7 @@ class RecipeDetailView(DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
+        #Edit Date forgot to work
         """Handles adding a recipe with multiple scheduled dates to a meal plan."""
         recipe = self.get_object()
         meal_plan_id = request.POST.get("meal_plan_id")
