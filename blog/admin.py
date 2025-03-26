@@ -5,7 +5,14 @@ from .models import (Article, ArticleCategory,
                      Comment, Recipe, GroceryList,
                      MealPlanRecipe, MealPlan, Ingredient, 
                      RecipeIngredient, NutritionalInformation, 
-                     InventoryManager)
+                     InventoryManager, UserRequest)
+
+class UserRequestAdmin(admin.ModelAdmin):
+    list_display = ('user', 'ingredient', 'quantity', 'distance', 'updated_on', 'time_ago')
+    list_filter = ('distance',)  #
+    search_fields = ('user__username', 'ingredient__name')
+
+admin.site.register(UserRequest, UserRequestAdmin)
 
 class ArticleInline(admin.StackedInline):
     model = Article
