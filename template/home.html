@@ -180,7 +180,7 @@
                 <img src="{% static 'images/kitchen.png' %}" alt="My Kitchen">
                 My Kitchen
             </a>
-            <a href="#" class="menu-btn">
+            <a href="{% url 'blog:recipe_list' %}" class="menu-btn">
                 <img src="{% static 'images/recipes.png' %}" alt="My Recipes">
                 My Recipes
             </a>
@@ -192,11 +192,11 @@
                 <img src="{% static 'images/shopping.png' %}" alt="Shopping List">
                 Shopping List
             </a>
-            <a href="#" class="menu-btn">
+            <a href="{% url 'blog:community_pantry_list' %}" class="menu-btn">
                 <img src="{% static 'images/community.png' %}" alt="Community Pantry">
                 Community Pantry
             </a>
-            <a href="#" class="menu-btn">
+            <a href="{% url 'blog:mealplans_list' %}" class="menu-btn">
                 <img src="{% static 'images/mealplan.png' %}" alt="Meal Plan">
                 Meal Plan
             </a>
