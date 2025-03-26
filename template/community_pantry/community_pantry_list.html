@@ -173,44 +173,31 @@
 <!-- Page Header -->
 <div class="container">
     <h1 class="header">Community Pantry</h1>
-    <button class="request-btn">Request Ingredients</button>
+    <form action="{% url 'blog:community_pantry_request' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="request-btn">Request Ingredients</button>
+    </form>
 </div>
 
 <!-- Ingredient Requests -->
 <div class="card-container">
-    <div class="card">
-        <div class="d-flex align-items-center">
-            <img src="{% static 'img/user1.jpg' %}" class="profile-img" alt="Jacob">
-            <div>
-                <h5>Jacob needs 5 tomatoes</h5>
-                <p>10 minutes away from you<br>Request made 7 minutes ago</p>
+    {% for request in user_requests %}
+        <div class="card">
+            <div class="d-flex align-items-center">
+                <img src="{% static 'img/user1.jpg' %}" class="profile-img" alt="{{ request.user.username }}">
+                <div>
+                    <h5>{{ request.user.username }} needs {{ request.quantity }} {{ request.ingredient.name }}</h5>
+                    <p>{{ request.distance }} minutes away from you<br>Request made {{ request.time_ago }}</p>
+                </div>
             </div>
+            <form action="{% url 'blog:community_pantry_detail' request.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="send-btn">Send Ingredients</button>
+            </form>
         </div>
-        <button class="send-btn">Send Ingredients</button>
-    </div>
-
-    <div class="card">
-        <div class="d-flex align-items-center">
-            <img src="{% static 'img/user2.jpg' %}" class="profile-img" alt="Albert">
-            <div>
-                <h5>Albert needs 2 apples</h5>
-                <p>20 minutes away from you<br>Request made 42 minutes ago</p>
-            </div>
-        </div>
-        <button class="send-btn">Send Ingredients</button>
-    </div>
-
-    <div class="card">
-        <div class="d-flex align-items-center">
-            <img src="{% static 'img/user3.jpg' %}" class="profile-img" alt="Michelle">
-            <div>
-                <h5>Michelle needs 1 carton of milk</h5>
-                <p>25 minutes away from you<br>Request made 2 days ago</p>
-            </div>
-        </div>
-        <button class="send-btn">Send Ingredients</button>
-    </div>
+    {% endfor %}
 </div>
+
 
 <!-- Checkered Divider -->
 <div class="checkered-divider"></div>
