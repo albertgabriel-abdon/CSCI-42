@@ -1,0 +1,64 @@
+<h1>{{ recipe.name }}</h1>
+<p><strong>Category:</strong> {{ recipe.get_category_display }}</p>
+<p><strong>Difficulty:</strong> {{ recipe.get_difficulty_display }}</p>
+<p><strong>Preparation Time:</strong> {{ recipe.preparation_time }} mins</p>
+<p><strong>Cook Time:</strong> {{ recipe.cook_time }} mins</p>
+<p><strong>Servings:</strong> {{ recipe.servings }}</p>
+
+<hr>
+
+{% if meal_plan_recipes %}
+    <h2>Currently Saved in Meal Plan(s):</h2>
+    <ul>
+        {% for meal_plan_recipe in meal_plan_recipes %}
+            <li>
+                {{ meal_plan_recipe.meal_plan.name }} - Scheduled for {{ meal_plan_recipe.scheduled_date }}
+
+                <form method="POST" action="{% url 'blog:recipe_detail' recipe.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="meal_plan_id" value="{{ meal_plan_recipe.meal_plan.pk }}">
+
+                    <label for="edit_date_{{ meal_plan_recipe.pk }}">Edit Date:</label>
+                    <input type="date" id="edit_date_{{ meal_plan_recipe.pk }}" name="scheduled_date" value="{{ meal_plan_recipe.scheduled_date }}" required>
+                    
+                    <button type="submit">Update Date</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if meal_plans %}
+    <h2>Add to a Meal Plan:</h2>
+    <form method="POST" action="{% url 'blog:recipe_detail' recipe.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="recipe_id" value="{{ recipe.pk }}">
+
+        <label for="meal_plan">Select Meal Plan:</label>
+        <select id="meal_plan" name="meal_plan_id" required>
+            {% for meal_plan in meal_plans %}
+                <option value="{{ meal_plan.id }}">{{ meal_plan.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="scheduled_dates">Select Dates:</label>
+        <input type="date" id="scheduled_dates" name="scheduled_dates" multiple required>
+
+        <button type="submit">Add Recipe</button>
+    </form>
+{% else %}
+    <p>You don't have any meal plans. <a href="{% url 'blog:mealplan_create' %}">Create one</a> first.</p>
+{% endif %}
+
+<a href="{% url 'blog:mealplan_list' %}" class="home-button">go back to main page?</a><br>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dateInput = document.getElementById("scheduled_dates");
+        dateInput.addEventListener("change", function () {
+            let selectedDates = this.value.split(",");
+            this.value = selectedDates.join(",");
+        });
+    });
+</script>
+    

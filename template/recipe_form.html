@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Create a New Recipe</h1>
+
+{% if messages %}
+  {% for message in messages %}
+    <p class="message {{ message.tags }}">{{ message }}</p>
+  {% endfor %}
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    
+    <label for="name">Recipe Name:</label>
+    <input type="text" name="name" required>
+
+    <label for="description">Description:</label>
+    <textarea name="description" required></textarea>
+
+    <label for="category">Category:</label>
+    <select name="category" required>
+        {% for value, label in category_choices %}
+            <option value="{{ value }}">{{ label }}</option>
+        {% endfor %}
+    </select>
+    
+    <label for="difficulty">Difficulty:</label>
+    <select name="difficulty" required>
+        {% for value, label in difficulty_choices %}
+            <option value="{{ value }}">{{ label }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="preparation_time">Prep Time (mins):</label>
+    <input type="number" name="preparation_time" required>
+
+    <label for="cook_time">Cook Time (mins):</label>
+    <input type="number" name="cook_time" required>
+
+    <label for="servings">Servings:</label>
+    <input type="number" name="servings" required>
+
+    <label for="instructions">Instructions:</label>
+    <textarea name="instructions" required></textarea>
+
+    <button type="submit">Create Recipe</button>
+</form>
+
+{% if mealplan_pk %}
+    <a href="{% url 'blog:mealplan_detail' mealplan_pk %}">Back to Meal Plan</a>
+{% endif %}
+
+{% endblock %}
