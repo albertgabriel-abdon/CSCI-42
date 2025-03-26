@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Shopping List - Prep & Plate</title>
+    <title>Edit Shopping List - Prep & Plate</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         /* Custom Styles */
@@ -83,6 +83,36 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            margin: 20px auto 0;
+        }
+        .add-item-container {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .add-item-container input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #097d4c;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+        .add-item-container button {
+            background-color: #097d4c;
+            color: #f1ead1;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .done-btn {
+            background-color: #097d4c;
+            color: #f1ead1;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: block;
             margin: 20px auto 0;
         }
         .footer {
@@ -170,12 +200,11 @@
 
 <!-- Page Header -->
 <div class="header">
-    Shopping List
+    Edit Shopping List
 </div>
 
 <!-- Shopping List Container -->
 <div class="shopping-list-container">
-    <button class="edit-btn" onclick="window.location.href='grocery_list_edit.html'">✏️</button>
     <ul id="shopping-list">
         <li>
             <input type="checkbox" id="item1" onclick="toggleCheck(this)">
@@ -198,7 +227,11 @@
             <label for="item5">500mL olive oil</label>
         </li>
     </ul>
-    <button class="add-btn" onclick="window.location.href='grocery_list_add.html'">+</button>
+    <div class="add-item-container">
+        <input type="text" id="new-item" placeholder="Add new item">
+        <button onclick="addItem()">Add</button>
+    </div>
+    <button class="done-btn" onclick="window.location.href='grocery_list.html'">Done</button>
 </div>
 
 <!-- Checkered Divider -->
@@ -244,12 +277,16 @@
         }
     }
 
-    function editList() {
-        window.location.href = 'grocery_list_edit.html';
-    }
-
     function addItem() {
-        window.location.href = 'grocery_list_add.html';
+        const newItemInput = document.getElementById('new-item');
+        const newItemText = newItemInput.value.trim();
+        if (newItemText !== '') {
+            const shoppingList = document.getElementById('shopping-list');
+            const newItem = document.createElement('li');
+            newItem.innerHTML = `<input type="checkbox" onclick="toggleCheck(this)"><label>${newItemText}</label>`;
+            shoppingList.appendChild(newItem);
+            newItemInput.value = '';
+        }
     }
 </script>
 </body>
