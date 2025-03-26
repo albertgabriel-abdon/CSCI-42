@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Edit Meal Plan - Prep & Plate</title>
+    <title>Create New Meal Plan - Prep & Plate</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         /* General Styles */
@@ -82,12 +82,17 @@
         .recipe-grid .recipe {
             background-color: #f1ead1;
             border: 2px solid #d14938;
-            border-radius: 10px;
+            border-radius: 20px;
             height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #d14938;
+            cursor: pointer;
+        }
+        .recipe-grid .recipe img {
+            width: 100%;
+            border-radius: 50px;
         }
         .footer {
             background-color: #d14938;
@@ -172,9 +177,9 @@
     </div>
 </nav>
 
-<!-- Edit Meal Plan Form -->
+<!-- Create Recipe Form -->
 <div class="container mt-5">
-    <h1>Edit Meal Plan</h1>
+    <h1>Create New Meal Plan</h1>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
@@ -187,7 +192,7 @@
         <!-- Description (Long Form) -->
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3" placeholder=" Enter description"></textarea>
+            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter description"></textarea>
         </div>
 
         <!-- Special Tags Dropdown -->
@@ -215,33 +220,32 @@
             <div class="day">Sunday</div>
 
             <div class="meal">Breakfast</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
+            <div class="recipe" data-meal="breakfast" data-day="monday"></div>
+            <div class="recipe" data-meal="breakfast" data-day="tuesday"></div>
+            <div class="recipe" data-meal="breakfast" data-day="wednesday"></div>
+            <div class="recipe" data-meal="breakfast" data-day="thursday"></div>
+            <div class="recipe" data-meal="breakfast" data-day="friday"></div>
+            <div class="recipe" data-meal="breakfast" data-day="saturday"></div>
+            <div class="recipe" data-meal="breakfast" data-day="sunday"></div>
 
             <div class="meal">Lunch</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
+            <div class="recipe" data-meal="lunch" data-day="monday"></div>
+            <div class="recipe" data-meal="lunch" data-day="tuesday"></div>
+            <div class="recipe" data-meal="lunch" data-day="wednesday"></div>
+            <div class="recipe" data-meal="lunch" data-day="thursday"></div>
+            <div class="recipe" data-meal="lunch" data-day="friday"></div>
+            <div class="recipe" data-meal="lunch" data-day="saturday"></div>
+            <div class="recipe" data-meal="lunch" data-day="sunday"></div>
 
             <div class="meal">Dinner</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
-            <div class="recipe">Recipe</div>
+            <div class="recipe" data-meal="dinner" data-day="monday"></div>
+            <div class="recipe" data-meal="dinner" data-day="tuesday"></div>
+            <div class="recipe" data-meal="dinner" data-day="wednesday"></div>
+            <div class="recipe" data-meal="dinner" data-day="thursday"></div>
+            <div class="recipe" data-meal="dinner" data-day="friday"></div>
+            <div class="recipe" data-meal="dinner" data-day="saturday"></div>
+            <div class="recipe" data-meal="dinner" data-day="sunday"></div>
         </div>
-        
 
         <!-- Buttons -->
         <div class="text-center mt-4">
@@ -251,7 +255,6 @@
     </form>
 </div>
 
-
 <!-- Checkered Divider -->
 <div class="checkered-divider"></div>
 
@@ -259,7 +262,7 @@
 <div class="footer">
     <div class="footer-content">
         <div class="footer-left">
-            <img src="{% static '' %}" alt="Prep & Plate Logo">
+            <img src="{% static 'img/logo.png' %}" alt="Prep & Plate Logo">
         </div>
         <div class="footer-right">
             <div class="footer-top">
@@ -285,5 +288,19 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.querySelectorAll('.recipe').forEach(square => {
+        square.addEventListener('click', function() {
+            const meal = this.getAttribute('data-meal');
+            const day = this.getAttribute('data-day');
+            // Open a modal or a new page to select a recipe
+            // For simplicity, we'll use a prompt here
+            const recipeUrl = prompt(`Enter the URL of the recipe for ${meal} on ${day}:`);
+            if (recipeUrl) {
+                this.innerHTML = `<img src="${recipeUrl}" alt="Recipe Image">`;
+            }
+        });
+    });
+</script>
 </body>
 </html>
