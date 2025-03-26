@@ -214,40 +214,41 @@
     <h1>Whacha eatin’?</h1>
     <p class="brush">Share your meal plan and recipes!</p>
     <p style="margin-left: 10%; margin-right: 10%;">Why keep your delicious plans to yourself? With Prep & Plate’s Meal Plan Sharing, you can share your weekly menus and favorite recipes with family, friends, or fellow foodies. Swap ideas, discover new dishes, and stay inspired together. Meal prep just got a whole lot more fun—because good food is even better when shared!</p>
-    <br><button class="btn btn-create">CREATE MEAL PLAN</button>
+    <br>
+
+    <form action="{% url 'blog:mealplans_create' %}" method="get">
+        <button class="btn btn-create" type="submit">CREATE MEAL PLAN</button>
+    </form>
+    
 </div>
 
 <!-- Meal Plans Section -->
 <div class="meal-section">
     <h2>Meal Plans</h2>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="meal-card p-3 d-flex">
-                    <img src="{% static 'meal1.jpg' %}" alt="Meal Image">
-                    <div>
-                        <h3>Demeter’s Garden</h3>
-                        <p><strong>My Recipe</strong></p>
-                        <p>A week of Greek vegetarian cuisine, featuring dishes like spanakopita, lentil soup, and stuffed peppers.</p>
+    {% if mealplans %}
+        <div class="container">
+            <div class="row">
+                {% for mealplan in mealplans %}
+                    <div class="col-md-6">
+                        <div class="meal-card p-3 d-flex">
+                            <img src="{% static 'meal1.jpg' %}" alt="Meal Image"> 
+                            <div>
+                                <h3>{{ mealplan.name }}</h3>
+                                <p><strong>Created by: {{ mealplan.user.username }}</strong></p>
+                                <p>Status: {{ mealplan.get_status_display }} - {{ mealplan.start_date }}</p>
+                            </div>
+                            <a href="{% url 'blog:mealplan_detail' mealplan.pk %}" class="edit-icon">✏️</a>
+                        </div>
                     </div>
-                    <span class="edit-icon">✏️</span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="meal-card p-3 d-flex">
-                    <img src="{% static 'meal2.jpg' %}" alt="Meal Image">
-                    <div>
-                        <h3>Iron Wok</h3>
-                        <p><strong>By ChefUser84</strong></p>
-                        <p>A high-protein meal plan packed with bold flavors, tofu, and nutrient-dense ingredients.</p>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
-    </div>
+    {% else %}
+        <p>No meal plans found. Create your first meal plan now!</p>
+    {% endif %}
 
-    <button class="btn btn-see-more mt-3">See More</button>
+    <a href="{% url 'blog:mealplan_list' %}" class="btn btn-see-more mt-3">See More</a>
 </div>
 
 <!-- Checkered Divider -->
