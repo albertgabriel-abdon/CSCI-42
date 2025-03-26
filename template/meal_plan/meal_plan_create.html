@@ -1,4 +1,5 @@
 {% load static %}
+{% load tz %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,10 +90,10 @@
             justify-content: center;
             color: #d14938;
             cursor: pointer;
-        }
-        .recipe-grid .recipe img {
-            width: 100%;
-            border-radius: 50px;
+         }
+         .recipe-grid .recipe img {
+             width: 100%;
+             border-radius: 50px;
         }
         .footer {
             background-color: #d14938;
@@ -180,13 +181,14 @@
 <!-- Create Recipe Form -->
 <div class="container mt-5">
     <h1>Create New Meal Plan</h1>
+
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
         <!-- Meal Plan Name -->
         <div class="mb-3">
             <label for="meal_plan_name" class="form-label">Meal Plan Name</label>
-            <input type="text" class="form-control" id="meal_plan_name" name="meal_plan_name" placeholder="Enter meal plan name" required>
+            <input type="text" class="form-control" id="meal_plan_name" name="name" placeholder="Enter meal plan name" required>
         </div>
 
         <!-- Description (Long Form) -->
@@ -208,52 +210,74 @@
             </select>
         </div><br>
 
-        <!-- Recipe Grid -->
-        <div class="recipe-grid">
-            <div class="day"> </div>
-            <div class="day">Monday</div>
-            <div class="day">Tuesday</div>
-            <div class="day">Wednesday</div>
-            <div class="day">Thursday</div>
-            <div class="day">Friday</div>
-            <div class="day">Saturday</div>
-            <div class="day">Sunday</div>
-
-            <div class="meal">Breakfast</div>
-            <div class="recipe" data-meal="breakfast" data-day="monday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="tuesday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="wednesday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="thursday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="friday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="saturday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="sunday"></div>
-
-            <div class="meal">Lunch</div>
-            <div class="recipe" data-meal="lunch" data-day="monday"></div>
-            <div class="recipe" data-meal="lunch" data-day="tuesday"></div>
-            <div class="recipe" data-meal="lunch" data-day="wednesday"></div>
-            <div class="recipe" data-meal="lunch" data-day="thursday"></div>
-            <div class="recipe" data-meal="lunch" data-day="friday"></div>
-            <div class="recipe" data-meal="lunch" data-day="saturday"></div>
-            <div class="recipe" data-meal="lunch" data-day="sunday"></div>
-
-            <div class="meal">Dinner</div>
-            <div class="recipe" data-meal="dinner" data-day="monday"></div>
-            <div class="recipe" data-meal="dinner" data-day="tuesday"></div>
-            <div class="recipe" data-meal="dinner" data-day="wednesday"></div>
-            <div class="recipe" data-meal="dinner" data-day="thursday"></div>
-            <div class="recipe" data-meal="dinner" data-day="friday"></div>
-            <div class="recipe" data-meal="dinner" data-day="saturday"></div>
-            <div class="recipe" data-meal="dinner" data-day="sunday"></div>
+        <!-- Start Date -->
+        <div class="mb-3">
+            <label for="start_date" class="form-label">Start Date</label>
+            <input type="date" class="form-control" id="start_date" name="start_date">
         </div>
 
-        <!-- Buttons -->
+        <!-- Status Dropdown -->
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-select" id="status" name="status">
+                <option value="active" selected>Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+        </div>
+
+        <!-- Visibility Dropdown -->
+        <div class="mb-3">
+            <label for="visibility" class="form-label">Visibility</label>
+            <select class="form-select" id="visibility" name="visibility">
+                <option value="private" selected>Private</option>
+                <option value="friends">Friends-Only</option>
+                <option value="public">Public</option>
+            </select>
+        </div>
+
+        <!-- temporarily removed the table -->
+        <!--<div class="day">Sunday</div>
+ 
+             <div class="meal">Breakfast</div>
+             <div class="recipe" data-meal="breakfast" data-day="monday"></div>
+             <div class="recipe" data-meal="breakfast" data-day="tuesday"></div>
+             <div class="recipe" data-meal="breakfast" data-day="wednesday"></div>
+             <div class="recipe" data-meal="breakfast" data-day="thursday"></div>
+             <div class="recipe" data-meal="breakfast" data-day="friday"></div>
+             <div class="recipe" data-meal="breakfast" data-day="saturday"></div>
+             <div class="recipe" data-meal="breakfast" data-day="sunday"></div>
+
+             <div class="meal">Lunch</div>
+             <div class="recipe" data-meal="lunch" data-day="monday"></div>
+             <div class="recipe" data-meal="lunch" data-day="tuesday"></div>
+             <div class="recipe" data-meal="lunch" data-day="wednesday"></div>
+             <div class="recipe" data-meal="lunch" data-day="thursday"></div>
+             <div class="recipe" data-meal="lunch" data-day="friday"></div>
+             <div class="recipe" data-meal="lunch" data-day="saturday"></div>
+             <div class="recipe" data-meal="lunch" data-day="sunday"></div>
+
+             <div class="meal">Dinner</div>
+             <div class="recipe" data-meal="dinner" data-day="monday"></div>
+             <div class="recipe" data-meal="dinner" data-day="tuesday"></div>
+             <div class="recipe" data-meal="dinner" data-day="wednesday"></div>
+             <div class="recipe" data-meal="dinner" data-day="thursday"></div>
+             <div class="recipe" data-meal="dinner" data-day="friday"></div>
+             <div class="recipe" data-meal="dinner" data-day="saturday"></div>
+             <div class="recipe" data-meal="dinner" data-day="sunday"></div>
+ 
+        
+        
+        -->
+    
+        <!-- Submit Button -->
         <div class="text-center mt-4">
             <button type="submit" class="btn btn-custom">Save</button>
-            <a href="{% url 'recipe_list' %}" class="btn btn-custom ms-2">Cancel</a>
+            <a href="{% url 'blog:mealplans_list' %}" class="btn btn-custom ms-2">Cancel</a>
         </div>
     </form>
+
 </div>
+
 
 <!-- Checkered Divider -->
 <div class="checkered-divider"></div>
