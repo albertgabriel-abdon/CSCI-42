@@ -46,7 +46,7 @@ from .models import Recipe
 class UserMealPlanCreateView(CreateView):
     model = MealPlan
     form_class = MealPlanForm
-    template_name = 'meal_plan/create_mealplan.html'
+    template_name = 'meal_plan/meal_plan_create.html'
     success_url = reverse_lazy('blog:mealplans_list') 
 
     def form_valid(self, form):
@@ -59,7 +59,7 @@ class UserMealPlanCreateView(CreateView):
 
 class UserMealPlanListView(LoginRequiredMixin, ListView):
     model = MealPlan
-    template_name = 'meal_plan/meal_plan_list_view.html'
+    template_name = 'meal_plan/meal_plan_listview.html.html'
     context_object_name = 'mealplans'
 
     def get_queryset(self):
