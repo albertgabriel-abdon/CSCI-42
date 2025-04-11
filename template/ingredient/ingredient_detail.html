@@ -1,30 +1,413 @@
-{% extends "base.html" %}
 {% load static %}
 
-{% block title %}
-  {{ ingredient.name }}
-{% endblock title %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Ingredient View</title>
+  
+   <style>
+     /* General Styling */
+     body {
+       font-family: 'Poppins', sans-serif;
+       background: #F5EFD7;
+       color: #0C713D;
+       margin: 0;
+       padding: 0;
+       line-height: 1.6;
+     }
+  
+     
+  
+    /* Navigation Bar */
+   .navbar {
+     background: #0C713D;
+     color: #FFF;
+     padding: 20px 60px;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+   }
+  
+   /* Left: Logo */
+   .navbar-left img {
+     height: 50px;
+   }
+  
+   .navbar-left img:hover {
+     opacity: 0.8;
+   }
+  
+   /* Center: Navigation Links */
+   .navbar-center a {
+     color: #FFF;
+     font-size: 18px;
+     text-decoration: none;
+     margin: 0 20px;
+     transition: color 0.3s;
+   }
+  
+   .navbar-center a:hover,
+   .navbar-center a.active {
+     color: #F3B20C;
+   }
+  
+   /* Right: Icons */
+   .navbar-right img {
+     height: 28px;
+     margin-left: 20px;
+     cursor: pointer;
+     transition: opacity 0.3s;
+   }
+  
+   .navbar-right img:hover {
+     opacity: 0.8;
+   }
+  
+  
+     /* Header Section */
+     .header-section {
+       text-align: center;
+       padding: 60px 0;
+       background: #F5EFD7;
+     }
+  
+     .header-section h1 {
+       font-family: 'Georgia', serif;
+       font-weight: bold;
+       font-size: 48px;
+       color: #0C713D;
+       margin: 10px 0;
+     }
+  
+     .container {
+      max-width: 70%;
+      margin: 40px auto;
+      padding: 70px 50px;
+      background: #fff;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      border-radius: 50px;
+    }
 
-{% block content %}
-  <div class="ingredient-detail">
-    <div class="ingredient-image">
-      <img src="{{ ingredient.image.url }}" alt="{{ ingredient.name }}">
-    </div>
-    <div class="ingredient-info">
-      <h2>{{ ingredient.name }}</h2>
-      <p>Expiration Date:{{ ingredient.expiration_date }}</p>
-      <p>Current Quantity:{{ ingredient.quantity }}</p>
-      <p>Unit of Measurement: {{ ingredient.unit }}</p>
-    </div>
+
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);  /* Two-column layout */
+      gap: 30px;
+    }
+    .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .form-control {
+            font-family: 'Poppins', sans-serif;
+            border-radius: 50px;
+            padding: 12px;
+            background-color: #0C713D;
+            color: #f1ead1;
+        }
+
+    .image {
+      height: 400px;
+      width: 100%;
+      border-radius: 50px;
+      background-color: #0C713D;
+      grid-column: span 2; /* Spans the entire row */
+    }
+
+
+/* Form Labels */
+label {
+    font-weight: bold;
+    font-size: 20px;
+    color: #0C713D;
+}
+
+
+
+h4 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #0C713D;
+    grid-column: span 2; /* Spans the entire row */
+    margin-top: 20px;
+    margin-bottom: -20px
+
+}
+
+/* Button Group */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    grid-column: span 2; /* Spans the entire row */
+}
+
+/* Buttons */
+.btn {
+  width: 250px;
+  border-radius: 100px;
+  color: #004ead;
+  font-weight: bold;
+  padding: 10px 20px;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+
+}
+
+/* Save Button */
+.save-btn {
+    background: #f3b20c;
+    color: #0C713D;
+    border: 2px solid #f3b20c;
+
+}
+
+.save-btn:hover {
+    background: #e0a200;
+    cursor: pointer;
+    border: 2px solid #e0a200;
+
+
+}
+
+/* Cancel Button */
+.cancel-btn {
+    background: #fff;
+    color:#0C713D;
+    border: 2px solid #0C713D;
+}
+
+.cancel-btn:hover {
+    background: #0C713D;
+    color: #fff;
+    cursor: pointer;
+
+  }
+
+  
+     .footer {
     
-    <div class="nutrition-facts">
-      <h3>Nutrition Facts</h3>
-      <p>Calories per 100g: {{ ingredient.calories }}</p>
-      <p>Protein per 100g:{{ ingredient.protein }}</p>
-      <p>Fat per 100g:{{ ingredient.fat }}</p>
-      <p>Carbs per 100g: {{ ingredient.carbs }}</p>
-      <p>Fiber per 100g:{{ ingredient.fiber }}</p>
-      <p>Sugar per 100g:{{ ingredient.sugar }}</p>
+       padding: 30px;
+       color: #097d4c;
+       text-align: center;
+       font-family: 'Poppins', sans-serif;
+     }
+     .footer-content {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       max-width: 1900px;
+       margin-left: 40px;
+       margin-right: 40px;
+       flex-wrap: wrap;
+     }
+     .footer-left {
+       flex: 1;
+       text-align: left;
+     }
+     .footer-left img {
+       width: 100px;
+     }
+     .footer-right {
+       flex: 4;
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+     }
+     .footer-top {
+       display: flex;
+       justify-content: space-between;
+       width: 100%;
+     }
+     .footer-top div {
+       flex: 1;
+       text-align: center;
+     }
+     .footer-bottom {
+       margin-top: 10px;
+       border-top: 2px solid #097d4c;
+       padding-top: 10px;
+       width: 100%;
+       display: flex;
+       justify-content: center;
+       gap: 20px;
+     }
+     .footer-bottom a {
+       color: #097d4c;
+       text-decoration: none;
+       font-size: 0.9rem;
+       flex: 2;
+     }
+
+     .footer-bottom a:hover {
+       text-decoration: underline;
+       color: #efbd40;
+     }
+     .checkered-divider {
+     height: 20px;
+     background: repeating-linear-gradient(
+       45deg,
+       #f1ead1 0,
+       #f1ead1 10px,
+       #097d4c 10px,
+       #097d4c 20px
+       );
+     }
+  
+   </style>
+
+
+</head>
+<body>
+  {% block content %}
+
+  <nav class="navbar">
+    <div class="navbar-left">
+      <a href="{% url 'home' %}">
+        <img src="{% static 'static_media/prep&plate_logo_white.png' %}" alt="Prep & Plate Logo" class="logo">
+      </a>
     </div>
+   
+   
+    <div class="navbar-center">
+      <a href="{% url 'home' %}" class="active">My Kitchen</a>
+      <a href="{% url 'recipes_list' %}">My Recipes</a>
+      <a href="{% url 'browse_recipes' %}">Browse Recipes</a>
+      <a href="{% url 'shopping_list' %}">Shopping List</a>
+      <a href="{% url 'community' %}">Community</a>
+      <a href="{% url 'meal_plan' %}">Meal Plan</a>
+    </div>
+   
+   
+    <div class="navbar-right">
+      <a href="#"><img src="{% static 'static_media/bell.png' %}" alt="Notifications"></a>
+      <a href="#"><img src="{% static 'static_media/user.png' %}" alt="User Profile"></a>
+    </div>
+   </nav>
+
+   <div class="header-section">
+    <h1>{{ ingredient.name }}</h1>
   </div>
-{% endblock content %}
+
+<div class="container">
+    
+  
+    
+    <form method="POST" enctype="multipart/form-data" class="ingredient-form">
+        <!-- {% csrf_token %} -->
+
+        <!-- Image Upload -->
+        <div class="form-group">
+            <label for="image">Ingredient Image:</label>
+            <div class="image">{{ingredient.image}}</div>
+
+</div>
+
+        <!-- Ingredient Details -->
+        <div class="form-group">
+            <label for="name">Ingredient Name:</label>
+            <div class="form-control">{{ ingredient.name }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="expiration_date">Expiration Date:</label>
+            <div class="form-control">{{ ingredient.expiration_date }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Current Quantity:</label>
+            <div class="form-control">{{ ingredient.quanity }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="unit">Unit of Measurement:</label>
+            <div class="form-control">{{ ingredient.unit }}</div>
+        </div>
+
+        <!-- Nutrition Facts -->
+        <h4>Nutrition Facts</h4>
+
+        <div class="form-group">
+            <label for="calories">Calories per 100g:</label>
+            <div class="form-control">{{ ingredient.calories }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="protein">Protein per 100g:</label>
+            <div class="form-control">{{ ingredient.protein }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="fat">Fat per 100g:</label>
+            <div class="form-control">{{ ingredient.fat }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="carbs">Carbs per 100g:</label>
+            <div class="form-control">{{ ingredient.carbs }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="fiber">Fiber per 100g:</label>
+            <!-- <input type="number" class="form-control" value="{{ form.fiber }}"> -->
+            <div class="form-control">{{ ingredient.fiber }}</div>
+
+        </div>
+
+        <div class="form-group">
+            <label for="sugar">Sugar per 100g:</label>
+            <div class="form-control">{{ ingredient.sugar }}</div>
+        </div>
+
+        <!-- Submission Buttons -->
+        <div class="button-group">
+            <button type="submit" class="btn save-btn">Save</button>
+            <a href="{% url 'ingredients_list' %}" class="btn cancel-btn">Cancel</a>
+        </div>
+    </form>
+
+</div>
+
+<!-- Checkered Divider -->
+<div class="checkered-divider"></div>
+
+
+<!-- Footer -->
+<div class="footer">
+   <div class="footer-content">
+       <div class="footer-left">
+           <img src="{% static 'static/static_media/prep&plate_logo_green.png' %}" alt="Prep & Plate Logo">
+       </div>
+       <div class="footer-right">
+           <div class="footer-top">
+               <div>
+                   <p>Prep Smart. Plate Perfect.<span style="color:#f8c30c; font-weight:bold;"> Savor More.</span></p>
+               </div>
+               <div>
+                   <p>123 Anywhere St., Any City, ST 12345</p>
+               </div>
+               <div>
+                   <p>Contact Us at 123-456-7890</p>
+               </div>
+           </div>
+           <div class="footer-bottom">
+               <a href="#">Help</a>
+               <a href="#">Community Guidelines</a>
+               <a href="#">Copyright Policy</a>
+               <a href="#">Privacy Policy</a>
+               <a href="#">User Agreement</a>
+           </div>
+       </div>
+   </div>
+</div>
+</footer>
+
+</body>
+</html>
