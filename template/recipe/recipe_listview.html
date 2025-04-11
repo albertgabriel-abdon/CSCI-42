@@ -12,19 +12,95 @@
             font-family: 'Poppins', sans-serif;
         }
         .navbar {
-            background-color: #097d4c;
-            padding: 20px;
-        }
-        .navbar a {
-            color: #f1ead1;
-            font-family: 'Poppins', sans-serif;
-            font-weight: bold;
-            text-decoration: none;
-            padding: 0 15px;
-        }
-        .navbar a:hover {
-            color: #efbd40;
-        }
+     background: #097d4c;
+     color: #FFF;
+     padding: 20px 60px;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+   }
+  
+   /* Left: Logo */
+   .navbar-left img {
+     height: 50px;
+   }
+  
+   .navbar-left img:hover {
+     opacity: 0.8;
+   }
+  
+   /* Center: Navigation Links */
+   .navbar-center a {
+     color: #FFF;
+     font-size: 18px;
+     text-decoration: none;
+     margin: 0 20px;
+     transition: color 0.3s;
+   }
+  
+   .navbar-center a:hover,
+   .navbar-center a.active {
+     color: #F3B20C;
+   }
+  
+   /* Right: Icons */
+   .navbar-right img {
+     height: 28px;
+     margin-left: 20px;
+     cursor: pointer;
+     transition: opacity 0.3s;
+   }
+  
+   .navbar-right img:hover {
+     opacity: 0.8;
+   }
+
+        /* Notifications */
+
+     .notification-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+#notification-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+#notification-btn img {
+  width: 28px;
+  height: 28px;
+}
+
+#notification-panel {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  width: 300px;
+  background-color: #fff;
+  border: 2px solid #003087;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  display: none;
+}
+
+#notification-panel.show {
+  display: block;
+}
+
+.notification-item {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+  color: #003087;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
         .header {
             background-color: #004ead;
             padding: 15px 0;
@@ -97,7 +173,7 @@
         .edit-icon:hover {
             color: #efbd40;
         }
-        .btn-add {
+        /* .btn-add {
             background-color: #f1ead1;
             color: #097d4c;
             border: none;
@@ -112,8 +188,70 @@
             transition: background-color 0.3s;
         }
         .btn-add:hover {
-            background-color: #efbd40;
-        }
+            background-color: #efbd40; 
+        }*/
+
+        .search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .search-bar input {
+    width: 500px;
+    padding: 15px;
+    border: 2px solid #0C713D;
+    border-radius: 30px;
+    font-size: 16px;
+    outline: none;
+  }
+
+  .search-bar input::placeholder {
+    color: #aaa;
+  }
+
+  .search-bar button {
+    background: #F3B20C;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .search-bar button:hover {
+    background: #003087;
+  }
+
+  /* Add Recipe Button */
+  .add-recipe {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:  30px 0;
+  }
+
+  .add-button {
+    background: #F3B20C;
+    color: #fff;
+    border: none;
+    display:block;
+    height: 50px;
+    width: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .add-button:hover {
+    background: #003087;
+  }
         .btn-discover {
             background-color: #efbd40;
             color: #097d4c;
@@ -235,17 +373,43 @@
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar">
-    <div class="container">
-        <a href="#">My Kitchen</a>
-        <a href="#">Shopping List</a>
-        <a href="#">My Recipes</a>
-        <a href="#">Community</a>
-        <a href="#">Browse Recipes</a>
-        <a href="#">Meal Plan</a>
+ <nav class="navbar">
+    <div class="navbar-left">
+      <a href="{% url 'home' %}">
+        <img src="{% static 'static_media/prep&plate_logo_white.png' %}" alt="Prep & Plate Logo" class="logo">
+      </a>
     </div>
-</nav>
+   
+   
+    <div class="navbar-center">
+      <a href="{% url 'home' %}" >My Kitchen</a>
+      <a href="{% url 'recipes_list' %}" class="active">My Recipes</a>
+      <a href="{% url 'browse_recipes' %}">Browse Recipes</a>
+      <a href="{% url 'shopping_list' %}">Shopping List</a>
+      <a href="{% url 'community' %}">Community</a>
+      <a href="{% url 'meal_plan' %}">Meal Plan</a>
+    </div>
+   
+   
+    <div class="navbar-right">
+      <div class="notification-wrapper">
+        <button id="notification-btn">
+          <img src="{% static 'static_media/bell.png' %}" alt="Notifications" />
+        </button>
+        <div id="notification-panel" class="hidden">
+          {% for notification in notifications %}
+            <div class="notification-item">
+              {{ notification.message }}
+            </div>
+          {% empty %}
+            <div class="notification-item">You're all caught up!</div>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <a href="#"><img src="{% static 'static_media/user.png' %}" alt="User Profile"></a>
+    </div>
+   </nav>
 
 <!-- Recipe of the Day -->
 <section class="recipe-day">
@@ -281,20 +445,26 @@
 
 <!-- My Recipes -->
 <section class="recipes-section">
-    <h2 class="text-center text-white">My Recipes</h2>
+    <h2 class="text-center text-white" style="font-family: Georgia, serif; font-weight: bold;">My Recipes</h2>
 
+<<<<<<< HEAD
     <div class="d-flex justify-content-center mb-4">
         <form method="get" class="d-flex w-50">
             <input type="text" name="q" value="{{ request.GET.q }}" class="form-control w-125" placeholder="Search recipes">
             <button type="submit" class="btn btn-light ms-2">Filter</button>
         </form>
+=======
+    <div class="search-bar">
+        <input type="text" placeholder="Search recipes..." />
+        <button>Search</button>
+>>>>>>> Michelle-CSS
     </div>
     
 
-    <!-- Add Recipe Button -->
-    <div class="d-flex justify-content-center align-items-center mb-4">
-        <button class="btn-add">+</button>
-    </div>
+      <div class="add-recipe">
+        <button class="add-button">+</button>
+      </div>
+    
 
     <!-- Recipe List -->
 
@@ -364,6 +534,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+<<<<<<< HEAD
     document.addEventListener('DOMContentLoaded', function () {
         const searchInput = document.querySelector('input[name="q"]');
         const recipeWrappers = document.querySelectorAll('.recipe-wrapper');
@@ -382,5 +553,20 @@
         });
     });
 </script>
+=======
+    const notifBtn = document.getElementById('notification-btn');
+    const notifPanel = document.getElementById('notification-panel');
+  
+    notifBtn.addEventListener('click', () => {
+      notifPanel.classList.toggle('show');
+    });
+  
+    document.addEventListener('click', (e) => {
+      if (!notifBtn.contains(e.target) && !notifPanel.contains(e.target)) {
+        notifPanel.classList.remove('show');
+      }
+    });
+  </script>
+>>>>>>> Michelle-CSS
 </body>
 </html>

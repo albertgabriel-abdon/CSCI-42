@@ -3,32 +3,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community Pantry - Prep & Plate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recipe Detail - Prep & Plate</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
+        /* Custom Styles */
         body {
-            background-color: #eb8917;
             font-family: 'Poppins', sans-serif;
+            background-color: #004ead;
             color: #f1ead1;
             text-align: center;
         }
-        /* .navbar {
-            background-color: #004ead;
-            padding: 20px;
-        }
-        .navbar a {
-            color: #f1ead1;
-            font-weight: bold;
-            text-decoration: none;
-            padding: 0 15px;
-        }
-        .navbar a:hover {
-            color: #efbd40;
-        } */
-
         .navbar {
-     background: #0346a0;
+     background: #097d4c;
      color: #FFF;
      padding: 20px 60px;
      display: flex;
@@ -117,83 +104,98 @@
 .notification-item:last-child {
   border-bottom: none;
 }
-        .header {
-            font-family: Georgia, serif;
-            font-weight: bold;
-            font-size: 2.5rem;
+        .recipe-title {
             margin-top: 20px;
-        }
-        .form-container {
-            background-color: #0346a0;
+            font-family: Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: bold;
             color: #efbd40;
-            border-radius: 20px;
-            padding: 20px;
-            width: 90%;
-            max-width: 600px;
-            margin: 20px auto;
-            transition: 0.3s;
+        }
+        .recipe-for {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            color: #eb8917;
+        }
+        .recipe-name {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 2rem;
+            color: #f1ead1;
+        }
+        .recipe-author {
+            font-family: 'Poppins', sans-serif;
+            color: #efbd40;
+            font-size: 1.2rem;
+            margin-top: 20px;
             text-align: left;
         }
-        .form-label {
-            font-family: Georgia, serif;
-            font-weight: bold;
+        .recipe-description {
+            font-family: 'Poppins', sans-serif;
             color: #f1ead1;
-            font-size: 1.2rem;
-        }
-        .form-control {
-            background-color: #f1ead1;
-            color: #004ead;
-            border: none;
-            border-radius: 20px;
-            padding: 10px;
             font-size: 1rem;
+            margin-top: 10px;
+            text-align: left;
         }
-        .quantity-selector {
-            display: flex;
-            align-items: center;
-            margin: 10px 0;
-        }
-        .quantity-selector .btn {
-            background-color: #efbd40;
-            color: #004ead;
-            font-weight: bold;
-            border: none;
-            padding: 5px 20px;
+        .info-box {
+            background-color: #eb8917;
             border-radius: 50px;
-            transition: 0.3s;
-        }
-        .quantity-selector .btn:hover, .quantity-selector .btn:focus {
-            background-color: #f1ead1;
-            color: #004ead;
-        }
-        .quantity-selector .quantity {
-            margin: 0 10px;
-            border-color: #efbd40;
-            color: #004ead;
-            font-size: 1.2rem;
-            font-weight: bold;
-            width: 70px;
+            padding: 20px;
+            margin-top: 30px;
+            color: #f1ead1;
             text-align: center;
-            border-radius: 50px;
-            background-color: #f1ead0;
+            font-size: 1.1rem;
         }
-        .submit-btn {
+        .ingredients, .instructions {
+            font-family: 'Poppins', sans-serif;
+            color: #f1ead1;
+            text-align: left;
+            margin-top: 30px;
+        }
+        .ingredients ul, .instructions ol {
+            padding-left: 20px;
+        }
+        .user-images {
+            margin-top: 30px;
+        }
+        .user-images img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .btn-favorite, .btn-rating {
             background-color: #efbd40;
             color: #004ead;
-            font-weight: bold;
             border: none;
             padding: 10px 20px;
-            width: 100%;
             border-radius: 50px;
-            transition: 0.3s;
+            font-size: 1rem;
             margin-top: 20px;
+            cursor: pointer;
         }
-        .submit-btn:hover, .submit-btn:focus {
+        .btn-favorite:hover, .btn-rating:hover {
             background-color: #f1ead1;
             color: #004ead;
         }
+        .rating-box {
+            background-color: #097d4c;
+            border-radius: 50px;
+            padding: 20px;
+            margin-top: 30px;
+            color: #f1ead1;
+            text-align: center;
+        }
+        .rating-stars {
+            font-size: 2rem;
+            color: #f1ead1;
+        }
+        .rating-stars .star {
+            cursor: pointer;
+        }
+        .rating-stars .star:hover,
+        .rating-stars .star.selected {
+            color: #efbd40;
+        }
         .footer {
-            background-color: #004ead;
+            background-color: #097d4c;
             padding: 30px;
             color: #f1ead1;
             text-align: center;
@@ -247,24 +249,24 @@
         }
         .footer-bottom a:hover {
             text-decoration: underline;
-            color: #eb8917;
+            color: #efbd40;
         }
         .checkered-divider {
             height: 20px;
+            margin-top: 30px;
             background: repeating-linear-gradient(
                 45deg,
-                #efbd40 0,
-                #efbd40 10px,
+                #004ead 0,
                 #004ead 10px,
-                #004ead 20px
+                #efbd40 10px,
+                #efbd40 20px
             );
         }
     </style>
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar">
+  <nav class="navbar">
     <div class="navbar-left">
       <a href="{% url 'home' %}">
         <img src="{% static 'static_media/prep&plate_logo_white.png' %}" alt="Prep & Plate Logo" class="logo">
@@ -275,9 +277,9 @@
     <div class="navbar-center">
       <a href="{% url 'home' %}">My Kitchen</a>
       <a href="{% url 'recipes_list' %}">My Recipes</a>
-      <a href="{% url 'browse_recipes' %}">Browse Recipes</a>
+      <a href="{% url 'browse_recipes' %}" class="active">Browse Recipes</a>
       <a href="{% url 'shopping_list' %}">Shopping List</a>
-      <a href="{% url 'community' %}" class="active">Community</a>
+      <a href="{% url 'community' %}">Community</a>
       <a href="{% url 'meal_plan' %}">Meal Plan</a>
     </div>
    
@@ -302,44 +304,111 @@
     </div>
    </nav>
 
-<!-- Page Header -->
-<div class="container">
-    <h1 class="header">Community Pantry</h1>
-</div>
+<!-- Recipe Title -->
+<div class="recipe-title">Recipe</div>
+<div class="recipe-for">for</div>
+<div class="recipe-name">{{ recipe.title }}</div>
 
-<!-- Request Ingredient Form -->
-<div class="form-container">
-    <h1 class="header">Request Ingredient</h1>
-    <form action="{% url 'blog:community_pantry_request' %}" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-
-        <!-- Ingredient Selector with Datalist -->
-        <div class="mb-3">
-            <label for="ingredient_name" class="form-label">Select Ingredient</label>
-            <input list="ingredients-list" class="form-control" id="ingredient_name" name="ingredient_name" placeholder="Type to search..." required>
-            <input type="hidden" id="ingredient_id" name="ingredient">  
-            <datalist id="ingredients-list">
-                {% for ingredient in ingredients %}
-                    <option value="{{ ingredient.name }}" data-id="{{ ingredient.id }}"></option> 
-                {% endfor %}
-            </datalist>
+<!-- Recipe Details -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{% static 'img/recipe_image.jpg' %}" alt="Recipe Image" class="img-fluid rounded">
         </div>
-
-        <!-- Quantity Selector -->
-        <div class="mb-3">
-            <label for="quantity" class="form-label">Quantity</label>
-            <div class="quantity-selector">
-                <button type="button" class="btn btn-secondary" onclick="changeQuantity(-1)">-</button>
-                <input type="number" class="quantity" id="quantity" name="quantity" value="1" min="1">
-                <button type="button" class="btn btn-secondary" onclick="changeQuantity(1)">+</button>
+        <div class="col-md-6">
+            <div class="recipe-author">{{ recipe.author }}</div>
+            <div class="recipe-description">
+                {{ recipe.description }}
             </div>
         </div>
-
-        <!-- Submit Button -->
-        <button type="submit" class="submit-btn">Request Ingredients</button>
-    </form>
+    </div>
 </div>
 
+<!-- Info Box -->
+<div class="container info-box">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-12"><strong>Prep Time</strong></div>
+                <div class="col-12">{{ recipe.preparation_time }}</div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-12"><strong>Servings</strong></div>
+                <div class="col-12">{{ recipe.servings }}</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-12"><strong>Cook Time</strong></div>
+                <div class="col-12"> {{ recipe.cook_time }} </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-12"><strong>Difficulty</strong></div>
+                <div class="col-12">{{ recipe.difficulty }}</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-12"><strong>Rating</strong></div>
+                <div class="col-12">{{ recipe.rating }}</div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ingredients and Instructions -->
+<div class="container">
+    <div class="row">
+      <div class="col-md-3 ingredients">
+        <h3>Ingredients</h3>
+        <ul>
+            {% for ingredient in recipe_ingredients %}
+                <li>{{ recipe_ingredients.quantity }} {{ ingredient.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+        <div class="col-md-9 instructions">
+            <h3>Instructions</h3>
+            <ol>
+              {% for instruction in instructions %}
+                <li>{{ recipe.instruction }} {{ ingredient.instruction }} </li>
+              {% endfor %}
+            </ol>
+        </div>
+    </div>
+</div>
+
+<!-- User Uploaded Images -->
+<div class="container user-images">
+    <div class="row">
+        {% for image in user_uploaded_images %}
+        <div class="col-md-3">
+            <img src="{{ image.url }}" alt="User Uploaded Image" class="img-fluid">
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Add to Favorites Button -->
+<div class="text-center">
+    <button class="btn-favorite">Add Recipe to Favorites</button>
+</div>
+
+<!-- Rating System -->
+<div class="container rating-box">
+    <h3>How did you like the recipe?</h3>
+    <div class="rating-stars">
+        <span class="star" data-value="1">&#9733;</span>
+        <span class="star" data-value="2">&#9733;</span>
+        <span class="star" data-value="3">&#9733;</span>
+        <span class="star" data-value="4">&#9733;</span>
+        <span class="star" data-value="5">&#9733;</span>
+    </div>
+    <button class="btn-rating">Submit Rating</button>
+</div>
 
 <!-- Checkered Divider -->
 <div class="checkered-divider"></div>
@@ -375,44 +444,17 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-
-    document.getElementById("ingredient_name").addEventListener("input", function () {
-        const input = document.getElementById("ingredient_name");
-        const hiddenInput = document.getElementById("ingredient_id");
-        const datalistOptions = document.getElementById("ingredients-list").options;
-
-        hiddenInput.value = ""; 
-        for (let option of datalistOptions) {
-            if (option.value === input.value) {
-                hiddenInput.value = option.getAttribute("data-id"); 
-                break;
-            }
-        }
+    document.querySelectorAll('.rating-stars .star').forEach(star => {
+        star.addEventListener('click', function() {
+            const value = this.getAttribute('data-value');
+            document.querySelectorAll('.rating-stars .star').forEach(s => {
+                s.classList.remove('selected');
+                if (s.getAttribute('data-value') <= value) {
+                    s.classList.add('selected');
+                }
+            });
+        });
     });
-
-    function changeQuantity(amount) {
-        const quantityInput = document.getElementById('quantity');
-        let currentValue = parseInt(quantityInput.value);
-
-        if (!isNaN(currentValue)) {
-            let newValue = currentValue + amount;
-            quantityInput.value = newValue > 0 ? newValue : 1;  
-        }
-    }
-
-  const notifBtn = document.getElementById('notification-btn');
-  const notifPanel = document.getElementById('notification-panel');
-
-  notifBtn.addEventListener('click', () => {
-    notifPanel.classList.toggle('show');
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!notifBtn.contains(e.target) && !notifPanel.contains(e.target)) {
-      notifPanel.classList.remove('show');
-    }
-  });
 </script>
-
 </body>
 </html>

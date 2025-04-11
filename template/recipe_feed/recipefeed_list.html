@@ -3,32 +3,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community Pantry - Prep & Plate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Browse Recipes - Prep & Plate</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
+        /* Custom Styles */
         body {
-            background-color: #eb8917;
             font-family: 'Poppins', sans-serif;
-            color: #f1ead1;
-            text-align: center;
         }
-        /* .navbar {
-            background-color: #004ead;
-            padding: 20px;
-        }
-        .navbar a {
-            color: #f1ead1;
-            font-weight: bold;
-            text-decoration: none;
-            padding: 0 15px;
-        }
-        .navbar a:hover {
-            color: #efbd40;
-        } */
-
         .navbar {
-     background: #0346a0;
+     background: #003087;
      color: #FFF;
      padding: 20px 60px;
      display: flex;
@@ -118,82 +102,172 @@
   border-bottom: none;
 }
         .header {
-            font-family: Georgia, serif;
-            font-weight: bold;
-            font-size: 2.5rem;
-            margin-top: 20px;
+            background-color: #004ead;
+            padding: 15px 0;
         }
-        .form-container {
-            background-color: #0346a0;
+        .header a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .header a:hover {
             color: #efbd40;
-            border-radius: 20px;
-            padding: 20px;
-            width: 90%;
-            max-width: 600px;
-            margin: 20px auto;
-            transition: 0.3s;
-            text-align: left;
         }
-        .form-label {
-            font-family: Georgia, serif;
-            font-weight: bold;
-            color: #f1ead1;
-            font-size: 1.2rem;
-        }
-        .form-control {
-            background-color: #f1ead1;
-            color: #004ead;
-            border: none;
-            border-radius: 20px;
-            padding: 10px;
-            font-size: 1rem;
-        }
-        .quantity-selector {
-            display: flex;
-            align-items: center;
-            margin: 10px 0;
-        }
-        .quantity-selector .btn {
-            background-color: #efbd40;
-            color: #004ead;
-            font-weight: bold;
-            border: none;
-            padding: 5px 20px;
-            border-radius: 50px;
-            transition: 0.3s;
-        }
-        .quantity-selector .btn:hover, .quantity-selector .btn:focus {
-            background-color: #f1ead1;
-            color: #004ead;
-        }
-        .quantity-selector .quantity {
-            margin: 0 10px;
-            border-color: #efbd40;
-            color: #004ead;
-            font-size: 1.2rem;
-            font-weight: bold;
-            width: 70px;
+        .recipe-day {
+            background-color: #004ead;
+            color: white;
+            padding: 40px 20px;
             text-align: center;
-            border-radius: 50px;
-            background-color: #f1ead0;
         }
-        .submit-btn {
-            background-color: #efbd40;
+        .recipe-day h1 {
+            font-weight: bold;
+            font-family: Georgia, serif;
+        }
+        .btn-recipe {
+            background-color: #f1ead1;
+            font-weight: bold;
             color: #004ead;
+            border: none;
+            padding: 10px 20px;
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 20px;
+            width: 300px;
+        }
+        .btn-recipe:hover {
+            background-color: #097d4c;
+            color: #f1ead1;
+        }
+        .recipes-section {
+            background-color: #097d4c;
+            padding: 50px 20px;
+        }
+        .recipe-card {
+            background-color: #097d4c;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left; /* Change text alignment to left */
+            position: relative;
+        }
+        .recipe-card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .recipe-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            color: #f1ead0;
+            font-size: 1.5rem; /* Adjust the size as needed */
+        }
+        .recipe-details {
+            font-family: 'Poppins', sans-serif;
+            color: #efbd40;
+            font-size: 1rem; /* Adjust the size as needed */
+        }
+        .edit-icon {
+            font-size: 1.5rem; /* Adjust the size as needed */
+            color: #f1ead0;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+        .edit-icon:hover {
+            color: #efbd40;
+        }
+        /* .btn-add {
+            background-color: #f1ead1;
+            color: #097d4c;
+            border: none;
+            font-size: 40px;
+            font-weight: bold;
+            width: 50px;
+            height: 50px;
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        .btn-add:hover {
+            background-color: #efbd40; 
+        }*/
+
+        .search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .search-bar input {
+    width: 500px;
+    padding: 15px;
+    border: 2px solid #0C713D;
+    border-radius: 30px;
+    font-size: 16px;
+    outline: none;
+  }
+
+  .search-bar input::placeholder {
+    color: #aaa;
+  }
+
+  .search-bar button {
+    background: #F3B20C;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .search-bar button:hover {
+    background: #003087;
+  }
+
+  /* Add Recipe Button */
+  .add-recipe {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:  30px 0;
+  }
+
+  .add-button {
+    background: #F3B20C;
+    color: #fff;
+    border: none;
+    display:block;
+    height: 50px;
+    width: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .add-button:hover {
+    background: #003087;
+  }
+        .btn-discover {
+            background-color: #efbd40;
+            color: #097d4c;
             font-weight: bold;
             border: none;
             padding: 10px 20px;
-            width: 100%;
-            border-radius: 50px;
-            transition: 0.3s;
-            margin-top: 20px;
+            width: 200px;
+            transition: background-color 0.3s;
+            border-radius: 20px;
+            margin-top: 150px;
         }
-        .submit-btn:hover, .submit-btn:focus {
-            background-color: #f1ead1;
-            color: #004ead;
+        .btn-discover:hover {
+            background-color: #004ead;
+            color: white;
         }
         .footer {
-            background-color: #004ead;
+            background-color: #0346a0;
             padding: 30px;
             color: #f1ead1;
             text-align: center;
@@ -247,24 +321,23 @@
         }
         .footer-bottom a:hover {
             text-decoration: underline;
-            color: #eb8917;
+            color: #efbd40;
         }
         .checkered-divider {
-            height: 20px;
-            background: repeating-linear-gradient(
-                45deg,
-                #efbd40 0,
-                #efbd40 10px,
-                #004ead 10px,
-                #004ead 20px
+        height: 20px;
+        background: repeating-linear-gradient(
+            45deg,
+            #004ead 0,
+            #004ead 10px,
+            #efbd40 10px,
+            #efbd40 20px
             );
         }
     </style>
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar">
+ <nav class="navbar">
     <div class="navbar-left">
       <a href="{% url 'home' %}">
         <img src="{% static 'static_media/prep&plate_logo_white.png' %}" alt="Prep & Plate Logo" class="logo">
@@ -275,9 +348,9 @@
     <div class="navbar-center">
       <a href="{% url 'home' %}">My Kitchen</a>
       <a href="{% url 'recipes_list' %}">My Recipes</a>
-      <a href="{% url 'browse_recipes' %}">Browse Recipes</a>
+      <a href="{% url 'browse_recipes' %}" class="active">Browse Recipes</a>
       <a href="{% url 'shopping_list' %}">Shopping List</a>
-      <a href="{% url 'community' %}" class="active">Community</a>
+      <a href="{% url 'community' %}">Community</a>
       <a href="{% url 'meal_plan' %}">Meal Plan</a>
     </div>
    
@@ -302,44 +375,44 @@
     </div>
    </nav>
 
-<!-- Page Header -->
-<div class="container">
-    <h1 class="header">Community Pantry</h1>
-</div>
 
-<!-- Request Ingredient Form -->
-<div class="form-container">
-    <h1 class="header">Request Ingredient</h1>
-    <form action="{% url 'blog:community_pantry_request' %}" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
 
-        <!-- Ingredient Selector with Datalist -->
-        <div class="mb-3">
-            <label for="ingredient_name" class="form-label">Select Ingredient</label>
-            <input list="ingredients-list" class="form-control" id="ingredient_name" name="ingredient_name" placeholder="Type to search..." required>
-            <input type="hidden" id="ingredient_id" name="ingredient">  
-            <datalist id="ingredients-list">
-                {% for ingredient in ingredients %}
-                    <option value="{{ ingredient.name }}" data-id="{{ ingredient.id }}"></option> 
-                {% endfor %}
-            </datalist>
-        </div>
+<!-- My Recipes -->
+<section class="recipes-section">
+    <h1 class="text-center" style="color: #f1ead0; font-family: Georgia, serif; font-weight: bold;">Discover Recipes</h1>
 
-        <!-- Quantity Selector -->
-        <div class="mb-3">
-            <label for="quantity" class="form-label">Quantity</label>
-            <div class="quantity-selector">
-                <button type="button" class="btn btn-secondary" onclick="changeQuantity(-1)">-</button>
-                <input type="number" class="quantity" id="quantity" name="quantity" value="1" min="1">
-                <button type="button" class="btn btn-secondary" onclick="changeQuantity(1)">+</button>
+    <div class="search-bar">
+        <input type="text" placeholder="Search recipes..." />
+        <button>Search</button>
+    </div>
+
+      
+    
+
+    <!-- Recipe List -->
+    <div class="container">
+        <div class="row">
+            {% for recipe in recipes %}
+            <div class="col-md-4 mb-4">
+                <div class="recipe-card">
+                    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="recipe-title text-left">{{ recipe.title }} <br>by {{ recipe.author }}</h4>
+          
+                        <a href="{% url 'edit_recipe' recipe.id %}" class="edit-icon">✏️</a>
+                    </div>
+                    <p class="recipe-details text-left">{{ recipe.category }}<br>{{ recipe.difficulty }}</p>
+                </div>
             </div>
+            {% endfor %}
         </div>
+    </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="submit-btn">Request Ingredients</button>
-    </form>
-</div>
-
+    <!-- Discover Button -->
+    <div class="text-center">
+        <button class="btn-discover">More</button>
+    </div>
+</section>
 
 <!-- Checkered Divider -->
 <div class="checkered-divider"></div>
@@ -372,47 +445,22 @@
         </div>
     </div>
 </div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-
-    document.getElementById("ingredient_name").addEventListener("input", function () {
-        const input = document.getElementById("ingredient_name");
-        const hiddenInput = document.getElementById("ingredient_id");
-        const datalistOptions = document.getElementById("ingredients-list").options;
-
-        hiddenInput.value = ""; 
-        for (let option of datalistOptions) {
-            if (option.value === input.value) {
-                hiddenInput.value = option.getAttribute("data-id"); 
-                break;
-            }
-        }
+    const notifBtn = document.getElementById('notification-btn');
+    const notifPanel = document.getElementById('notification-panel');
+  
+    notifBtn.addEventListener('click', () => {
+      notifPanel.classList.toggle('show');
     });
-
-    function changeQuantity(amount) {
-        const quantityInput = document.getElementById('quantity');
-        let currentValue = parseInt(quantityInput.value);
-
-        if (!isNaN(currentValue)) {
-            let newValue = currentValue + amount;
-            quantityInput.value = newValue > 0 ? newValue : 1;  
-        }
-    }
-
-  const notifBtn = document.getElementById('notification-btn');
-  const notifPanel = document.getElementById('notification-panel');
-
-  notifBtn.addEventListener('click', () => {
-    notifPanel.classList.toggle('show');
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!notifBtn.contains(e.target) && !notifPanel.contains(e.target)) {
-      notifPanel.classList.remove('show');
-    }
-  });
-</script>
-
+  
+    document.addEventListener('click', (e) => {
+      if (!notifBtn.contains(e.target) && !notifPanel.contains(e.target)) {
+        notifPanel.classList.remove('show');
+      }
+    });
+  </script>
 </body>
 </html>

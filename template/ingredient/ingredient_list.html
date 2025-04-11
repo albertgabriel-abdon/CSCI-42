@@ -278,6 +278,52 @@
     );
   }
 
+  .notification-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+#notification-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+#notification-btn img {
+  width: 28px;
+  height: 28px;
+}
+
+#notification-panel {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  width: 300px;
+  background-color: #fff;
+  border: 2px solid #003087;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  display: none;
+}
+
+#notification-panel.show {
+  display: block;
+}
+
+.notification-item {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+  color: #003087;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+
 </style>
 </head>
 <body>
@@ -301,7 +347,21 @@
   </div>
 
   <div class="navbar-right">
-    <a href="#"><img src="{% static 'static_media/bell.png' %}" alt="Notifications"></a>
+    <div class="notification-wrapper">
+      <button id="notification-btn">
+        <img src="{% static 'static_media/bell.png' %}" alt="Notifications" />
+      </button>
+      <div id="notification-panel" class="hidden">
+        {% for notification in notifications %}
+          <div class="notification-item">
+            {{ notification.message }}
+          </div>
+        {% empty %}
+          <div class="notification-item">You're all caught up!</div>
+        {% endfor %}
+      </div>
+    </div>
+  
     <a href="#"><img src="{% static 'static_media/user.png' %}" alt="User Profile"></a>
   </div>
 </nav>
@@ -367,6 +427,21 @@
     </div>
 </div>
 </footer>
+
+<script>
+  const notifBtn = document.getElementById('notification-btn');
+  const notifPanel = document.getElementById('notification-panel');
+
+  notifBtn.addEventListener('click', () => {
+    notifPanel.classList.toggle('show');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!notifBtn.contains(e.target) && !notifPanel.contains(e.target)) {
+      notifPanel.classList.remove('show');
+    }
+  });
+</script>
 
 {% endblock content %}
 </body>

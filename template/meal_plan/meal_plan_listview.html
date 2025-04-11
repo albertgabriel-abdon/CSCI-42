@@ -21,21 +21,96 @@
             font-size: 1.5rem; 
         }
         
-        /* Navbar */
         .navbar {
-            background-color: #097d4c;
-            padding: 20px;
-        }
-        .navbar a {
-            color: #f1ead1;
-            font-family: 'Poppins', sans-serif;
-            font-weight: bold;
-            text-decoration: none;
-            padding: 0 15px;
-        }
-        .navbar a:hover {
-            color: #efbd40;
-        }
+     background: #d14938;
+     color: #FFF;
+     padding: 20px 60px;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+   }
+  
+   /* Left: Logo */
+   .navbar-left img {
+     height: 50px;
+   }
+  
+   .navbar-left img:hover {
+     opacity: 0.8;
+   }
+  
+   /* Center: Navigation Links */
+   .navbar-center a {
+     color: #FFF;
+     font-size: 18px;
+     text-decoration: none;
+     margin: 0 20px;
+     transition: color 0.3s;
+   }
+  
+   .navbar-center a:hover,
+   .navbar-center a.active {
+     color: #F3B20C;
+   }
+  
+   /* Right: Icons */
+   .navbar-right img {
+     height: 28px;
+     margin-left: 20px;
+     cursor: pointer;
+     transition: opacity 0.3s;
+   }
+  
+   .navbar-right img:hover {
+     opacity: 0.8;
+   }
+
+        /* Notifications */
+
+     .notification-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+#notification-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+#notification-btn img {
+  width: 28px;
+  height: 28px;
+}
+
+#notification-panel {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  width: 300px;
+  background-color: #fff;
+  border: 2px solid #003087;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  display: none;
+}
+
+#notification-panel.show {
+  display: block;
+}
+
+.notification-item {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+  color: #003087;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
 
         /* Header */
         .header { 
@@ -199,15 +274,42 @@
 
 <!-- Navbar -->
 <nav class="navbar">
-    <div class="container">
-        <a href="#">My Kitchen</a>
-        <a href="#">Shopping List</a>
-        <a href="#">My Recipes</a>
-        <a href="#">Community</a>
-        <a href="#">Browse Recipes</a>
-        <a href="#">Meal Plan</a>
+    <div class="navbar-left">
+      <a href="{% url 'home' %}">
+        <img src="{% static 'static_media/prep&plate_logo_white.png' %}" alt="Prep & Plate Logo" class="logo">
+      </a>
     </div>
-</nav>
+   
+   
+    <div class="navbar-center">
+      <a href="{% url 'home' %}" class="active">My Kitchen</a>
+      <a href="{% url 'recipes_list' %}">My Recipes</a>
+      <a href="{% url 'browse_recipes' %}">Browse Recipes</a>
+      <a href="{% url 'shopping_list' %}">Shopping List</a>
+      <a href="{% url 'community' %}">Community</a>
+      <a href="{% url 'meal_plan' %}" class="active">Meal Plan</a>
+    </div>
+   
+   
+    <div class="navbar-right">
+      <div class="notification-wrapper">
+        <button id="notification-btn">
+          <img src="{% static 'static_media/bell.png' %}" alt="Notifications" />
+        </button>
+        <div id="notification-panel" class="hidden">
+          {% for notification in notifications %}
+            <div class="notification-item">
+              {{ notification.message }}
+            </div>
+          {% empty %}
+            <div class="notification-item">You're all caught up!</div>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <a href="#"><img src="{% static 'static_media/user.png' %}" alt="User Profile"></a>
+    </div>
+   </nav>
 
 <!-- Meal Plan Intro Section -->
 <div class="meal-intro">
@@ -284,5 +386,19 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const notifBtn = document.getElementById('notification-btn');
+    const notifPanel = document.getElementById('notification-panel');
+  
+    notifBtn.addEventListener('click', () => {
+      notifPanel.classList.toggle('show');
+    });
+  
+    document.addEventListener('click', (e) => {
+      if (!notifBtn.contains(e.target) && !notifPanel.contains(e.target)) {
+        notifPanel.classList.remove('show');
+      }
+    });
+  </script>
 </body>
 </html>
