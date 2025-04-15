@@ -34,7 +34,22 @@
             margin-bottom: 30px;
         }
         input[type="file"] {
-            border: none;
+            display: none;
+        }
+        .custom-file-label {
+            display: inline-block;
+            background-color: #d14938;
+            color: #efbd40;
+            font-weight: bold;
+            border-radius: 50px;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .custom-file-label:hover {
+            background-color: #efbd40;
+            color: #d14938;
         }
         .form-label {
             font-weight: bold;
@@ -190,8 +205,9 @@
 
         <!-- Image Upload -->
         <div class="form-group">
-            <label for="image" class="form-label">Ingredient Image:</label>
-            <input type="file" name="image" id="image" class="image">
+            <label for="image" class="form-label">Meal Plan Image</label><br>
+            <label for="image" class="custom-file-label">Choose File</label>
+            <input type="file" name="image" id="image">
         </div>
 
         <!-- Meal Plan Name -->
@@ -244,39 +260,44 @@
             </select>
         </div>
 
-        <!-- temporarily removed the table -->
-        <!--<div class="day">Sunday</div>
- 
-             <div class="meal">Breakfast</div>
-             <div class="recipe" data-meal="breakfast" data-day="monday"></div>
-             <div class="recipe" data-meal="breakfast" data-day="tuesday"></div>
-             <div class="recipe" data-meal="breakfast" data-day="wednesday"></div>
-             <div class="recipe" data-meal="breakfast" data-day="thursday"></div>
-             <div class="recipe" data-meal="breakfast" data-day="friday"></div>
-             <div class="recipe" data-meal="breakfast" data-day="saturday"></div>
-             <div class="recipe" data-meal="breakfast" data-day="sunday"></div>
+        <!-- Recipe Grid -->
+        <div class="recipe-grid">
+            <div class="day"> </div>
+            <div class="day">Monday</div>
+            <div class="day">Tuesday</div>
+            <div class="day">Wednesday</div>
+            <div class="day">Thursday</div>
+            <div class="day">Friday</div>
+            <div class="day">Saturday</div>
+            <div class="day">Sunday</div>
 
-             <div class="meal">Lunch</div>
-             <div class="recipe" data-meal="lunch" data-day="monday"></div>
-             <div class="recipe" data-meal="lunch" data-day="tuesday"></div>
-             <div class="recipe" data-meal="lunch" data-day="wednesday"></div>
-             <div class="recipe" data-meal="lunch" data-day="thursday"></div>
-             <div class="recipe" data-meal="lunch" data-day="friday"></div>
-             <div class="recipe" data-meal="lunch" data-day="saturday"></div>
-             <div class="recipe" data-meal="lunch" data-day="sunday"></div>
+            <div class="meal">Breakfast</div>
+            <div class="recipe" data-meal="breakfast" data-day="monday"></div>
+            <div class="recipe" data-meal="breakfast" data-day="tuesday"></div>
+            <div class="recipe" data-meal="breakfast" data-day="wednesday"></div>
+            <div class="recipe" data-meal="breakfast" data-day="thursday"></div>
+            <div class="recipe" data-meal="breakfast" data-day="friday"></div>
+            <div class="recipe" data-meal="breakfast" data-day="saturday"></div>
+            <div class="recipe" data-meal="breakfast" data-day="sunday"></div>
 
-             <div class="meal">Dinner</div>
-             <div class="recipe" data-meal="dinner" data-day="monday"></div>
-             <div class="recipe" data-meal="dinner" data-day="tuesday"></div>
-             <div class="recipe" data-meal="dinner" data-day="wednesday"></div>
-             <div class="recipe" data-meal="dinner" data-day="thursday"></div>
-             <div class="recipe" data-meal="dinner" data-day="friday"></div>
-             <div class="recipe" data-meal="dinner" data-day="saturday"></div>
-             <div class="recipe" data-meal="dinner" data-day="sunday"></div>
- 
-        
-        
-        -->
+            <div class="meal">Lunch</div>
+            <div class="recipe" data-meal="lunch" data-day="monday"></div>
+            <div class="recipe" data-meal="lunch" data-day="tuesday"></div>
+            <div class="recipe" data-meal="lunch" data-day="wednesday"></div>
+            <div class="recipe" data-meal="lunch" data-day="thursday"></div>
+            <div class="recipe" data-meal="lunch" data-day="friday"></div>
+            <div class="recipe" data-meal="lunch" data-day="saturday"></div>
+            <div class="recipe" data-meal="lunch" data-day="sunday"></div>
+
+            <div class="meal">Dinner</div>
+            <div class="recipe" data-meal="dinner" data-day="monday"></div>
+            <div class="recipe" data-meal="dinner" data-day="tuesday"></div>
+            <div class="recipe" data-meal="dinner" data-day="wednesday"></div>
+            <div class="recipe" data-meal="dinner" data-day="thursday"></div>
+            <div class="recipe" data-meal="dinner" data-day="friday"></div>
+            <div class="recipe" data-meal="dinner" data-day="saturday"></div>
+            <div class="recipe" data-meal="dinner" data-day="sunday"></div>
+        </div>
     
         <!-- Submit Button -->
         <div class="text-center mt-4">
