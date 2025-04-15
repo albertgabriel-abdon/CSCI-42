@@ -33,6 +33,9 @@
             color: #d14938;
             margin-bottom: 30px;
         }
+        input[type="file"] {
+            border: none;
+        }
         .form-label {
             font-weight: bold;
             color: #d14938;
@@ -184,6 +187,12 @@
 
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
+
+        <!-- Image Upload -->
+        <div class="form-group">
+            <label for="image" class="form-label">Ingredient Image:</label>
+            <input type="file" name="image" id="image" class="image">
+        </div>
 
         <!-- Meal Plan Name -->
         <div class="mb-3">
