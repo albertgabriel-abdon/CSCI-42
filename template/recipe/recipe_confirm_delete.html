@@ -1,10 +1,279 @@
 {% extends "blog/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create New Recipe - Prep & Plate</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f1ead1;
+        }
+        .navbar {
+            background: #004ead;
+            color: #FFF;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+        /* Left: Logo */
+        .navbar-left img {
+            height: 50px;
+        }
+        .navbar-left img:hover {
+            opacity: 0.8;
+        }
+        /* Center: Navigation Links */
+        .navbar-center a {
+            color: #FFF;
+            font-size: 18px;
+            text-decoration: none;
+            margin: 0 20px;
+            transition: color 0.3s;
+        }
+        .navbar-center a:hover, .navbar-center a.active {
+            color: #F3B20C;
+        }
+        .navbar-right img {
+            height: 28px;
+            margin-left: 20px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .navbar-right img:hover {
+            opacity: 0.8;
+        }
+        .notification-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        #notification-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+        #notification-btn img {
+            width: 28px;
+            height: 28px;
+        }
+        #notification-panel {
+            position: absolute;
+            right: 0;
+            top: 40px;
+            width: 300px;
+            background-color: #fff;
+            border: 2px solid #004ead;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            display: none;
+        }
+        #notification-panel.show {
+            display: block;
+        }
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 16px;
+            color: #004ead;
+        }
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            text-align: center;
+            color: #004ead;
+            margin-bottom: 30px;
+        }
+        .btn-custom {
+            width: 300px;
+            border-radius: 100px;
+            background-color: #efbd40;
+            color: #004ead;
+            font-weight: bold;
+            padding: 10px 20px;
+            transition: background-color 0.3s, color 0.3s;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: #097d4c;
+            color: #efbd40;
+        }
+        .footer {
+            background-color: #004ead;
+            padding: 30px;
+            color: #f1ead1;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1900px;
+            margin-left: 40px;
+            margin-right: 40px;
+            flex-wrap: wrap;
+        }
+        .footer-left {
+            flex: 1;
+            text-align: left;
+        }
+        .footer-left img {
+            width: 100px;
+        }
+        .footer-right {
+            flex: 4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .footer-top div {
+            flex: 1;
+            text-align: center;
+        }
+        .footer-bottom {
+            margin-top: 10px;
+            border-top: 2px solid #efbd40;
+            padding-top: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .footer-bottom a {
+            color: #f1ead1;
+            text-decoration: none;
+            font-size: 0.9rem;
+            flex: 2;
+        }
+        .footer-bottom a:hover {
+            text-decoration: underline;
+            color: #eb8917;
+        }
+        .checkered-divider {
+            height: 20px;
+            margin-top: 50px;
+            background: repeating-linear-gradient(
+                45deg,
+                #efbd40 0,
+                #efbd40 10px,
+                #f1ead0 10px,
+                #f1ead0 20px
+            );
+        }
+    </style>
+</head>
 
-{% block content %}
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-left">
+          <a href="{% url 'home' %}">
+            <img src="{% static 'static_media/prep&plate_logo_white.png' %}" alt="Prep & Plate Logo" class="logo">
+          </a>
+        </div>
+       
+       
+        <div class="navbar-center">
+          <a href="{% url 'home' %}" >My Kitchen</a>
+          <a href="{% url 'recipes_list' %}" class="active">My Recipes</a>
+          <a href="{% url 'browse_recipes' %}">Browse Recipes</a>
+          <a href="{% url 'shopping_list' %}">Shopping List</a>
+          <a href="{% url 'community' %}">Community</a>
+          <a href="{% url 'meal_plan' %}">Meal Plan</a>
+        </div>
+       
+       
+        <div class="navbar-right">
+          <div class="notification-wrapper">
+            <button id="notification-btn">
+              <img src="{% static 'static_media/bell.png' %}" alt="Notifications" />
+            </button>
+            <div id="notification-panel" class="hidden">
+              {% for notification in notifications %}
+                <div class="notification-item">
+                  {{ notification.message }}
+                </div>
+              {% empty %}
+                <div class="notification-item">You're all caught up!</div>
+              {% endfor %}
+            </div>
+          </div>
+          
+          <a href="#"><img src="{% static 'static_media/user.png' %}" alt="User Profile"></a>
+        </div>
+       </nav>
+
+<!-- Content -->
 <h2>Are you sure you want to delete "{{ recipe.name }}"?</h2>
-<form method="post">
+<form method="post" class="d-flex flex-column align-items-center gap-3">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <a href="{% url 'blog:recipe_detail' recipe.pk %}" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-custom">Delete</button>
+    <a href="{% url 'blog:recipe_detail' recipe.pk %}" class="btn btn-custom">Cancel</a>
 </form>
-{% endblock %}
+
+
+<!-- Checkered Divider -->
+<div class="checkered-divider"></div>
+
+<!-- Footer -->
+<div class="footer">
+    <div class="footer-content">
+        <div class="footer-left">
+            <img src="{% static '' %}" alt="Prep & Plate Logo">
+        </div>
+        <div class="footer-right">
+            <div class="footer-top">
+                <div>
+                    <p>Prep Smart. Plate Perfect.<span style="color:#efbd40; font-weight:bold;"> Savor More.</span></p>
+                </div>
+                <div>
+                    <p>123 Anywhere St., Any City, ST 12345</p>
+                </div>
+                <div>
+                    <p>Contact Us at 123-456-7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <a href="#">Help</a>
+                <a href="#">Community Guidelines</a>
+                <a href="#">Copyright Policy</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">User Agreement</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const notifBtn = document.getElementById('notification-btn');
+    const notifPanel = document.getElementById('notification-panel');
+  
+    notifBtn.addEventListener('click', () => {
+      notifPanel.classList.toggle('show');
+    });
+  
+    document.addEventListener('click', (e) => {
+      if (!notifBtn.contains(e.target) && !notifPanel.contains(e.target)) {
+        notifPanel.classList.remove('show');
+      }
+    });
+
+  </script>
+</body>
+</html>
