@@ -113,6 +113,26 @@
             font-weight: bold;
             color: #004ead;
         }
+        /* Image Upload Field */
+        input[type="file"] {
+        display: none; /* Hide the default file input */
+        }
+
+        .custom-file-label {
+            display: inline-block;
+            background-color: #004ead;
+            color: #efbd40;
+            font-weight: bold;
+            border-radius: 50px;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .custom-file-label:hover {
+            background-color: #097d4c;
+            color: #f1ead1;
+        }
         .form-control, .form-select {
             font-family: 'Poppins', sans-serif;
             border-radius: 50px;
@@ -251,9 +271,16 @@
 <div class="container mt-5">
     <h1>Create New Recipe</h1>
     <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+
+        <!-- Image Upload -->
+        <div class="form-group">
+          <label for="image" class="form-label">Recipe Image</label><br>
+          <label for="image" class="custom-file-label">Choose File</label>
+          <input type="file" name="image" id="image">
+        </div>
 
         <!-- Recipe Name -->
+        <br>
         <div class="mb-3">
             <label for="recipe_name" class="form-label">Recipe Name</label>
             <input type="text" class="form-control" id="recipe_name" name="recipe_name" placeholder="Enter recipe name" required>
@@ -297,8 +324,11 @@
 
         <!-- Preparation Time (Time Field) -->
         <div class="mb-3">
-            <label for="prep_time" class="form-label">Preparation Time</label>
-            <input type="time" class="form-control" id="prep_time" name="prep_time" placeholder=" Enter preparation time">
+          <label for="prep_time" class="form-label">Preparation Time</label>
+          <div class="d-flex gap-2">
+              <input type="number" class="form-control" id="prep_hours" name="prep_hours" placeholder="Hours" min="0" required>
+              <input type="number" class="form-control" id="prep_minutes" name="prep_minutes" placeholder="Minutes" min="0" max="59" required>
+          </div>
         </div>
 
         <!-- Calories (Number Field) -->
@@ -319,10 +349,16 @@
             <textarea class="form-control" id="description" name="description" rows="3" placeholder=" Enter description"></textarea>
         </div>
 
-        <!-- Ingredients (Long Form) -->
+        <!-- Ingredients -->
         <div class="mb-3">
-            <label for="ingredients" class="form-label">Ingredients</label>
-            <textarea class="form-control" id="ingredients" name="ingredients" rows="3" placeholder=" Enter ingredients"></textarea>
+          <label for="ingredients" class="form-label">Ingredients</label>
+          <div id="ingredients-container">
+              <div class="d-flex gap-2 mb-2">
+                  <input type="number" class="form-control" name="ingredient_quantity[]" placeholder="Quantity (g)" min="0" required>
+                  <input type="text" class="form-control" name="ingredient_name[]" placeholder="Ingredient Name" required>
+              </div>
+          </div>
+          <button type="button" class="btn btn-custom mt-2" id="add-ingredient">Add Ingredient</button>
         </div>
 
         <!-- Instructions (Long Form) -->
@@ -386,6 +422,18 @@
         notifPanel.classList.remove('show');
       }
     });
+
+    document.getElementById('add-ingredient').addEventListener('click', function () {
+        const container = document.getElementById('ingredients-container');
+        const newRow = document.createElement('div');
+        newRow.classList.add('d-flex', 'gap-2', 'mb-2');
+        newRow.innerHTML = `
+            <input type="number" class="form-control" name="ingredient_quantity[]" placeholder="Quantity (g)" min="0" required>
+            <input type="text" class="form-control" name="ingredient_name[]" placeholder="Ingredient Name" required>
+        `;
+        container.appendChild(newRow);
+    });
+
   </script>
 </body>
 </html>

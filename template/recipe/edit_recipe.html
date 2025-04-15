@@ -110,6 +110,23 @@
             color: #004ead;
             margin-bottom: 30px;
         }
+        input[type="file"] {
+          display: none;
+        }
+        .custom-file-label {
+            display: inline-block;
+            background-color: #004ead;
+            color: #efbd40;
+            font-weight: bold;
+            border-radius: 50px;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .custom-file-label:hover {
+            background-color: #097d4c;
+            color: #f1ead1;
+        }
         .form-label {
             font-weight: bold;
             color: #004ead;
@@ -127,6 +144,7 @@
         }
         .btn-custom {
             width: 300px;
+            height: 60px;
             border-radius: 100px;
             background-color: #efbd40;
             color: #004ead;
@@ -219,9 +237,16 @@
 <div class="container mt-5">
     <h1>Edit Recipe</h1>
     <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+
+        <!-- Image Upload -->
+        <div class="form-group">
+          <label for="image" class="form-label">Recipe Image</label><br>
+          <label for="image" class="custom-file-label">Choose File</label>
+          <input type="file" name="image" id="image">
+        </div>
 
         <!-- Recipe Name -->
+        <br>
         <div class="mb-3">
             <label for="recipe_name" class="form-label">Recipe Name</label>
             <input type="text" class="form-control" id="recipe_name" name="recipe_name" value="{{ recipe.recipe_name }}" required>
@@ -262,11 +287,14 @@
 
         <!-- Other Fields (Same as Create Page) -->
         <div class="mb-3">
-            <label for="prep_time" class="form-label">Preparation Time</label>
-            <input type="time" class="form-control" id="prep_time" name="prep_time" value="{{ recipe.prep_time }}">
+          <label for="prep_time" class="form-label">Preparation Time</label>
+          <div class="d-flex gap-2">
+              <input type="number" class="form-control" id="prep_hours" name="prep_hours" placeholder="Hours" min="0" required>
+              <input type="number" class="form-control" id="prep_minutes" name="prep_minutes" placeholder="Minutes" min="0" max="59" required>
+          </div>
         </div>
         <div class="mb-3">
-            <label for="calories" class="form-label">Calories</label>
+            <label for="calories" class="form-label">Calories (per 100g)</label>
             <input type="number" class="form-control" id="calories" name="calories" value="{{ recipe.calories }}">
         </div>
         <div class="mb-3">
@@ -277,15 +305,24 @@
             <label for="description" class="form-label">Description</label>
             <textarea class="form-control" id="description" name="description" rows="3">{{ recipe.description }}</textarea>
         </div>
+        <div class="mb-3">
+          <label for="ingredients" class="form-label">Ingredients</label>
+          <div id="ingredients-container">
+              <div class="d-flex gap-2 mb-2">
+                  <input type="number" class="form-control" name="ingredient_quantity[]" placeholder="Quantity (g)" min="0" required>
+                  <input type="text" class="form-control" name="ingredient_name[]" placeholder="Ingredient Name" required>
+              </div>
+          </div>
+          <button type="button" class="btn btn-custom mt-2" id="add-ingredient">Add Ingredient</button>
+        </div>
 
         <!-- Buttons -->
-        <div class="d-flex justify-content-between align-items-center mt-4">
-            <div>
-                <button type="submit" class="btn btn-custom">Save</button>
-                <a href="{% url 'recipe_list' %}" class="btn btn-custom ms-2">Discard</a>
-            </div>
-            <a href="{% url 'delete_recipe' recipe.id %}" class="btn-delete">🗑️</a>
+        <div class="d-flex justify-content-center align-items-center mt-4 gap-3">
+          <button type="submit" class="btn btn-custom">Save</button>
+          <a href="{% url 'recipe_list' %}" class="btn btn-custom">Discard Edit</a>
+          <a href="{% url 'delete_recipe' recipe.id %}" class="btn-delete">🗑️</a>
         </div>
+
     </form>
 </div>
 
@@ -297,12 +334,12 @@
 <div class="footer">
     <div class="footer-content">
         <div class="footer-left">
-            <img src="{% static 'img/logo.png' %}" alt="Prep & Plate Logo">
+            <img src="{% static '' %}" alt="Prep & Plate Logo">
         </div>
         <div class="footer-right">
             <div class="footer-top">
                 <div>
-                    <p>Prep Smart. Plate Perfect.<span style="color:#f8c30c; font-weight:bold;"> Savor More.</span></p>
+                    <p>Prep Smart. Plate Perfect.<span style="color:#efbd40; font-weight:bold;"> Savor More.</span></p>
                 </div>
                 <div>
                     <p>123 Anywhere St., Any City, ST 12345</p>
@@ -321,7 +358,6 @@
         </div>
     </div>
 </div>
-</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -337,6 +373,18 @@
         notifPanel.classList.remove('show');
       }
     });
+
+    document.getElementById('add-ingredient').addEventListener('click', function () {
+        const container = document.getElementById('ingredients-container');
+        const newRow = document.createElement('div');
+        newRow.classList.add('d-flex', 'gap-2', 'mb-2');
+        newRow.innerHTML = `
+            <input type="number" class="form-control" name="ingredient_quantity[]" placeholder="Quantity (g)" min="0" required>
+            <input type="text" class="form-control" name="ingredient_name[]" placeholder="Ingredient Name" required>
+        `;
+        container.appendChild(newRow);
+    });
+
   </script>
 </body>
 </html>
