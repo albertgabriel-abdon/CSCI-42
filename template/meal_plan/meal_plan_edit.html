@@ -320,41 +320,41 @@
 
         <!-- Recipe Grid -->
         <div class="recipe-grid">
-            <div class="day"> </div>
-            <div class="day">Monday</div>
-            <div class="day">Tuesday</div>
-            <div class="day">Wednesday</div>
-            <div class="day">Thursday</div>
-            <div class="day">Friday</div>
-            <div class="day">Saturday</div>
-            <div class="day">Sunday</div>
+          <div class="day"> </div>
+          <div class="day">Monday</div>
+          <div class="day">Tuesday</div>
+          <div class="day">Wednesday</div>
+          <div class="day">Thursday</div>
+          <div class="day">Friday</div>
+          <div class="day">Saturday</div>
+          <div class="day">Sunday</div>
 
-            <div class="meal">Breakfast</div>
-            <div class="recipe" data-meal="breakfast" data-day="monday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="tuesday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="wednesday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="thursday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="friday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="saturday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="sunday"></div>
+          <div class="meal">Breakfast</div>
+          <div class="recipe" data-meal="breakfast" data-day="monday">Select a Recipe</div>
+          <div class="recipe" data-meal="breakfast" data-day="tuesday">Select a Recipe</div>
+          <div class="recipe" data-meal="breakfast" data-day="wednesday">Select a Recipe</div>
+          <div class="recipe" data-meal="breakfast" data-day="thursday">Select a Recipe</div>
+          <div class="recipe" data-meal="breakfast" data-day="friday">Select a Recipe</div>
+          <div class="recipe" data-meal="breakfast" data-day="saturday">Select a Recipe</div>
+          <div class="recipe" data-meal="breakfast" data-day="sunday">Select a Recipe</div>
 
-            <div class="meal">Lunch</div>
-            <div class="recipe" data-meal="lunch" data-day="monday"></div>
-            <div class="recipe" data-meal="lunch" data-day="tuesday"></div>
-            <div class="recipe" data-meal="lunch" data-day="wednesday"></div>
-            <div class="recipe" data-meal="lunch" data-day="thursday"></div>
-            <div class="recipe" data-meal="lunch" data-day="friday"></div>
-            <div class="recipe" data-meal="lunch" data-day="saturday"></div>
-            <div class="recipe" data-meal="lunch" data-day="sunday"></div>
+          <div class="meal">Lunch</div>
+          <div class="recipe" data-meal="lunch" data-day="monday">Select a Recipe</div>
+          <div class="recipe" data-meal="lunch" data-day="tuesday">Select a Recipe</div>
+          <div class="recipe" data-meal="lunch" data-day="wednesday">Select a Recipe</div>
+          <div class="recipe" data-meal="lunch" data-day="thursday">Select a Recipe</div>
+          <div class="recipe" data-meal="lunch" data-day="friday">Select a Recipe</div>
+          <div class="recipe" data-meal="lunch" data-day="saturday">Select a Recipe</div>
+          <div class="recipe" data-meal="lunch" data-day="sunday">Select a Recipe</div>
 
-            <div class="meal">Dinner</div>
-            <div class="recipe" data-meal="dinner" data-day="monday"></div>
-            <div class="recipe" data-meal="dinner" data-day="tuesday"></div>
-            <div class="recipe" data-meal="dinner" data-day="wednesday"></div>
-            <div class="recipe" data-meal="dinner" data-day="thursday"></div>
-            <div class="recipe" data-meal="dinner" data-day="friday"></div>
-            <div class="recipe" data-meal="dinner" data-day="saturday"></div>
-            <div class="recipe" data-meal="dinner" data-day="sunday"></div>
+          <div class="meal">Dinner</div>
+          <div class="recipe" data-meal="dinner" data-day="monday">Select a Recipe</div>
+          <div class="recipe" data-meal="dinner" data-day="tuesday">Select a Recipe</div>
+          <div class="recipe" data-meal="dinner" data-day="wednesday">Select a Recipe</div>
+          <div class="recipe" data-meal="dinner" data-day="thursday">Select a Recipe</div>
+          <div class="recipe" data-meal="dinner" data-day="friday">Select a Recipe</div>
+          <div class="recipe" data-meal="dinner" data-day="saturday">Select a Recipe</div>
+          <div class="recipe" data-meal="dinner" data-day="sunday">Select a Recipe</div>
         </div>
 
         <!-- Buttons -->
@@ -399,7 +399,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-<<<<<<< HEAD:template/meal_plan/meal_plan_edit.html
     document.querySelectorAll('.recipe').forEach(square => {
         square.addEventListener('click', function() {
             const meal = this.getAttribute('data-meal');
@@ -412,8 +411,18 @@
             }
         });
     });
+
+    document.querySelectorAll('.recipe').forEach(square => {
+        square.addEventListener('click', function() {
+            const meal = this.getAttribute('data-meal');
+            const day = this.getAttribute('data-day');
+            const recipeUrl = prompt(`Enter the URL of the recipe for ${meal} on ${day}:`);
+            if (recipeUrl) {
+                this.innerHTML = `<img src="${recipeUrl}" alt="Recipe Image">`;
+            }
+        });
+    });
 </script>
-=======
     const notifBtn = document.getElementById('notification-btn');
     const notifPanel = document.getElementById('notification-panel');
   
@@ -427,6 +436,5 @@
       }
     });
   </script>
->>>>>>> Michelle-CSS:template/meal_plan/edit_meal_plan.html
 </body>
 </html>

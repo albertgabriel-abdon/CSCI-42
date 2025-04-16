@@ -14,17 +14,75 @@
             background-color: #f1ead1;
         }
         .navbar {
-            background-color: #d14938;
-            padding: 20px;
+          background: #d14938;
+          color: #FFF;
+          padding: 20px 60px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
         }
-        .navbar a {
-            color: #f1ead1;
-            font-weight: bold;
-            text-decoration: none;
-            padding: 0 15px;
+        .navbar-left img {
+          height: 50px;
+        }        
+        .navbar-left img:hover {
+          opacity: 0.8;
         }
-        .navbar a:hover {
-            color: #efbd40;
+        .navbar-center a {
+          color: #FFF;
+          font-size: 18px;
+          text-decoration: none;
+          margin: 0 20px;
+          transition: color 0.3s;
+        }        
+        .navbar-center a:hover, .navbar-center a.active {
+          color: #F3B20C;
+        }
+        .navbar-right img {
+          height: 28px;
+          margin-left: 20px;
+          cursor: pointer;
+          transition: opacity 0.3s;
+        }
+        .navbar-right img:hover {
+          opacity: 0.8;
+        }
+        .notification-wrapper {
+          position: relative;
+          display: inline-block;
+        }
+        #notification-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 5px;
+        }
+        #notification-btn img {
+          width: 28px;
+          height: 28px;
+        }
+        #notification-panel {
+          position: absolute;
+          right: 0;
+          top: 40px;
+          width: 300px;
+          background-color: #fff;
+          border: 2px solid #003087;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          z-index: 100;
+          display: none;
+        }
+        #notification-panel.show {
+          display: block;
+        }
+        .notification-item {
+          padding: 15px;
+          border-bottom: 1px solid #eee;
+          font-size: 16px;
+          color: #003087;
+        }
+        .notification-item:last-child {
+          border-bottom: none;
         }
         h1 {
             font-family: 'Georgia', serif;
@@ -186,15 +244,43 @@
 
 <!-- Navbar -->
 <nav class="navbar">
-    <div class="container">
-        <a href="#">My Kitchen</a>
-        <a href="#">Shopping List</a>
-        <a href="#">My Recipes</a>
-        <a href="#">Community</a>
-        <a href="#">Browse Recipes</a>
-        <a href="#">Meal Plan</a>
+    <div class="navbar-left">
+      <a href="{% url 'home' %}">
+        <img src="{% static 'static_media/prep&plate_logo_white.png' %}" alt="Prep & Plate Logo" class="logo">
+      </a>
     </div>
-</nav>
+   
+   
+    <div class="navbar-center">
+      <a href="{% url 'home' %}" >My Kitchen</a>
+      <a href="{% url 'recipes_list' %}">My Recipes</a>
+      <a href="{% url 'browse_recipes' %}">Browse Recipes</a>
+      <a href="{% url 'shopping_list' %}">Shopping List</a>
+      <a href="{% url 'community' %}">Community</a>
+      <a href="{% url 'meal_plan' %}" class="active">Meal Plan</a>
+    </div>
+   
+   
+    <div class="navbar-right">
+      <div class="notification-wrapper">
+        <button id="notification-btn">
+          <img src="{% static 'static_media/bell.png' %}" alt="Notifications" />
+        </button>
+        <div id="notification-panel" class="hidden">
+          {% for notification in notifications %}
+            <div class="notification-item">
+              {{ notification.message }}
+            </div>
+          {% empty %}
+            <div class="notification-item">You're all caught up!</div>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <a href="#"><img src="{% static 'static_media/user.png' %}" alt="User Profile"></a>
+    </div>
+   </nav>
+
 
 <!-- Create Recipe Form -->
 <div class="container mt-5">
@@ -272,31 +358,31 @@
             <div class="day">Sunday</div>
 
             <div class="meal">Breakfast</div>
-            <div class="recipe" data-meal="breakfast" data-day="monday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="tuesday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="wednesday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="thursday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="friday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="saturday"></div>
-            <div class="recipe" data-meal="breakfast" data-day="sunday"></div>
+            <div class="recipe" data-meal="breakfast" data-day="monday">Select a Recipe</div>
+            <div class="recipe" data-meal="breakfast" data-day="tuesday">Select a Recipe</div>
+            <div class="recipe" data-meal="breakfast" data-day="wednesday">Select a Recipe</div>
+            <div class="recipe" data-meal="breakfast" data-day="thursday">Select a Recipe</div>
+            <div class="recipe" data-meal="breakfast" data-day="friday">Select a Recipe</div>
+            <div class="recipe" data-meal="breakfast" data-day="saturday">Select a Recipe</div>
+            <div class="recipe" data-meal="breakfast" data-day="sunday">Select a Recipe</div>
 
             <div class="meal">Lunch</div>
-            <div class="recipe" data-meal="lunch" data-day="monday"></div>
-            <div class="recipe" data-meal="lunch" data-day="tuesday"></div>
-            <div class="recipe" data-meal="lunch" data-day="wednesday"></div>
-            <div class="recipe" data-meal="lunch" data-day="thursday"></div>
-            <div class="recipe" data-meal="lunch" data-day="friday"></div>
-            <div class="recipe" data-meal="lunch" data-day="saturday"></div>
-            <div class="recipe" data-meal="lunch" data-day="sunday"></div>
+            <div class="recipe" data-meal="lunch" data-day="monday">Select a Recipe</div>
+            <div class="recipe" data-meal="lunch" data-day="tuesday">Select a Recipe</div>
+            <div class="recipe" data-meal="lunch" data-day="wednesday">Select a Recipe</div>
+            <div class="recipe" data-meal="lunch" data-day="thursday">Select a Recipe</div>
+            <div class="recipe" data-meal="lunch" data-day="friday">Select a Recipe</div>
+            <div class="recipe" data-meal="lunch" data-day="saturday">Select a Recipe</div>
+            <div class="recipe" data-meal="lunch" data-day="sunday">Select a Recipe</div>
 
             <div class="meal">Dinner</div>
-            <div class="recipe" data-meal="dinner" data-day="monday"></div>
-            <div class="recipe" data-meal="dinner" data-day="tuesday"></div>
-            <div class="recipe" data-meal="dinner" data-day="wednesday"></div>
-            <div class="recipe" data-meal="dinner" data-day="thursday"></div>
-            <div class="recipe" data-meal="dinner" data-day="friday"></div>
-            <div class="recipe" data-meal="dinner" data-day="saturday"></div>
-            <div class="recipe" data-meal="dinner" data-day="sunday"></div>
+            <div class="recipe" data-meal="dinner" data-day="monday">Select a Recipe</div>
+            <div class="recipe" data-meal="dinner" data-day="tuesday">Select a Recipe</div>
+            <div class="recipe" data-meal="dinner" data-day="wednesday">Select a Recipe</div>
+            <div class="recipe" data-meal="dinner" data-day="thursday">Select a Recipe</div>
+            <div class="recipe" data-meal="dinner" data-day="friday">Select a Recipe</div>
+            <div class="recipe" data-meal="dinner" data-day="saturday">Select a Recipe</div>
+            <div class="recipe" data-meal="dinner" data-day="sunday">Select a Recipe</div>
         </div>
     
         <!-- Submit Button -->
@@ -349,6 +435,17 @@
             const day = this.getAttribute('data-day');
             // Open a modal or a new page to select a recipe
             // For simplicity, we'll use a prompt here
+            const recipeUrl = prompt(`Enter the URL of the recipe for ${meal} on ${day}:`);
+            if (recipeUrl) {
+                this.innerHTML = `<img src="${recipeUrl}" alt="Recipe Image">`;
+            }
+        });
+    });
+
+    document.querySelectorAll('.recipe').forEach(square => {
+        square.addEventListener('click', function() {
+            const meal = this.getAttribute('data-meal');
+            const day = this.getAttribute('data-day');
             const recipeUrl = prompt(`Enter the URL of the recipe for ${meal} on ${day}:`);
             if (recipeUrl) {
                 this.innerHTML = `<img src="${recipeUrl}" alt="Recipe Image">`;
