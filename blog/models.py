@@ -7,6 +7,7 @@ from django.apps import apps
 from django.utils.timezone import now
 from django.utils.timesince import timesince
   
+  
 class ArticleCategory(models.Model):
    name = models.CharField(max_length=255, null=True)
    description = models.TextField()
@@ -284,7 +285,7 @@ class Ingredient(models.Model):
     
     def nutrition(self):
         return getattr(self, 'nutrition', None)
-    
+
 class UserRequest(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
