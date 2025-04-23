@@ -6,8 +6,8 @@ from django.urls import reverse
 from django.db import IntegrityError
 from django.views.generic import TemplateView
 from datetime import datetime
-from django.utils import timezone
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 
 from django.views.generic.edit import FormView
 from django.views.generic import DeleteView, CreateView
@@ -21,12 +21,14 @@ from .models import (Article, ArticleCategory,
                      Comment, Recipe, MealPlan,
                      InventoryManager, Ingredient, 
                      NutritionalInformation, GroceryList,
-                     UserRequest
+                    UserRequest
                      )
 from .forms import (ArticleForm, CommentForm, 
                     RecipeForm, RecipeAddForm, 
                     IngredientForm, InventoryEditForm,
-                    MealPlanForm)
+                    MealPlanForm
+                    )
+from accounts.forms import LoginForm
 
 from django.shortcuts import get_object_or_404, redirect
 from django.views import View
@@ -43,10 +45,26 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from .models import Recipe
 
+class LoginView(FormView):
+    template_name = 'registration/login.html'
+    form_class = LoginForm
+    success_url = reverse_lazy('blog:home') 
+
+    def form_valid(self, form):
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+        user = authenticate(self.request, username=username, password=password)
+        if user is not None:
+            login(self.request, user)
+            return super().form_valid(form)
+        else:
+            form.add_error(None, "Invalid username or password")
+            return self.form_invalid(form)
+        
 class UserMealPlanCreateView(CreateView):
     model = MealPlan
     form_class = MealPlanForm
-    template_name = 'meal_plan/meal_plan_create.html'
+    template_name = 'meal_plan/create_mealplan.html'
     success_url = reverse_lazy('blog:mealplans_list') 
 
     def form_valid(self, form):
@@ -59,7 +77,7 @@ class UserMealPlanCreateView(CreateView):
 
 class UserMealPlanListView(LoginRequiredMixin, ListView):
     model = MealPlan
-    template_name = 'meal_plan/meal_plan_listview.html.html'
+    template_name = 'meal_plan/meal_plan_list_view.html'
     context_object_name = 'mealplans'
 
     def get_queryset(self):
@@ -77,7 +95,7 @@ class UserMealPlanListView(LoginRequiredMixin, ListView):
     
 class UserRecipeListView(LoginRequiredMixin, ListView):
     model = Recipe
-    template_name = 'recipe_listview..html'
+    template_name = 'recipe_list_view.html'
     context_object_name = 'user_recipes' 
     
     def get_queryset(self):
