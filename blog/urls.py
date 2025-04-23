@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from .views import (RecipeDetailView, ArticleListView, 
                     MealPlanListView, 
                     MealPlanDetailView, MealPlanCreateView, 
@@ -7,12 +8,18 @@ from .views import (RecipeDetailView, ArticleListView,
                     RecipeAddView, RecipeAddFormView,
                     RecipeCreateView, InventoryCreateView,InventoryDeleteView, 
                     InventoryListView, IngredientCreateView,
-                    InventoryDetailView, GroceryListView, HomeView,
+                    InventoryDetailView, GroceryListView, LoginView, 
+                    HomeView,
                     CommunityPantryListView, CommunityPantryDetailView,
                     CommunityPantryRequestView, UserRecipeListView,
                     UserMealPlanListView, UserMealPlanCreateView
+
+
+
                     )
 urlpatterns = [
+    path('accounts/login/', LoginView.as_view(), name='login'),
+    path('accounts/password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
 
     path('recipes/', UserRecipeListView.as_view(), name='recipe_list'),
     path('mealplans/', UserMealPlanListView.as_view(), name='mealplans_list'),
@@ -46,6 +53,8 @@ urlpatterns = [
 
     path('ingredient/new/', IngredientCreateView.as_view(), name='ingredient_create'),
     path("grocerylist/", GroceryListView.as_view(), name="grocery_list"),
+
+
 ]
 
 
