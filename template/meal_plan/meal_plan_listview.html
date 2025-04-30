@@ -21,96 +21,42 @@
             font-size: 1.5rem; 
         }
         
+        /* Navbar */
         .navbar {
-     background: #d14938;
-     color: #FFF;
-     padding: 20px 60px;
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
-   }
-  
-   /* Left: Logo */
-   .navbar-left img {
-     height: 50px;
-   }
-  
-   .navbar-left img:hover {
-     opacity: 0.8;
-   }
-  
-   /* Center: Navigation Links */
-   .navbar-center a {
-     color: #FFF;
-     font-size: 18px;
-     text-decoration: none;
-     margin: 0 20px;
-     transition: color 0.3s;
-   }
-  
-   .navbar-center a:hover,
-   .navbar-center a.active {
-     color: #F3B20C;
-   }
-  
-   /* Right: Icons */
-   .navbar-right img {
-     height: 28px;
-     margin-left: 20px;
-     cursor: pointer;
-     transition: opacity 0.3s;
-   }
-  
-   .navbar-right img:hover {
-     opacity: 0.8;
-   }
-
-        /* Notifications */
-
-     .notification-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-#notification-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 5px;
-}
-
-#notification-btn img {
-  width: 28px;
-  height: 28px;
-}
-
-#notification-panel {
-  position: absolute;
-  right: 0;
-  top: 40px;
-  width: 300px;
-  background-color: #fff;
-  border: 2px solid #003087;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  display: none;
-}
-
-#notification-panel.show {
-  display: block;
-}
-
-.notification-item {
-  padding: 15px;
-  border-bottom: 1px solid #eee;
-  font-size: 16px;
-  color: #003087;
-}
-
-.notification-item:last-child {
-  border-bottom: none;
-}
+            background-color: #097d4c;
+            padding: 20px;
+        }
+        .navbar a {
+            color: #f1ead1;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+        .navbar a:hover {
+            color: #efbd40;
+        }
+        .logout button {
+            width: 100px;
+            height: 40px; 
+            background: #f1ead0;
+            border: none;
+            border-radius: 5px; 
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: Georgia, serif;
+            font-weight: bold;
+            color: #004ead;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .logout button:hover {
+            transform: scale(1.05);
+        }
 
         /* Header */
         .header { 
@@ -274,42 +220,29 @@
 
 <!-- Navbar -->
 <nav class="navbar">
-    <div class="navbar-left">
-      <a href="{% url 'home' %}">
-        <img src="{% static 'static_media/prep&plate_logo_white.png' %}" alt="Prep & Plate Logo" class="logo">
-      </a>
-    </div>
-   
-   
-    <div class="navbar-center">
-      <a href="{% url 'home' %}" class="active">My Kitchen</a>
-      <a href="{% url 'recipes_list' %}">My Recipes</a>
-      <a href="{% url 'browse_recipes' %}">Browse Recipes</a>
-      <a href="{% url 'shopping_list' %}">Shopping List</a>
-      <a href="{% url 'community' %}">Community</a>
-      <a href="{% url 'meal_plan' %}" class="active">Meal Plan</a>
-    </div>
-   
-   
-    <div class="navbar-right">
-      <div class="notification-wrapper">
-        <button id="notification-btn">
-          <img src="{% static 'static_media/bell.png' %}" alt="Notifications" />
-        </button>
-        <div id="notification-panel" class="hidden">
-          {% for notification in notifications %}
-            <div class="notification-item">
-              {{ notification.message }}
-            </div>
-          {% empty %}
-            <div class="notification-item">You're all caught up!</div>
-          {% endfor %}
+    <div class="container">
+        <a href="{% url 'cookapp:home' %}">Home</a>
+        <a href="{% url 'cookapp:inventory_list' %}">My Kitchen</a>
+        <a href="{% url 'cookapp:grocery_list' %}">Shopping List</a>
+        <a href="{% url 'cookapp:recipe_list' %}">My Recipes</a>
+        <a href="{% url 'cookapp:community_pantry_list' %}">Community Pantry</a>
+        <a href="#">Browse Recipes</a>
+        <a href="{% url 'cookapp:mealplan_list' %}">Meal Plan</a>
+        <div class="logout">
+            {% if request.user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">LOGOUT</button>
+                </form>
+            {% else %}
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">LOGIN</button>
+                </form>
+            {% endif %}
         </div>
-      </div>
-      
-      <a href="#"><img src="{% static 'static_media/user.png' %}" alt="User Profile"></a>
     </div>
-   </nav>
+</nav>
 
 <!-- Meal Plan Intro Section -->
 <div class="meal-intro">
@@ -317,8 +250,8 @@
     <p class="brush">Share your meal plan and recipes!</p>
     <p style="margin-left: 10%; margin-right: 10%;">Why keep your delicious plans to yourself? With Prep & Plate’s Meal Plan Sharing, you can share your weekly menus and favorite recipes with family, friends, or fellow foodies. Swap ideas, discover new dishes, and stay inspired together. Meal prep just got a whole lot more fun—because good food is even better when shared!</p>
     <br>
-
-    <form action="{% url 'blog:mealplans_create' %}" method="get">
+    
+    <form action="{% url 'cookapp:mealplans_create' %}" method="get">
         <button class="btn btn-create" type="submit">CREATE MEAL PLAN</button>
     </form>
     
@@ -340,7 +273,7 @@
                                 <p><strong>Created by: {{ mealplan.user.username }}</strong></p>
                                 <p>Status: {{ mealplan.get_status_display }} - {{ mealplan.start_date }}</p>
                             </div>
-                            <a href="{% url 'blog:mealplan_detail' mealplan.pk %}" class="edit-icon">✏️</a>
+                            <a href="{% url 'cookapp:mealplan_detail' mealplan.pk %}" class="edit-icon">✏️</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -350,7 +283,7 @@
         <p>No meal plans found. Create your first meal plan now!</p>
     {% endif %}
 
-    <a href="{% url 'blog:mealplan_list' %}" class="btn btn-see-more mt-3">See More</a>
+    <a href="{% url 'cookapp:mealplan_list' %}" class="btn btn-see-more mt-3">See More</a>
 </div>
 
 <!-- Checkered Divider -->
@@ -386,19 +319,5 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    const notifBtn = document.getElementById('notification-btn');
-    const notifPanel = document.getElementById('notification-panel');
-  
-    notifBtn.addEventListener('click', () => {
-      notifPanel.classList.toggle('show');
-    });
-  
-    document.addEventListener('click', (e) => {
-      if (!notifBtn.contains(e.target) && !notifPanel.contains(e.target)) {
-        notifPanel.classList.remove('show');
-      }
-    });
-  </script>
 </body>
 </html>

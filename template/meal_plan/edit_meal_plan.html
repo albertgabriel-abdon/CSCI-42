@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Create New Recipe - Prep & Plate</title>
+    <title>Edit Meal Plan - Prep & Plate</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         /* General Styles */
@@ -13,7 +13,7 @@
             background-color: #f1ead1;
         }
         .navbar {
-            background-color: #004ead;
+            background-color: #d14938;
             padding: 20px;
         }
         .navbar a {
@@ -50,18 +50,18 @@
             font-family: 'Georgia', serif;
             font-weight: bold;
             text-align: center;
-            color: #004ead;
+            color: #d14938;
             margin-bottom: 30px;
         }
         .form-label {
             font-weight: bold;
-            color: #004ead;
+            color: #d14938;
         }
         .form-control, .form-select {
             font-family: 'Poppins', sans-serif;
             border-radius: 50px;
             padding: 12px;
-            background-color: #004ead;
+            background-color: #d14938;
             color: #f1ead1;
         }
         .form-control::placeholder, .form-select::placeholder {
@@ -69,21 +69,49 @@
             color: #f1ead1;
         }
         .btn-custom {
+            margin-top: 40px;
             width: 300px;
             border-radius: 100px;
             background-color: #efbd40;
-            color: #004ead;
+            color: #d14938;
             font-weight: bold;
             padding: 10px 20px;
             transition: background-color 0.3s, color 0.3s;
             border: none;
+            margin-bottom: 40px;
         }
         .btn-custom:hover {
-            background-color: #097d4c;
+            background-color: #d14938;
             color: #efbd40;
         }
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .recipe-grid .day {
+            font-weight: bold;
+            text-align: center;
+            color: #d14938;
+        }
+        .recipe-grid .meal {
+            font-weight: bold;
+            text-align: center;
+            color: #d14938;
+        }
+        .recipe-grid .recipe {
+            background-color: #f1ead1;
+            border: 2px solid #d14938;
+            border-radius: 10px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d14938;
+        }
         .footer {
-            background-color: #004ead;
+            background-color: #d14938;
             padding: 30px;
             color: #f1ead1;
             text-align: center;
@@ -179,30 +207,48 @@
     </div>
 </nav>
 
-<!-- Create Recipe Form -->
+<!-- Edit Meal Plan Form -->
 <div class="container mt-5">
-    <h1>Create New Recipe</h1>
+    <h1>Edit Meal Plan</h1>
 
-    {% if messages %}
-        {% for message in messages %}
-            <p class="message {{ message.tags }}">{{ message }}</p>
-        {% endfor %}
-    {% endif %}
-
-    <form method="POST" enctype="multipart/form-data">
+    <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}  
-        <!-- Buttons -->
+        {{ form.non_field_errors }}
+        <div class="mb-3">
+            {{ form.name.label_tag }}
+            {{ form.name }}
+            {{ form.name.errors }}
+        </div>
+    
+        <div class="mb-3">
+            {{ form.start_date.label_tag }}
+            {{ form.start_date }}
+            {{ form.start_date.errors }}
+        </div>
+    
+        <div class="mb-3">
+            {{ form.status.label_tag }}
+            {{ form.status }}
+            {{ form.status.errors }}
+        </div>
+    
+        <div class="mb-3">
+            {{ form.visibility.label_tag }}
+            {{ form.visibility }}
+            {{ form.visibility.errors }}
+        </div>
+    
         <div class="text-center mt-4">
             <button type="submit" class="btn btn-custom">Save</button>
-            <a href="javascript:void(0);" onclick="goBackOrRedirect()" class="btn btn-custom ms-2">Cancel</a>
+            <a onclick="goBackOrRedirect()" class="btn btn-custom ms-2">Cancel</a>
         </div>
+
     </form>
 
-{% if mealplan_pk %}
-    <a href="{% url 'cookapp:mealplan_detail' mealplan_pk %}">Back to Meal Plan</a>
-{% endif %}
+    
 </div>
+
+
 <!-- Checkered Divider -->
 <div class="checkered-divider"></div>
 
@@ -238,13 +284,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function goBackOrRedirect() {
-        if (document.querySelector("form").checkValidity()) {
-            document.querySelector("form").submit();
-        } else {
+        if (window.history.length > 1) {
             window.history.back();
+        } else {
+            window.location.href = "{% url 'cookapp:mealplan_list' %}";
         }
     }
 </script>
-
 </body>
 </html>

@@ -1,0 +1,9 @@
+
+<h1>Delete Inventory Item</h1>
+<p>Are you sure you want to delete {{ object.ingredient.name }}?</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Confirm</button>
+</form>
+<a href="{% url 'cookapp:inventory_list' %}">Cancel</a>

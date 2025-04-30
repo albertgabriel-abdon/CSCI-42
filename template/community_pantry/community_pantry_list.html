@@ -13,7 +13,7 @@
             color: #f1ead1;
             text-align: center;
         }
-        /* .navbar {
+        .navbar {
             background-color: #004ead;
             padding: 20px;
         }
@@ -25,100 +25,28 @@
         }
         .navbar a:hover {
             color: #efbd40;
-        } */
-
-
-        .navbar {
-     background: #0346a0;
-     color: #FFF;
-     padding: 20px 60px;
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
-   }
-  
-   /* Left: Logo */
-   .navbar-left img {
-     height: 50px;
-   }
-  
-   .navbar-left img:hover {
-     opacity: 0.8;
-   }
-  
-   /* Center: Navigation Links */
-   .navbar-center a {
-     color: #FFF;
-     font-size: 18px;
-     text-decoration: none;
-     margin: 0 20px;
-     transition: color 0.3s;
-   }
-  
-   .navbar-center a:hover,
-   .navbar-center a.active {
-     color: #F3B20C;
-   }
-  
-   /* Right: Icons */
-   .navbar-right img {
-     height: 28px;
-     margin-left: 20px;
-     cursor: pointer;
-     transition: opacity 0.3s;
-   }
-  
-   .navbar-right img:hover {
-     opacity: 0.8;
-   }
-
-        /* Notifications */
-
-     .notification-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-#notification-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 5px;
-}
-
-#notification-btn img {
-  width: 28px;
-  height: 28px;
-}
-
-#notification-panel {
-  position: absolute;
-  right: 0;
-  top: 40px;
-  width: 300px;
-  background-color: #fff;
-  border: 2px solid #003087;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  display: none;
-}
-
-#notification-panel.show {
-  display: block;
-}
-
-.notification-item {
-  padding: 15px;
-  border-bottom: 1px solid #eee;
-  font-size: 16px;
-  color: #003087;
-}
-
-.notification-item:last-child {
-  border-bottom: none;
-}
-
+        }
+        .logout button {
+            width: 100px;
+            height: 40px; 
+            background: #f1ead0;
+            border: none;
+            border-radius: 5px; 
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: Georgia, serif;
+            font-weight: bold;
+            color: #004ead;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .logout button:hover {
+            transform: scale(1.05);
+        }
         .header {
             font-family: Georgia, serif;
             font-weight: bold;
@@ -247,53 +175,72 @@
                 #004ead 20px
             );
         }
+
+    .messages {
+        margin-top: 20px;
+    }
+
+    .alert {
+        border: 2px solid;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        font-weight: bold;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+    }
+
+    .alert-error {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+    }
     </style>
 </head>
 <body>
 
 <!-- Navbar -->
 <nav class="navbar">
-    <div class="navbar-left">
-      <a href="{% url 'home' %}">
-        <img src="{% static 'static_media/prep&plate_logo_white.png' %}" alt="Prep & Plate Logo" class="logo">
-      </a>
-    </div>
-   
-   
-    <div class="navbar-center">
-      <a href="{% url 'home' %}">My Kitchen</a>
-      <a href="{% url 'recipes_list' %}">My Recipes</a>
-      <a href="{% url 'browse_recipes' %}">Browse Recipes</a>
-      <a href="{% url 'shopping_list' %}">Shopping List</a>
-      <a href="{% url 'community' %}" class="active">Community</a>
-      <a href="{% url 'meal_plan' %}">Meal Plan</a>
-    </div>
-   
-   
-    <div class="navbar-right">
-      <div class="notification-wrapper">
-        <button id="notification-btn">
-          <img src="{% static 'static_media/bell.png' %}" alt="Notifications" />
-        </button>
-        <div id="notification-panel" class="hidden">
-          {% for notification in notifications %}
-            <div class="notification-item">
-              {{ notification.message }}
-            </div>
-          {% empty %}
-            <div class="notification-item">You're all caught up!</div>
-          {% endfor %}
+    <div class="container">
+        <a href="{% url 'cookapp:home' %}">Home</a>
+        <a href="{% url 'cookapp:inventory_list' %}">My Kitchen</a>
+        <a href="{% url 'cookapp:grocery_list' %}">Shopping List</a>
+        <a href="{% url 'cookapp:recipe_list' %}">My Recipes</a>
+        <a href="{% url 'cookapp:community_pantry_list' %}">Community Pantry</a>
+        <a href="#">Browse Recipes</a>
+        <a href="{% url 'cookapp:mealplan_list' %}">Meal Plan</a>
+        <div class="logout">
+            {% if request.user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">LOGOUT</button>
+                </form>
+            {% else %}
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">LOGIN</button>
+                </form>
+            {% endif %}
         </div>
-      </div>
-      
-      <a href="#"><img src="{% static 'static_media/user.png' %}" alt="User Profile"></a>
     </div>
-   </nav>
+</nav>
+
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
 
 <!-- Page Header -->
 <div class="container">
     <h1 class="header">Community Pantry</h1>
-    <form action="{% url 'blog:community_pantry_request' %}" method="post">
+    <form action="{% url 'cookapp:community_pantry_request' %}" method="post">
         {% csrf_token %}
         <button type="submit" class="request-btn">Request Ingredients</button>
     </form>
@@ -301,6 +248,7 @@
 
 <!-- Ingredient Requests -->
 <div class="card-container">
+  
     {% for request in user_requests %}
         <div class="card">
             <div class="d-flex align-items-center">
@@ -310,14 +258,15 @@
                     <p>{{ request.distance }} minutes away from you<br>Request made {{ request.time_ago }}</p>
                 </div>
             </div>
-            <form action="{% url 'blog:community_pantry_detail' request.id %}" method="post">
+            <form action="{% url 'cookapp:community_pantry_detail' request.id %}" method="post">
                 {% csrf_token %}
                 <button type="submit" class="send-btn">Send Ingredients</button>
             </form>
         </div>
     {% endfor %}
-</div>
 
+
+</div>
 
 <!-- Checkered Divider -->
 <div class="checkered-divider"></div>
@@ -353,19 +302,5 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    const notifBtn = document.getElementById('notification-btn');
-    const notifPanel = document.getElementById('notification-panel');
-  
-    notifBtn.addEventListener('click', () => {
-      notifPanel.classList.toggle('show');
-    });
-  
-    document.addEventListener('click', (e) => {
-      if (!notifBtn.contains(e.target) && !notifPanel.contains(e.target)) {
-        notifPanel.classList.remove('show');
-      }
-    });
-  </script>
 </body>
 </html>

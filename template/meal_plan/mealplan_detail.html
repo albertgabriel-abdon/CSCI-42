@@ -1,5 +1,242 @@
-{% extends "base.html" %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Meal Plan Details - Prep & Plate</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f1ead1;
+        }
+        .navbar {
+            background-color: #d14938;
+            padding: 20px;
+        }
+        .navbar a {
+            color: #f1ead1;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+        .navbar a:hover {
+            color: #efbd40;
+        }
+        .logout button {
+            width: 100px;
+            height: 40px;
+            background: #f1ead0;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: Georgia, serif;
+            font-weight: bold;
+            color: #004ead;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .logout button:hover {
+            transform: scale(1.05);
+        }
+        h1 {
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            text-align: center;
+            color: #d14938;
+            margin-bottom: 30px;
+        }
+        p {
+            font-family: 'Poppins', sans-serif;
+            color: #d14938;
+        }
+        strong {
+            font-weight: bold;
+            color: #d14938;
+        }
+        label {
+            font-weight: bold;
+            color: #d14938;
+        }
+        select {
+            font-family: 'Poppins', sans-serif;
+            border-radius: 50px;
+            padding: 12px;
+            background-color: #d14938;
+            color: #f1ead1;
+            border: none;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+        input[type="date"] {
+            font-family: 'Poppins', sans-serif;
+            border-radius: 50px;
+            padding: 12px;
+            background-color: #d14938;
+            color: #f1ead1;
+            border: none;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+        .form-label {
+            font-weight: bold;
+            color: #d14938;
+        }
+        .form-control, .form-select {
+            font-family: 'Poppins', sans-serif;
+            border-radius: 50px;
+            padding: 12px;
+            background-color: #d14938;
+            color: #f1ead1;
+        }
+        .form-control::placeholder, .form-select::placeholder {
+            font-family: 'Poppins', sans-serif;
+            color: #f1ead1;
+        }
+        .btn-custom {
+            margin-top: 40px;
+            width: 300px;
+            border-radius: 100px;
+            background-color: #efbd40;
+            color: #d14938;
+            font-weight: bold;
+            padding: 10px 20px;
+            transition: background-color 0.3s, color 0.3s;
+            border: none;
+            margin-bottom: 40px;
+        }
+        .btn-custom:hover {
+            background-color: #d14938;
+            color: #efbd40;
+        }
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .recipe-grid .day {
+            font-weight: bold;
+            text-align: center;
+            color: #d14938;
+        }
+        .recipe-grid .meal {
+            font-weight: bold;
+            text-align: center;
+            color: #d14938;
+        }
+        .recipe-grid .recipe {
+            background-color: #f1ead1;
+            border: 2px solid #d14938;
+            border-radius: 10px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d14938;
+        }
+        .footer {
+            background-color: #d14938;
+            padding: 30px;
+            color: #f1ead1;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1900px;
+            margin-left: 40px;
+            margin-right: 40px;
+            flex-wrap: wrap;
+        }
+        .footer-left {
+            flex: 1;
+            text-align: left;
+        }
+        .footer-left img {
+            width: 100px;
+        }
+        .footer-right {
+            flex: 4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .footer-top div {
+            flex: 1;
+            text-align: center;
+        }
+        .footer-bottom {
+            margin-top: 10px;
+            border-top: 2px solid #efbd40;
+            padding-top: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .footer-bottom a {
+            color: #f1ead1;
+            text-decoration: none;
+            font-size: 0.9rem;
+            flex: 2;
+        }
+        .footer-bottom a:hover {
+            text-decoration: underline;
+            color: #eb8917;
+        }
+        .checkered-divider {
+            height: 20px;
+            background: repeating-linear-gradient(
+                45deg,
+                #efbd40 0,
+                #efbd40 10px,
+                #f1ead0 10px,
+                #f1ead0 20px
+            );
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <div class="container">
+        <a href="{% url 'cookapp:home' %}">Home</a>
+        <a href="{% url 'cookapp:inventory_list' %}">My Kitchen</a>
+        <a href="{% url 'cookapp:grocery_list' %}">Shopping List</a>
+        <a href="{% url 'cookapp:recipe_list' %}">My Recipes</a>
+        <a href="{% url 'cookapp:community_pantry_list' %}">Community Pantry</a>
+        <a href="#">Browse Recipes</a>
+        <a href="{% url 'cookapp:mealplan_list' %}">Meal Plan</a>
+        <div class="logout">
+            {% if request.user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">LOGOUT</button>
+                </form>
+            {% else %}
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">LOGIN</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+<div class="container mt-5">
+    
 
 <h1>{{ mealplan.name }}</h1>
 <p><strong>Status:</strong> {{ mealplan.get_status_display }}</p>
@@ -7,8 +244,8 @@
 <p><strong>Start Date:</strong> {{ mealplan.start_date }}</p>
 <p><strong>Created By:</strong> {{ mealplan.user.username }}</p>
 
-<a href="{% url 'blog:mealplan_update' mealplan.pk %}" class="btn btn-warning">Edit</a>
-<a href="{% url 'blog:mealplan_delete' mealplan.pk %}" class="btn btn-danger">Delete</a>
+<a href="{% url 'cookapp:mealplan_update' mealplan.pk %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'cookapp:mealplan_delete' mealplan.pk %}" class="btn btn-danger">Delete</a>
 
 <h2>Recipes in this Meal Plan</h2>
 
@@ -18,12 +255,12 @@
             <li>
                 {{ meal_recipe.recipe.name }} - Scheduled for {{ meal_recipe.scheduled_date }}
                 
-                <button type="button" onclick="toggleEditForm({{ meal_recipe.pk }})">
+                <button type="button" onclick="toggleEditForm('{{ meal_recipe.pk }}')">
                     Edit Date
                 </button>
 
 
-                <form method="POST" action="{% url 'blog:mealplan_detail' mealplan.pk %}" 
+                <form method="POST" action="{% url 'cookapp:mealplan_detail' mealplan.pk %}" 
                       id="edit-form-{{ meal_recipe.pk }}" 
                       style="display: none;">
                     {% csrf_token %}
@@ -43,7 +280,7 @@
 {% endif %}
 
 <h3>Add a Recipe to This Meal Plan</h3>
-<form method="POST" action="{% url 'blog:recipe_add' mealplan.pk %}">
+<form method="POST" action="{% url 'cookapp:recipe_add' mealplan.pk %}">
     {% csrf_token %}
     
     <label for="recipe_id">Select Recipe:</label>
@@ -65,8 +302,7 @@
 </form>
 
 <h3>Or Create a New Recipe</h3>
-<a href="{% url 'blog:recipe_create' mealplan.pk %}" class="btn btn-primary">Create New Recipe</a>
-
+<a href="{% url 'cookapp:recipe_create' mealplan.pk %}" class="btn btn-primary">Create New Recipe</a>
 
 <script>
     function toggleEditForm(mealRecipeId) {
@@ -124,7 +360,7 @@
     });
 </script>
 
+</body>
+</html>
 
 
-
-{% endblock %}
