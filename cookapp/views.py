@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
 from datetime import datetime
-from django.http import HttpResponseRedirect
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.urls import reverse_lazy
+from django.urls import reverse
 
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -30,6 +32,59 @@ from .models import (Recipe, MealPlan,
 
 from django.views import View
 
+##### COMMUNITY PANTRY ####
+    
+class CommunityPantryRequestView(TemplateView):
+    template_name = "community_pantry/community_pantry_request.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ingredients'] = Ingredient.objects.all() 
+        return context
+
+    def post(self, request, *args, **kwargs):
+        ingredient_id = request.POST.get('ingredient')
+        quantity = request.POST.get('quantity')
+
+        try:
+            ingredient = Ingredient.objects.get(id=ingredient_id)
+        except Ingredient.DoesNotExist:
+            return render(request, self.template_name, {
+                'error': 'Invalid ingredient selection',
+                'ingredients': Ingredient.objects.all(),  
+            })
+
+        UserRequest.objects.create(
+            user=request.user,
+            ingredient=ingredient,
+            quantity=int(quantity),
+            distance=10,  
+        )
+
+        return redirect(reverse('cookapp:community_pantry_list'))
+class CommunityPantryListView(TemplateView):
+    template_name = "community_pantry/community_pantry_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_requests'] = UserRequest.objects.all()
+        return context
+    
+class CommunityPantryDetailView(DetailView):
+    model = UserRequest
+    template_name = "community_pantry/community_pantry_detail.html"
+    context_object_name = "user_request"
+
+    def get_object(self):
+        cp_pk = self.kwargs.get("cp_pk")
+        return UserRequest.objects.get(pk=cp_pk)
+
+    def post(self, request, *args, **kwargs):
+        user_request = self.get_object()
+
+        # add logic here for transaction stuff
+        user_request.delete() 
+        return redirect(reverse('community_pantry_list'))
 
 ##### RECIPE #####
 
@@ -71,7 +126,7 @@ class RecipeCreateView(LoginRequiredMixin, View):
             if mealplan_pk:
                 return redirect("cookapp:mealplan_detail", mealplan_pk=mealplan_pk)
 
-            return redirect("cookapp:recipe_listview.html")
+            return redirect("cookapp:recipe_list")
         else:
   
             messages.error(request, "All fields are required.")

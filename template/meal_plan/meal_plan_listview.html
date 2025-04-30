@@ -200,10 +200,11 @@
 <!-- Navbar -->
 <nav class="navbar">
     <div class="container">
+        <a href="{% url 'cookapp:home' %}">Home</a>
         <a href="#">My Kitchen</a>
         <a href="#">Shopping List</a>
         <a href="{% url 'cookapp:recipe_list' %}">My Recipes</a>
-        <a href="{% url 'cookapp:home' %}">Community</a>
+        <a href="{% url 'cookapp:community_pantry_list' %}">Community</a>
         <a href="#">Browse Recipes</a>
         <a href="{% url 'cookapp:mealplan_list' %}">Meal Plan</a>
     </div>

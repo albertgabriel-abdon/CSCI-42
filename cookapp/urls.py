@@ -5,7 +5,8 @@ from .views import (HomeView, LoginView,
                     UserMealPlanCreateView, MealPlanCreateView,
                     MealPlanDetailView,
                     MealPlanUpdateView, MealPlanDeleteView,
-                    RecipeAddView, RecipeCreateView, UserRecipeListView
+                    RecipeAddView, RecipeCreateView, UserRecipeListView,
+                    CommunityPantryListView, CommunityPantryDetailView, CommunityPantryRequestView
                     
                     )
 urlpatterns = [
@@ -14,6 +15,10 @@ urlpatterns = [
     path('accounts/password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
 
     path('mealplans/', MealPlanListView.as_view(), name='mealplan_list'),
+
+    path('community-pantry/', CommunityPantryListView.as_view(), name='community_pantry_list'),
+    path('community_pantry/<int:cp_pk>/', CommunityPantryDetailView.as_view(), name='community_pantry_detail'),
+    path('community-pantry/request/', CommunityPantryRequestView.as_view(), name='community_pantry_request'),
 
     path('cookapp/mealplan/<int:mealplan_pk>/', MealPlanDetailView.as_view(), name='mealplan_detail'),
     
