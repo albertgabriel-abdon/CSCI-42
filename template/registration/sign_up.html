@@ -74,21 +74,27 @@
 
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }} 
+        
             <div class="mb-3">
-                <input type="text" name="name" class="form-control" placeholder="Name" required>
+                {{ form.username }}
             </div>
+        
             <div class="mb-3">
-                <input type="text" name="username" class="form-control" placeholder="Username" required>
+                {{ form.email }}
             </div>
+        
             <div class="mb-3">
-                <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+                {{ form.password }}
             </div>
+        
             <div class="mb-3">
-                <input type="password" name="password" class="form-control" placeholder="Password" required>
+                {{ form.confirm_password }}
             </div>
+        
             <button type="submit" class="btn btn-signup">Sign Up</button>
         </form>
+        
+
 
         <div class="footer">
             <p>Prep Smart. Plate Perfect. <a href="#">Savor More.</a></p>

@@ -49,9 +49,9 @@ class RecipeCreateView(LoginRequiredMixin, View):
     form_class = CreateRecipeForm
     
     def get(self, request, mealplan_pk=None):
-        form = self.form_class()  # Initialize an empty form
+        form = self.form_class()
         return render(request, 'recipe/create_recipe.html', {
-            'form': form,  # Pass form to template
+            'form': form,
             'category_choices': Recipe.CATEGORY_CHOICES,
             'difficulty_choices': Recipe.DIFFICULTY_CHOICES,
             'mealplan_pk': mealplan_pk
@@ -60,7 +60,6 @@ class RecipeCreateView(LoginRequiredMixin, View):
     def post(self, request, mealplan_pk=None):
         form = self.form_class(request.POST)
         if form.is_valid():
-            # Save the new recipe
             recipe = form.save(commit=False)
             if mealplan_pk:
                 recipe.meal_plan_id = mealplan_pk
@@ -72,12 +71,12 @@ class RecipeCreateView(LoginRequiredMixin, View):
             if mealplan_pk:
                 return redirect("cookapp:mealplan_detail", mealplan_pk=mealplan_pk)
 
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect("cookapp:recipe_listview.html")
         else:
-            # If the form is invalid, return to the form with errors
+  
             messages.error(request, "All fields are required.")
             return render(request, 'recipe/create_recipe.html', {
-                'form': form,  # Re-render the form with errors
+                'form': form,  
                 'category_choices': Recipe.CATEGORY_CHOICES,
                 'difficulty_choices': Recipe.DIFFICULTY_CHOICES,
                 'mealplan_pk': mealplan_pk
