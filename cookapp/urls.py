@@ -5,7 +5,7 @@ from .views import (HomeView, LoginView,
                     UserMealPlanCreateView, MealPlanCreateView,
                     MealPlanDetailView,
                     MealPlanUpdateView, MealPlanDeleteView,
-                    RecipeAddView, RecipeCreateView
+                    RecipeAddView, RecipeCreateView, UserRecipeListView
                     
                     )
 urlpatterns = [
@@ -15,15 +15,17 @@ urlpatterns = [
 
     path('mealplans/', MealPlanListView.as_view(), name='mealplan_list'),
 
-    path('blog/mealplan/<int:mealplan_pk>/', MealPlanDetailView.as_view(), name='mealplan_detail'),
+    path('cookapp/mealplan/<int:mealplan_pk>/', MealPlanDetailView.as_view(), name='mealplan_detail'),
     
     path('mealplans/create', UserMealPlanCreateView.as_view(), name='mealplans_create'),
-    path('blog/mealplan/create/', MealPlanCreateView.as_view(), name='mealplan_create'),
-    path('blog/mealplan/<int:mealplan_pk>/update/', MealPlanUpdateView.as_view(), name='mealplan_update'),
-    path('blog/mealplan/<int:mealplan_pk>/delete/', MealPlanDeleteView.as_view(), name='mealplan_delete'),
+    path('cookapp/mealplan/create/', MealPlanCreateView.as_view(), name='mealplan_create'),
+    path('cookapp/mealplan/<int:mealplan_pk>/update/', MealPlanUpdateView.as_view(), name='mealplan_update'),
+    path('cookapp/mealplan/<int:mealplan_pk>/delete/', MealPlanDeleteView.as_view(), name='mealplan_delete'),
 
-    path('blog/mealplan/<int:mealplan_pk>/add-recipe/', RecipeAddView.as_view(), name='recipe_add'),
+    path('cookapp/mealplan/<int:mealplan_pk>/add-recipe/', RecipeAddView.as_view(), name='recipe_add'),
+    path('recipe/new/', RecipeCreateView.as_view(), name='recipe_create'),
     path('recipe/new/<int:mealplan_pk>/', RecipeCreateView.as_view(), name='recipe_create'),
+    path('recipes/', UserRecipeListView.as_view(), name='recipe_list'),
     
 ]
 

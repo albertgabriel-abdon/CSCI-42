@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
 from datetime import datetime
-
+from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -33,6 +33,18 @@ from django.views import View
 
 ##### RECIPE #####
 
+class UserRecipeListView(LoginRequiredMixin, ListView):
+    model = Recipe
+    template_name = 'recipe/recipe_listview.html'
+    context_object_name = 'user_recipes' 
+    
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        queryset = Recipe.objects.filter(created_by=self.request.user)
+        if query:
+            queryset = queryset.filter(name__icontains=query)
+        return queryset
+
 class RecipeCreateView(LoginRequiredMixin, View):
     form_class = CreateRecipeForm
     
@@ -50,6 +62,8 @@ class RecipeCreateView(LoginRequiredMixin, View):
         if form.is_valid():
             # Save the new recipe
             recipe = form.save(commit=False)
+            if mealplan_pk:
+                recipe.meal_plan_id = mealplan_pk
             recipe.created_by = request.user
             recipe.save()
             
@@ -58,7 +72,7 @@ class RecipeCreateView(LoginRequiredMixin, View):
             if mealplan_pk:
                 return redirect("cookapp:mealplan_detail", mealplan_pk=mealplan_pk)
 
-            return redirect(recipe.get_absolute_url())
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         else:
             # If the form is invalid, return to the form with errors
             messages.error(request, "All fields are required.")
