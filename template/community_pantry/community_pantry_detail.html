@@ -26,6 +26,27 @@
         .navbar a:hover {
             color: #efbd40;
         }
+        .logout button {
+            width: 100px;
+            height: 40px; 
+            background: #f1ead0;
+            border: none;
+            border-radius: 5px; 
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: Georgia, serif;
+            font-weight: bold;
+            color: #004ead;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .logout button:hover {
+            transform: scale(1.05);
+        }
         .header {
             font-family: Georgia, serif;
             font-weight: bold;
@@ -179,15 +200,27 @@
 
 <!-- Navbar -->
 <nav class="navbar">
-
     <div class="container">
         <a href="{% url 'cookapp:home' %}">Home</a>
-        <a href="#">My Kitchen</a>
-        <a href="#">Shopping List</a>
+        <a href="{% url 'cookapp:inventory_list' %}">My Kitchen</a>
+        <a href="{% url 'cookapp:grocery_list' %}">Shopping List</a>
         <a href="{% url 'cookapp:recipe_list' %}">My Recipes</a>
-        <a href="{% url 'cookapp:community_pantry_list' %}">Community</a>
+        <a href="{% url 'cookapp:community_pantry_list' %}">Community Pantry</a>
         <a href="#">Browse Recipes</a>
         <a href="{% url 'cookapp:mealplan_list' %}">Meal Plan</a>
+        <div class="logout">
+            {% if request.user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">LOGOUT</button>
+                </form>
+            {% else %}
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">LOGIN</button>
+                </form>
+            {% endif %}
+        </div>
     </div>
 </nav>
 
