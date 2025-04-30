@@ -6,7 +6,9 @@ from .views import (HomeView, LoginView,
                     MealPlanDetailView,
                     MealPlanUpdateView, MealPlanDeleteView,
                     RecipeAddView, RecipeCreateView, UserRecipeListView,
-                    CommunityPantryListView, CommunityPantryDetailView, CommunityPantryRequestView
+                    CommunityPantryListView, CommunityPantryDetailView, CommunityPantryRequestView,
+                    GroceryListView, GroceryListCreateView, GroceryListUpdateView,
+                    InventoryListView, InventoryCreateView, InventoryDeleteView, InventoryDetailView,
                     
                     )
 urlpatterns = [
@@ -31,6 +33,17 @@ urlpatterns = [
     path('recipe/new/', RecipeCreateView.as_view(), name='recipe_create'),
     path('recipe/new/<int:mealplan_pk>/', RecipeCreateView.as_view(), name='recipe_create'),
     path('recipes/', UserRecipeListView.as_view(), name='recipe_list'),
+
+
+    path('inventory/', InventoryListView.as_view(), name='inventory_list'),
+    path('inventory/create/', InventoryCreateView.as_view(), name='inventory_create'),
+    path('inventory/<int:pk>/delete/', InventoryDeleteView.as_view(), name='inventory_delete'),
+    path("inventory/<int:pk>/", InventoryDetailView.as_view(), name="inventory_detail"),
+
+
+    path("grocerylist/", GroceryListView.as_view(), name="grocery_list"),
+    path('grocery/add/', GroceryListCreateView.as_view(), name='grocery_list_add'),
+    path('grocery/edit/<int:item_pk>/', GroceryListUpdateView.as_view(), name='grocery_list_edit'),
     
 ]
 

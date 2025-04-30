@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
 from datetime import datetime
+from django.db import IntegrityError
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -20,17 +21,149 @@ from accounts.forms import LoginForm
 from .forms import (RecipeForm, RecipeAddForm, 
                     IngredientForm, InventoryEditForm,
                     MealPlanForm, EditMealPlanForm,
-                    CreateRecipeForm
+                    CreateRecipeForm, 
                     )
 
 from django.db.models import Q
 from .models import (Recipe, MealPlan,
                      InventoryManager, Ingredient, 
                      NutritionalInformation, GroceryList,
-                    UserRequest, MealPlanRecipe
+                    UserRequest, MealPlanRecipe, UserRequest
                     )
 
 from django.views import View
+
+
+##### KITCHEN/INVENTORY #####
+
+class InventoryDetailView(View):
+    template_name = "kitchen/inventory_detail.html"
+
+    def get(self, request, pk):
+        inventory_item = get_object_or_404(InventoryManager, pk=pk, user=request.user)
+        return render(request, self.template_name, {"inventory_item": inventory_item})
+
+    def post(self, request, pk):
+        inventory_item = get_object_or_404(InventoryManager, pk=pk, user=request.user)
+        
+        inventory_item.quantity = request.POST.get("quantity")
+        inventory_item.is_buyer = request.POST.get("is_buyer") == "False"
+        inventory_item.save()
+
+        messages.success(request, "Inventory updated successfully!")
+        return redirect("cookapp:inventory_detail", pk=pk)
+
+class InventoryListView(View):
+    def get(self, request):
+        inventory_items = InventoryManager.objects.filter(user=request.user)
+        return render(request, 'kitchen/inventory_manager.html', {"inventory_items": inventory_items})
+
+class InventoryCreateView(View):
+    def post(self, request):
+        ingredient_name = request.POST.get("ingredient_name")
+        unit = request.POST.get("unit")
+        estimated_expiration_date = request.POST.get("estimated_expiration_date")
+        calories = request.POST.get("calories")
+        proteins = request.POST.get("proteins")
+        fat = request.POST.get("fat")
+        carbs = request.POST.get("carbs")
+        fiber = request.POST.get("fiber")
+
+        ingredient, created = Ingredient.objects.get_or_create(
+            name=ingredient_name,
+            defaults={"unit": unit, "estimated_expiration_date": estimated_expiration_date}
+        )
+
+        NutritionalInformation.objects.update_or_create(
+            ingredient=ingredient,
+            defaults={
+                "calories": calories,
+                "proteins": proteins,
+                "fat": fat,
+                "carbs": carbs,
+                "fiber": fiber,
+            }
+        )
+
+        try:
+            inventory_item, created = InventoryManager.objects.get_or_create(
+                user=request.user,
+                ingredient=ingredient
+            )
+
+            if created:
+                messages.success(request, "Ingredient added successfully!")
+            else:
+                messages.warning(request, "This ingredient is already in your inventory.")
+
+        except IntegrityError:
+            messages.error(request, "You already have this ingredient in your inventory.")
+
+        return redirect("cookapp:inventory_list")
+
+class InventoryEditView(View):
+    def get(self, request, pk):
+        """Handle GET request to display the edit form."""
+        inventory_item = get_object_or_404(InventoryManager, pk=pk, user=request.user)
+        return render(request, "inventory_edit.html", {"inventory_item": inventory_item})
+
+    def post(self, request, pk):
+        """Handle POST request to update the inventory item."""
+        inventory_item = get_object_or_404(InventoryManager, pk=pk, user=request.user)
+
+        quantity = request.POST.get("quantity")
+        is_buyer = request.POST.get("is_buyer") == "True"
+
+        inventory_item.quantity = quantity
+        inventory_item.is_buyer = is_buyer
+        inventory_item.save()
+
+        messages.success(request, "Inventory item updated successfully!")
+        return redirect("cookapp:inventory_list")
+
+class InventoryDeleteView(View):
+    def post(self, request, pk):
+        inventory_item = get_object_or_404(InventoryManager, pk=pk, user=request.user)
+        inventory_item.delete()
+        messages.success(request, "Item deleted successfully!")
+        return redirect("cookapp:inventory_list")
+
+##### GROCERY ######
+
+class GroceryListCreateView(CreateView):
+    model = GroceryList
+    template_name = 'grocery/grocery_list_add.html'
+    success_url = reverse_lazy('cookapp:grocery_list_add')  
+    fields = ['ingredient', 'quantity', 'status']
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class GroceryListUpdateView(UpdateView):
+    model = GroceryList
+    template_name = 'grocery/grocery_list_form.html'
+    success_url = reverse_lazy('cookapp:grocery_list_edit')
+
+class GroceryListView(ListView):
+    model = Ingredient
+    template_name = "grocery/grocery_list.html"
+    context_object_name = "ingredients" 
+    paginate_by = 20  
+
+    def get_queryset(self):
+        return Ingredient.objects.filter(
+            inventorymanager__quantity__gt=0
+        ).distinct() 
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        inventory_data = InventoryManager.objects.filter(
+            quantity__gt=0 
+        )
+
+        context['inventory_data'] = inventory_data
+        return context
 
 ##### COMMUNITY PANTRY ####
     
@@ -84,7 +217,7 @@ class CommunityPantryDetailView(DetailView):
 
         # add logic here for transaction stuff
         user_request.delete() 
-        return redirect(reverse('community_pantry_list'))
+        return redirect(reverse('cookapp:community_pantry_list'))
 
 ##### RECIPE #####
 

@@ -203,7 +203,7 @@
     <section class="menu-section">
         <div class="container">
             <div class="menu-buttons">
-                <a href="#" class="menu-btn">
+                <a href="{% url 'cookapp:inventory_list' %}" class="menu-btn">
                     <img src="{% static 'images/kitchen.png' %}" alt="My Kitchen">
                     My Kitchen
                 </a>
@@ -215,7 +215,7 @@
                     <img src="{% static 'images/browse.png' %}" alt="Browse Recipes">
                     Browse Recipes
                 </a>
-                <a href="#" class="menu-btn">
+                <a href="{% url 'cookapp:grocery_list' %}" class="menu-btn">
                     <img src="{% static 'images/shopping.png' %}" alt="Shopping List">
                     Shopping List
                 </a>

@@ -237,8 +237,8 @@
 
 <!-- Navbar -->
 <nav class="navbar">
- 
     <div class="container">
+
         <a href="{% url 'cookapp:home' %}">Home</a>
         <a href="#">My Kitchen</a>
         <a href="#">Shopping List</a>
@@ -246,6 +246,29 @@
         <a href="{% url 'cookapp:community_pantry_list' %}">Community</a>
         <a href="#">Browse Recipes</a>
         <a href="{% url 'cookapp:mealplan_list' %}">Meal Plan</a>
+        <a>
+            <div class="logout">
+                {% if request.user.is_authenticated %}
+
+                <span>
+                    <form action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit">LOGOUT</button>
+                    </form> 
+                </span>
+
+                {% else %}
+
+                <span>
+                    <form action="{% url 'login' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit">LOGIN</button>
+                    </form> 
+                </span>
+
+                {% endif %}
+            </div>
+        </a>
     </div>
 </nav>
 
