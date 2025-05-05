@@ -210,6 +210,36 @@
             #efbd40 20px
             );
         }
+        .like-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.2s;
+        }
+        .like-button:hover {
+            transform: scale(1.2);
+        }
+        .like-button.liked img {
+            filter: brightness(0.8);
+        }
+        .like-button img {
+            width: 30px;
+            height: 30px;
+        }
+        .like-count {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #097d4c;
+        }
+        .like-section {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
     </style>
 </head>
 <body>
@@ -272,6 +302,17 @@
                             {{ recipe.get_category_display }} <br> {{ recipe.get_difficulty_display }}
                         </p>
                         <p class="text-left">Owner: {{ recipe.created_by }}</p>
+                        
+                        <!-- Like button section -->
+                        <div class="like-section d-flex justify-content-end align-items-center mt-auto">
+                            <form action="{% url 'cookapp:like_recipe' recipe.pk %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="like-button {% if request.user in recipe.likes.all %}liked{% endif %}" onclick="event.stopPropagation(); event.preventDefault(); this.form.submit();">
+                                    <img src="{% static 'images/likebuttonfr.png' %}" alt="Like" width="15" height="15">
+                                </button>
+                            </form>
+                            <span class="like-count ms-1">{{ recipe.total_likes }}</span>
+                        </div>
                     </div>
                 </a>
             </div>
@@ -319,6 +360,65 @@
         </div>
     </div>
 </div>
+
+<script>
+    function likeRecipe(recipeId) {
+        // Try both URL formats
+        const url = `/recipe/${recipeId}/like/`;
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Update the like count
+            document.getElementById(`like-count-${recipeId}`).textContent = data.total_likes;
+            
+            // Update the button appearance
+            const likeButton = document.querySelector(`.like-button[data-recipe-id="${recipeId}"]`);
+            if (data.liked) {
+                likeButton.classList.add('liked');
+            } else {
+                likeButton.classList.remove('liked');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Try alternative URL if first one fails
+            const altUrl = `/cookapp/recipe/${recipeId}/like/`;
+            if (url !== altUrl) {
+                console.log('Trying alternative URL:', altUrl);
+                fetch(altUrl, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById(`like-count-${recipeId}`).textContent = data.total_likes;
+                    const likeButton = document.querySelector(`.like-button[data-recipe-id="${recipeId}"]`);
+                    if (data.liked) {
+                        likeButton.classList.add('liked');
+                    } else {
+                        likeButton.classList.remove('liked');
+                    }
+                })
+                .catch(error => console.error('Error with alternative URL:', error));
+            }
+        });
+    }
+</script>
 
 </body>
 </html>

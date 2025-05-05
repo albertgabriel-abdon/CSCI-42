@@ -8,11 +8,18 @@ from .models import (Recipe, GroceryList,
 
 
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'difficulty', 'servings', 'created_by', 'created_on', 'is_published', 'rating')
+    list_display = ('name', 'category', 'difficulty', 'servings', 'created_by', 'created_on', 'is_published', 'rating', 'total_likes')
     list_filter = ('category', 'difficulty', 'is_published', 'created_on')
     search_fields = ('name', 'description', 'created_by__username')
     ordering = ['-created_on']
     readonly_fields = ('created_on', 'updated_on')
+    
+    def total_likes(self, obj):
+        return obj.likes.count()
+    total_likes.short_description = 'Likes'
+    
+    # Optional: Add a filter_horizontal for the likes field to make it easier to manage
+    filter_horizontal = ('likes',)
 
 class MealPlanAdmin(admin.ModelAdmin):
     list_display = ('name', 'user', 'start_date', 'status', 'visibility')

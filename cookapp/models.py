@@ -6,6 +6,9 @@ from django.dispatch import receiver
 from django.apps import apps
 from django.utils.timezone import now
 from django.utils.timesince import timesince
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
   
 
 class MealPlan(models.Model):
@@ -145,6 +148,7 @@ class Recipe(models.Model):
     is_published = models.BooleanField(default=False)
     image = models.ImageField(upload_to='recipe_images/', null=True, blank=True) 
     rating = models.FloatField(default=0.0)
+    likes = models.ManyToManyField(User, related_name='liked_recipes', blank=True)
 
     class Meta:
         ordering = ['-created_on']
@@ -165,6 +169,9 @@ class Recipe(models.Model):
         """Set the rating for the recipe."""
         self.rating = round(new_rating, 1)
         self.save()
+
+    def total_likes(self):
+        return self.likes.count()
 
 class MealPlanRecipe(models.Model):
     meal_plan = models.ForeignKey(

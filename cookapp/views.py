@@ -656,3 +656,52 @@ class LoginView(FormView):
         else:
             form.add_error(None, "Invalid username or password")
             return self.form_invalid(form)
+
+def like_recipe(request, pk):
+    print(f"Like recipe view called with pk={pk}, method={request.method}")
+    
+    recipe = get_object_or_404(Recipe, pk=pk)
+    print(f"Found recipe: {recipe.name}")
+    
+    if request.user.is_authenticated:
+        if request.user in recipe.likes.all():
+            # User already liked this recipe, so unlike it
+            print(f"User {request.user.username} is unliking recipe {recipe.name}")
+            recipe.likes.remove(request.user)
+            liked = False
+        else:
+            # User hasn't liked this recipe yet, so like it
+            print(f"User {request.user.username} is liking recipe {recipe.name}")
+            recipe.likes.add(request.user)
+            liked = True
+        
+        print(f"New like count: {recipe.likes.count()}")
+    else:
+        print("User is not authenticated")
+        liked = False
+    
+    # Return JSON response for AJAX requests
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        print("Returning JSON response")
+        return JsonResponse({
+            'liked': liked,
+            'total_likes': recipe.total_likes()
+        })
+    
+    # For non-AJAX requests, redirect back to the page
+    print("Redirecting to all_recipes")
+    return redirect('cookapp:all_recipes')
+
+def test_like_url(request, pk):
+    """Test view to verify URL routing."""
+    print(f"Test like URL view called with pk={pk}")
+    return HttpResponse(f"Test like URL view called with pk={pk}")
+
+def debug_urls(request):
+    """Debug view to show all available URLs."""
+    from django.urls import get_resolver
+    resolver = get_resolver()
+    url_patterns = sorted([
+        pattern.pattern.regex.pattern for pattern in resolver.url_patterns
+    ])
+    return JsonResponse({'available_urls': url_patterns})

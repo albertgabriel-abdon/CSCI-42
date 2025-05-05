@@ -10,7 +10,7 @@ from .views import (HomeView, LoginView,
                     GroceryListView, GroceryListCreateView, GroceryListUpdateView,
                     InventoryListView, InventoryCreateView, InventoryDeleteView, InventoryDetailView,
                     RecipeEditView, RecipeDetailView, RecipeDeleteView, AllRecipesView,
-                    ClearGroceryListView, GroceryItemDeleteView
+                    ClearGroceryListView, GroceryItemDeleteView, like_recipe, test_like_url,
                     )
 urlpatterns = [
     path('home', HomeView.as_view(), name='home'),
@@ -38,7 +38,8 @@ urlpatterns = [
     path('recipes/<int:pk>/edit/', RecipeEditView.as_view(), name='recipe_update'),
     path('recipe/<int:pk>/delete/', RecipeDeleteView.as_view(), name='recipe_delete'),
     path('all-recipes/', AllRecipesView.as_view(), name='all_recipes'),
-    
+   path('recipe/<int:pk>/like/', like_recipe, name='like_recipe'),
+   path('test-like/<int:pk>/', test_like_url, name='test_like_url'),
 
    path('inventory/', InventoryListView.as_view(), name='inventory_list'),
     path('inventory/create/', InventoryCreateView.as_view(), name='inventory_create'),
