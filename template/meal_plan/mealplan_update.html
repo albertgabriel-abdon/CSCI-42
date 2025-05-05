@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Edit Meal Plan</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Update Meal Plan</button>
+</form>
+
+<a href="{% url 'cookapp:mealplan_list' %}">Back to Meal Plans</a>
+
+{% endblock %}
