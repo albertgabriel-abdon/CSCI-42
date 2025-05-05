@@ -1,276 +1,212 @@
-{% extends "base.html" %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meal Plans | Prep & Plate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Delete Meal Plan - Prep & Plate</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Brush+Script+MT&family=Georgia:wght@700&display=swap" rel="stylesheet">
     <style>
-        h1 { 
-            font-family: 'Georgia', serif; 
-            font-weight: bold; 
-            color: #097d4c;
-        } 
-        body { 
-            background-color: #f1ead1;
-            font-family: 'Poppins', sans-serif; 
-            color: #eb8917;
-        }      
-        .navbar {
-            background: #d14938;
-            color: #FFF;
-            padding: 20px 60px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 70px;
-        }  
-        .navbar-left img {
-            height: 50px;
-        } 
-        .navbar-left img:hover {
-            opacity: 0.8;
-        }
-        .navbar-center a {
-            color: #FFF;
-            font-size: 18px;
-            text-decoration: none;
-            margin: 0 20px;
-            transition: color 0.3s;
-        }
-        .navbar-center a:hover, .navbar-center a.active {
-            color: #F3B20C;
-        }
-        .navbar-right img {
-            height: 28px;
-            margin-left: 20px;
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-        .navbar-right img:hover {
-            opacity: 0.8;
-        }
-        .notification-wrapper {
-            position: relative;
-            display: inline-block;
-        }
-        #notification-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-        }
-        #notification-btn img {
-            width: 28px;
-            height: 28px;
-        }
-        #notification-panel {
-            position: absolute;
-            right: 0;
-            top: 40px;
-            width: 300px;
-            background-color: #fff;
-            border: 2px solid #003087;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-            display: none;
-        }
-        #notification-panel.show {
-            display: block;
-        }
-        .notification-item {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            font-size: 16px;
-            color: #003087;
-        }
-        .notification-item:last-child {
-            border-bottom: none;
-        }
-        .btn-delete {
-            background-color: #097d4c;
-            color: white;
-            padding: 10px 20px;
-            width: 300px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-            border-radius: 100px;
-        }
-        .btn-delete:hover {
-            background-color: #efbd40;
-            color: #097d4c;
-        }
-        .footer {
-            background-color: #f1ead1;
-            padding: 30px;
-            color: #097d4c;
-            text-align: center;
+        /* General Styles */
+        body {
             font-family: 'Poppins', sans-serif;
-        }
-        .footer-content {
+            background-color: #f1ead1;
+            min-height: 100vh;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1900px;
-            margin-left: 40px;
-            margin-right: 40px;
-            flex-wrap: wrap;
+            flex-direction: column;
         }
-        .footer-left {
-            flex: 1;
-            text-align: left;
+        .navbar {
+            background-color: #d14938;
+            padding: 20px;
         }
-        .footer-left img {
+        .navbar a {
+            color: #f1ead1;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+        .navbar a:hover {
+            color: #efbd40;
+        }
+        .logout button {
             width: 100px;
-        }
-        .footer-right {
-            flex: 4;
+            height: 40px;
+            background: #f1ead0;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: Georgia, serif;
+            font-weight: bold;
+            color: #004ead;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
         }
-        .footer-top {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
+        .logout button:hover {
+            transform: scale(1.05);
         }
-        .footer-top div {
-            flex: 1;
+        h1 {
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            text-align: center;
+            color: #d14938;
+            margin-bottom: 30px;
+        }
+        .btn-custom {
+            background-color: #efbd40;
+            color: #d14938;
+            font-weight: bold;
+            padding: 10px 20px;
+            transition: background-color 0.3s, color 0.3s;
+            border: none;
+            border-radius: 100px;
+        }
+        .btn-custom:hover {
+            background-color: #d14938;
+            color: #efbd40;
+        }
+        .btn-danger {
+            background-color: #d14938;
+            color: #f1ead1;
+            font-weight: bold;
+            border: none;
+            border-radius: 100px;
+            padding: 10px 20px;
+            transition: background-color 0.3s;
+        }
+        .btn-danger:hover {
+            background-color: #a8382c;
+        }
+        .delete-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-        .footer-bottom {
-            margin-top: 10px;
-            border-top: 2px solid #eb8917;
-            padding-top: 10px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-        .footer-bottom a {
-            color: #097d4c;
-            text-decoration: none;
-            font-size: 0.9rem;
-            flex: 2;
-        }
-        .footer-bottom a:hover {
-            text-decoration: underline;
-            color: #eb8917;
-        }
         .checkered-divider {
-            margin-top: 80px;
             height: 20px;
             background: repeating-linear-gradient(
                 45deg,
-                #097d4c 0,
-                #097d4c 10px,
-                #f1ead1 10px,
-                #f1ead1 20px
-                );
+                #efbd40 0,
+                #efbd40 10px,
+                #f1ead0 10px,
+                #f1ead0 20px
+            );
+            margin: 40px 0;
+        }
+        .footer {
+            background-color: #d14938;
+            padding: 30px;
+            color: #f1ead1;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            margin-top: auto;
+        }
+        .footer a {
+            color: #f1ead1;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            color: #efbd40;
+            text-decoration: underline;
+        }
+        /* Main content wrapper to push footer down */
+        .content-wrapper {
+            flex: 1;
         }
     </style>
 </head>
 <body>
-
-<!-- Navbar -->
 <nav class="navbar">
-    <div class="navbar-left">
-      <a href="{% url 'home' %}">
-        <img src="{% static 'static_media/prep&plate_logo_white.png' %}" alt="Prep & Plate Logo" class="logo">
-      </a>
-    </div>
-   
-   
-    <div class="navbar-center">
-      <a href="{% url 'home' %}" class="active">My Kitchen</a>
-      <a href="{% url 'recipes_list' %}">My Recipes</a>
-      <a href="{% url 'browse_recipes' %}">Browse Recipes</a>
-      <a href="{% url 'shopping_list' %}">Shopping List</a>
-      <a href="{% url 'community' %}">Community</a>
-      <a href="{% url 'meal_plan' %}" class="active">Meal Plan</a>
-    </div>
-   
-   
-    <div class="navbar-right">
-      <div class="notification-wrapper">
-        <button id="notification-btn">
-          <img src="{% static 'static_media/bell.png' %}" alt="Notifications" />
-        </button>
-        <div id="notification-panel" class="hidden">
-          {% for notification in notifications %}
-            <div class="notification-item">
-              {{ notification.message }}
-            </div>
-          {% empty %}
-            <div class="notification-item">You're all caught up!</div>
-          {% endfor %}
+    <div class="container">
+        <a href="{% url 'cookapp:home' %}">Home</a>
+        <a href="{% url 'cookapp:inventory_list' %}">My Kitchen</a>
+        <a href="{% url 'cookapp:grocery_list' %}">Shopping List</a>
+        <a href="{% url 'cookapp:recipe_list' %}">My Recipes</a>
+        <a href="{% url 'cookapp:community_pantry_list' %}">Community Pantry</a>
+        <a href="{% url 'cookapp:all_recipes' %}">Browse Recipes</a>
+        <a href="{% url 'cookapp:mealplan_list' %}">Meal Plan</a>
+        <div class="logout">
+            {% if request.user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">LOGOUT</button>
+                </form>
+            {% else %}
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">LOGIN</button>
+                </form>
+            {% endif %}
         </div>
-      </div>
-      
-      <a href="#"><img src="{% static 'static_media/user.png' %}" alt="User Profile"></a>
     </div>
-   </nav>
+</nav>
 
-<!-- Content -->
-<div class="d-flex flex-column justify-content-center align-items-center text-center">
-    <h1>Delete Meal Plan</h1>
-    <p>Are you sure you want to delete "{{ mealplan.name }}"?</p>
-    <form method="post" class="d-flex justify-content-center align-items-center gap-3">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-delete">Delete</button>
-        <a href="{% url 'blog:mealplan_list' %}" class="btn btn-delete">Cancel</a>
-    </form>
+<div class="content-wrapper">
+    <!-- Delete Confirmation -->
+    <div class="container">
+        <div class="delete-container">
+            <h1>Delete Meal Plan</h1>
+            <p class="mb-4">Are you sure you want to delete "{{ mealplan.name }}"?</p>
+            <p class="text-danger mb-4">This action cannot be undone. All recipes associated with this meal plan will be removed from the plan.</p>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="d-flex justify-content-center gap-3">
+                    <button type="submit" class="btn btn-danger" style="width: 120px;">Delete</button>
+                    <a href="{% url 'cookapp:mealplan_detail' mealplan.pk %}" class="btn btn-custom" style="width: 120px;">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Checkered Divider -->
+    <div class="checkered-divider"></div>
 </div>
-
-<!-- Checkered Divider -->
-<div class="checkered-divider"></div>
 
 <!-- Footer -->
 <div class="footer">
-    <div class="footer-content">
-        <div class="footer-left">
-            <img src="{% static 'img/logo.png' %}" alt="Prep & Plate Logo">
-        </div>
-        <div class="footer-right">
-            <div class="footer-top">
-                <div>
-                    <p>Prep Smart. Plate Perfect.<span style="color:#eb8917; font-weight:bold;"> Savor More.</span></p>
-                </div>
-                <div>
-                    <p>123 Anywhere St., Any City, ST 12345</p>
-                </div>
-                <div>
-                    <p>Contact Us at 123-456-7890</p>
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="{% static 'images/logo.png' %}" alt="Prep & Plate Logo" style="width: 100px;">
             </div>
-            <div class="footer-bottom">
-                <a href="#">Help</a>
-                <a href="#">Community Guidelines</a>
-                <a href="#">Copyright Policy</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">User Agreement</a>
+            <div class="col-md-9">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <p>Prep Smart. Plate Perfect.<span style="color:#efbd40; font-weight:bold;"> Savor More.</span></p>
+                    </div>
+                    <div class="col-md-4">
+                        <p>123 Anywhere St., Any City, ST 12345</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p>Contact Us at 123-456-7890</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <hr style="border-color: #efbd40; opacity: 1;">
+                        <div class="d-flex justify-content-center gap-4">
+                            <a href="#">Help</a>
+                            <a href="#">Community Guidelines</a>
+                            <a href="#">Copyright Policy</a>
+                            <a href="#">Privacy Policy</a>
+                            <a href="#">User Agreement</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    const notifBtn = document.getElementById('notification-btn');
-    const notifPanel = document.getElementById('notification-panel');
-  
-    notifBtn.addEventListener('click', () => {
-      notifPanel.classList.toggle('show');
-    });
-  
-    document.addEventListener('click', (e) => {
-      if (!notifBtn.contains(e.target) && !notifPanel.contains(e.target)) {
-        notifPanel.classList.remove('show');
-      }
-    });
-  </script>
 </body>
 </html>
