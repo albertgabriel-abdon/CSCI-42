@@ -1,0 +1,335 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shopping List - Prep & Plate</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #097d4c;
+            color: #f1ead1;
+            text-align: center;
+        }
+        .navbar {
+            background-color: #004ead;
+            padding: 20px;
+        }
+        .navbar a {
+            color: #f1ead1;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+        .navbar a:hover {
+            color: #efbd40;
+        }
+        .logout button {
+            width: 100px;
+            height: 40px; 
+            background: #f1ead0;
+            border: none;
+            border-radius: 5px; 
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: Georgia, serif;
+            font-weight: bold;
+            color: #004ead;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .logout button:hover {
+            transform: scale(1.05);
+        }
+        .header {
+            padding: 15px 0;
+            font-family: Georgia, serif;
+            font-weight: bold;
+            font-size: 2.5rem;
+            color: #f1ead1;
+        }
+        .shopping-list-container {
+            background-color: #f1ead1;
+            border-radius: 20px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: left;
+            position: relative;
+        }
+        .shopping-list-container ul {
+            list-style: none;
+            padding: 0;
+        }
+        .shopping-list-container li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #097d4c;
+        }
+        .shopping-list-container li input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .shopping-list-container li.checked label {
+            text-decoration: line-through;
+        }
+        .shopping-list-container .edit-btn {
+            background: none;
+            border: none;
+            color: #097d4c;
+            font-size: 1.2rem;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .shopping-list-container .add-btn {
+            background-color: #097d4c;
+            color: #f1ead1;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 20px auto 0;
+        }
+        .footer {
+            background-color: #0346a0;
+            padding: 30px;
+            color: #f1ead1;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1900px;
+            margin-left: 40px;
+            margin-right: 40px;
+            flex-wrap: wrap;
+        }
+        .footer-left {
+            flex: 1;
+            text-align: left;
+        }
+        .footer-left img {
+            width: 100px;
+        }
+        .footer-right {
+            flex: 4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .footer-top div {
+            flex: 1;
+            text-align: center;
+        }
+        .footer-bottom {
+            margin-top: 10px;
+            border-top: 2px solid #efbd40;
+            padding-top: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .footer-bottom a {
+            color: #f1ead1;
+            text-decoration: none;
+            font-size: 0.9rem;
+            flex: 2;
+        }
+        .footer-bottom a:hover {
+            text-decoration: underline;
+            color: #efbd40;
+        }
+        .checkered-divider {
+            height: 20px;
+            background: repeating-linear-gradient(
+                45deg,
+                #004ead 0,
+                #004ead 10px,
+                #efbd40 10px,
+                #efbd40 20px
+            );
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container">
+        <a href="{% url 'cookapp:home' %}">Home</a>
+        <a href="{% url 'cookapp:inventory_list' %}">My Kitchen</a>
+        <a href="{% url 'cookapp:grocery_list' %}">Shopping List</a>
+        <a href="{% url 'cookapp:recipe_list' %}">My Recipes</a>
+        <a href="{% url 'cookapp:community_pantry_list' %}">Community Pantry</a>
+        <a href="{% url 'cookapp:all_recipes' %}">Browse Recipes</a>
+        <a href="{% url 'cookapp:mealplan_list' %}">Meal Plan</a>
+        <div class="logout">
+            {% if request.user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">LOGOUT</button>
+                </form>
+            {% else %}
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">LOGIN</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<!-- Page Header -->
+<div class="header">
+    Shopping List
+</div>
+
+<!-- Shopping List Container -->
+<div class="shopping-list-container">
+    <!-- Loop through grocery items for the logged-in user -->
+    <ul id="shopping-list">
+        {% for item in grocery_items %}
+            <li>
+                <form id="deleteForm{{ item.pk }}" method="POST" action="{% url 'cookapp:grocery_item_delete' item.pk %}" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="checkbox" id="item{{ item.pk }}" onclick="submitDeleteForm({{ item.pk }})">
+                    <label for="item{{ item.pk }}">
+                        {{ item.quantity }} {{ item.ingredient.name }} ({{ item.status|title }})
+                    </label>
+                </form>
+            </li>
+        {% empty %}
+            <li>No grocery items yet.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Button to add a new grocery item -->
+    <a href="{% url 'cookapp:grocery_list_add' %}" class="add-btn">+</a>
+</div>
+
+    <h2>All Ingredients in Inventory</h2>
+
+    <ul>
+        {% for ingredient in ingredients %}
+            <li>
+                <strong>{{ ingredient.name }}</strong> - 
+                Expiry Date: {{ ingredient.estimated_expiration_date }} 
+                (Unit: {{ ingredient.unit }})<br>
+
+                <ul>
+                    {% for inventory_item in inventory_data %}
+                        {% if inventory_item.ingredient == ingredient %}
+                            <li>
+                                User: {{ inventory_item.user.username }} | 
+                                Quantity: {{ inventory_item.quantity }}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if ingredients.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ ingredients.previous_page_number }}">previous</a>
+            {% endif %}
+        </span>
+    </div>
+
+
+
+<!-- Checkered Divider -->
+<div class="checkered-divider"></div>
+
+<!-- Footer -->
+<div class="footer">
+    <div class="footer-content">
+        <div class="footer-left">
+            <img src="{% static 'img/logo.png' %}" alt="Prep & Plate Logo">
+        </div>
+        <div class="footer-right">
+            <div class="footer-top">
+                <div>
+                    <p>Prep Smart. Plate Perfect.<span style="color:#f8c30c; font-weight:bold;"> Savor More.</span></p>
+                </div>
+                <div>
+                    <p>123 Anywhere St., Any City, ST 12345</p>
+                </div>
+                <div>
+                    <p>Contact Us at 123-456-7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <a href="#">Help</a>
+                <a href="#">Community Guidelines</a>
+                <a href="#">Copyright Policy</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">User Agreement</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function submitDeleteForm(itemId) {
+        if (confirm("Remove this item from your grocery list?")) {
+            document.getElementById('deleteForm' + itemId).submit();
+        } else {
+            document.getElementById('item' + itemId).checked = false;
+        }
+    }
+
+    function editList() {
+        window.location.href = 'grocery_list_edit.html';
+    }
+
+    function addItem() {
+        window.location.href = 'grocery_list_add.html';
+    }
+
+    function clearGroceryList() {
+        if (confirm("Are you sure you want to clear the grocery list?")) {
+            fetch("{% url 'cookapp:grocery_list_clear' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload(); 
+                }
+            });
+        }
+    }
+</script>

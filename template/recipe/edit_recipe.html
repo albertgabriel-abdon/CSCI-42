@@ -13,119 +13,45 @@
             background-color: #f1ead1;
         }
         .navbar {
-     background: #003087;
-     color: #FFF;
-     padding: 20px 60px;
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
-   }
-  
-   /* Left: Logo */
-   .navbar-left img {
-     height: 50px;
-   }
-  
-   .navbar-left img:hover {
-     opacity: 0.8;
-   }
-  
-   /* Center: Navigation Links */
-   .navbar-center a {
-     color: #FFF;
-     font-size: 18px;
-     text-decoration: none;
-     margin: 0 20px;
-     transition: color 0.3s;
-   }
-  
-   .navbar-center a:hover,
-   .navbar-center a.active {
-     color: #F3B20C;
-   }
-  
-   /* Right: Icons */
-   .navbar-right img {
-     height: 28px;
-     margin-left: 20px;
-     cursor: pointer;
-     transition: opacity 0.3s;
-   }
-  
-   .navbar-right img:hover {
-     opacity: 0.8;
-   }
-
-        /* Notifications */
-
-     .notification-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-#notification-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 5px;
-}
-
-#notification-btn img {
-  width: 28px;
-  height: 28px;
-}
-
-#notification-panel {
-  position: absolute;
-  right: 0;
-  top: 40px;
-  width: 300px;
-  background-color: #fff;
-  border: 2px solid #003087;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  display: none;
-}
-
-#notification-panel.show {
-  display: block;
-}
-
-.notification-item {
-  padding: 15px;
-  border-bottom: 1px solid #eee;
-  font-size: 16px;
-  color: #003087;
-}
-
-.notification-item:last-child {
-  border-bottom: none;
-}
-
+            background-color: #004ead;
+            padding: 20px;
+        }
+        .navbar a {
+            color: #f1ead1;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+        .navbar a:hover {
+            color: #efbd40;
+        }
+        .logout button {
+            width: 100px;
+            height: 40px; 
+            background: #f1ead0;
+            border: none;
+            border-radius: 5px; 
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: Georgia, serif;
+            font-weight: bold;
+            color: #004ead;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .logout button:hover {
+            transform: scale(1.05);
+        }
         h1 {
             font-family: 'Georgia', serif;
             font-weight: bold;
             text-align: center;
             color: #004ead;
             margin-bottom: 30px;
-        }
-        input[type="file"] {
-          display: none;
-        }
-        .custom-file-label {
-            display: inline-block;
-            background-color: #004ead;
-            color: #efbd40;
-            font-weight: bold;
-            border-radius: 50px;
-            padding: 10px 20px;
-            cursor: pointer;
-            text-align: center;
-        }
-        .custom-file-label:hover {
-            background-color: #097d4c;
-            color: #f1ead1;
         }
         .form-label {
             font-weight: bold;
@@ -144,7 +70,6 @@
         }
         .btn-custom {
             width: 300px;
-            height: 60px;
             border-radius: 100px;
             background-color: #efbd40;
             color: #004ead;
@@ -157,29 +82,62 @@
             background-color: #097d4c;
             color: #efbd40;
         }
-        .btn-delete {
-            width: 60px;
-            height: 60px;
-            background-color: #004ead;
-            color: white;
-            font-size: 28px;
-            border-radius: 50%;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.3s;
-            text-decoration: none;
-        }
-        .btn-delete:hover {
-            background-color: #097d4c;
-        }
         .footer {
             background-color: #004ead;
             padding: 30px;
             color: #f1ead1;
             text-align: center;
             font-family: 'Poppins', sans-serif;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1900px;
+            margin-left: 40px;
+            margin-right: 40px;
+            flex-wrap: wrap;
+        }
+        .footer-left {
+            flex: 1;
+            text-align: left;
+        }
+        .footer-left img {
+            width: 100px;
+        }
+        .footer-right {
+            flex: 4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .footer-top div {
+            flex: 1;
+            text-align: center;
+        }
+        .footer-bottom {
+            margin-top: 10px;
+            border-top: 2px solid #efbd40;
+            padding-top: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .footer-bottom a {
+            color: #f1ead1;
+            text-decoration: none;
+            font-size: 0.9rem;
+            flex: 2;
+        }
+        .footer-bottom a:hover {
+            text-decoration: underline;
+            color: #eb8917;
         }
         .checkered-divider {
             height: 20px;
@@ -195,138 +153,56 @@
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="navbar-left">
-          <a href="{% url 'home' %}">
-            <img src="{% static 'static_media/prep&plate_logo_white.png' %}" alt="Prep & Plate Logo" class="logo">
-          </a>
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container">
+        <a href="{% url 'cookapp:home' %}">Home</a>
+        <a href="{% url 'cookapp:inventory_list' %}">My Kitchen</a>
+        <a href="{% url 'cookapp:grocery_list' %}">Shopping List</a>
+        <a href="{% url 'cookapp:recipe_list' %}">My Recipes</a>
+        <a href="{% url 'cookapp:community_pantry_list' %}">Community Pantry</a>
+        <a href="{% url 'cookapp:all_recipes' %}">Browse Recipes</a>
+        <a href="{% url 'cookapp:mealplan_list' %}">Meal Plan</a>
+        <div class="logout">
+            {% if request.user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">LOGOUT</button>
+                </form>
+            {% else %}
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">LOGIN</button>
+                </form>
+            {% endif %}
         </div>
-       
-       
-        <div class="navbar-center">
-          <a href="{% url 'home' %}" >My Kitchen</a>
-          <a href="{% url 'recipes_list' %}" class="active">My Recipes</a>
-          <a href="{% url 'browse_recipes' %}">Browse Recipes</a>
-          <a href="{% url 'shopping_list' %}">Shopping List</a>
-          <a href="{% url 'community' %}">Community</a>
-          <a href="{% url 'meal_plan' %}">Meal Plan</a>
-        </div>
-       
-       
-        <div class="navbar-right">
-          <div class="notification-wrapper">
-            <button id="notification-btn">
-              <img src="{% static 'static_media/bell.png' %}" alt="Notifications" />
-            </button>
-            <div id="notification-panel" class="hidden">
-              {% for notification in notifications %}
-                <div class="notification-item">
-                  {{ notification.message }}
-                </div>
-              {% empty %}
-                <div class="notification-item">You're all caught up!</div>
-              {% endfor %}
-            </div>
-          </div>
-          
-          <a href="#"><img src="{% static 'static_media/user.png' %}" alt="User Profile"></a>
-        </div>
-       </nav>
+    </div>
+</nav>
 
 <!-- Edit Recipe Form -->
 <div class="container mt-5">
     <h1>Edit Recipe</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="message {{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
     <form method="POST" enctype="multipart/form-data">
-
-        <!-- Image Upload -->
-        <div class="form-group">
-          <label for="image" class="form-label">Recipe Image</label><br>
-          <label for="image" class="custom-file-label">Choose File</label>
-          <input type="file" name="image" id="image">
-        </div>
-
-        <!-- Recipe Name -->
-        <br>
-        <div class="mb-3">
-            <label for="recipe_name" class="form-label">Recipe Name</label>
-            <input type="text" class="form-control" id="recipe_name" name="recipe_name" value="{{ recipe.recipe_name }}" required>
-        </div>
-
-        <!-- Category Dropdown -->
-        <div class="mb-3">
-            <label for="category" class="form-label">Category</label>
-            <select class="form-select" id="category" name="category">
-                <option value="appetizer" {% if recipe.category == "appetizer" %}selected{% endif %}>Appetizer</option>
-                <option value="main" {% if recipe.category == "main" %}selected{% endif %}>Main Course</option>
-                <option value="dessert" {% if recipe.category == "dessert" %}selected{% endif %}>Dessert</option>
-                <option value="drink" {% if recipe.category == "drink" %}selected{% endif %}>Drink</option>
-            </select>
-        </div>
-
-        <!-- Special Tags Dropdown -->
-        <div class="mb-3">
-            <label for="special_tags" class="form-label">Special Tags</label>
-            <select class="form-select" id="special_tags" name="special_tags">
-                <option value="vegetarian" {% if recipe.special_tags == "vegetarian" %}selected{% endif %}>Vegetarian</option>
-                <option value="vegan" {% if recipe.special_tags == "vegan" %}selected{% endif %}>Vegan</option>
-                <option value="gluten_free" {% if recipe.special_tags == "gluten_free" %}selected{% endif %}>Gluten-Free</option>
-                <option value="keto" {% if recipe.special_tags == "keto" %}selected{% endif %}>Keto</option>
-                <option value="none" {% if recipe.special_tags == "none" %}selected{% endif %}>None</option>
-            </select>
-        </div>
-
-        <!-- Difficulty Dropdown -->
-        <div class="mb-3">
-            <label for="difficulty" class="form-label">Difficulty</label>
-            <select class="form-select" id="difficulty" name="difficulty">
-                <option value="easy" {% if recipe.difficulty == "easy" %}selected{% endif %}>Easy</option>
-                <option value="medium" {% if recipe.difficulty == "medium" %}selected{% endif %}>Medium</option>
-                <option value="hard" {% if recipe.difficulty == "hard" %}selected{% endif %}>Hard</option>
-            </select>
-        </div>
-
-        <!-- Other Fields (Same as Create Page) -->
-        <div class="mb-3">
-          <label for="prep_time" class="form-label">Preparation Time</label>
-          <div class="d-flex gap-2">
-              <input type="number" class="form-control" id="prep_hours" name="prep_hours" placeholder="Hours" min="0" required>
-              <input type="number" class="form-control" id="prep_minutes" name="prep_minutes" placeholder="Minutes" min="0" max="59" required>
-          </div>
-        </div>
-        <div class="mb-3">
-            <label for="calories" class="form-label">Calories (per 100g)</label>
-            <input type="number" class="form-control" id="calories" name="calories" value="{{ recipe.calories }}">
-        </div>
-        <div class="mb-3">
-            <label for="yield" class="form-label">Yield (Servings)</label>
-            <input type="number" class="form-control" id="yield" name="yield" value="{{ recipe.yield }}">
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3">{{ recipe.description }}</textarea>
-        </div>
-        <div class="mb-3">
-          <label for="ingredients" class="form-label">Ingredients</label>
-          <div id="ingredients-container">
-              <div class="d-flex gap-2 mb-2">
-                  <input type="number" class="form-control" name="ingredient_quantity[]" placeholder="Quantity (g)" min="0" required>
-                  <input type="text" class="form-control" name="ingredient_name[]" placeholder="Ingredient Name" required>
-              </div>
-          </div>
-          <button type="button" class="btn btn-custom mt-2" id="add-ingredient">Add Ingredient</button>
-        </div>
-
+        {% csrf_token %}
+        {{ form.as_p }}  
         <!-- Buttons -->
-        <div class="d-flex justify-content-center align-items-center mt-4 gap-3">
-          <button type="submit" class="btn btn-custom">Save</button>
-          <a href="{% url 'recipe_list' %}" class="btn btn-custom">Discard Edit</a>
-          <a href="{% url 'delete_recipe' recipe.id %}" class="btn-delete">🗑️</a>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-custom">Save</button>
+            <a href="javascript:void(0);" onclick="goBackOrRedirect()" class="btn btn-custom ms-2">Cancel</a>
         </div>
-
     </form>
+
+{% if mealplan_pk %}
+    <a href="{% url 'cookapp:mealplan_detail' mealplan_pk %}">Back to Meal Plan</a>
+{% endif %}
 </div>
-
-
 <!-- Checkered Divider -->
 <div class="checkered-divider"></div>
 
@@ -361,30 +237,14 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    const notifBtn = document.getElementById('notification-btn');
-    const notifPanel = document.getElementById('notification-panel');
-  
-    notifBtn.addEventListener('click', () => {
-      notifPanel.classList.toggle('show');
-    });
-  
-    document.addEventListener('click', (e) => {
-      if (!notifBtn.contains(e.target) && !notifPanel.contains(e.target)) {
-        notifPanel.classList.remove('show');
-      }
-    });
+    function goBackOrRedirect() {
+        if (document.referrer) {
+            window.location = document.referrer;
+        } else {
+            window.location.href = "{% url 'cookapp:home' %}"; 
+        }
+    }
+</script>
 
-    document.getElementById('add-ingredient').addEventListener('click', function () {
-        const container = document.getElementById('ingredients-container');
-        const newRow = document.createElement('div');
-        newRow.classList.add('d-flex', 'gap-2', 'mb-2');
-        newRow.innerHTML = `
-            <input type="number" class="form-control" name="ingredient_quantity[]" placeholder="Quantity (g)" min="0" required>
-            <input type="text" class="form-control" name="ingredient_name[]" placeholder="Ingredient Name" required>
-        `;
-        container.appendChild(newRow);
-    });
-
-  </script>
 </body>
 </html>
